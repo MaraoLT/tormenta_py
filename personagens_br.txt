@@ -1,0 +1,8 @@
+{'nome':'Luquinhas', 'PV': 9, 'defesa': 10, 'ataque': 3, 'forca': 1, 'agilidade': 7, 'dano': '3d4'}
+{'nome':'Jorge', 'PV': 18, 'defesa': 8, 'ataque': 12, 'forca': 7, 'agilidade': 10, 'dano': '1d20'}
+{'nome':'Tiago', 'PV': 6, 'defesa': 11, 'ataque': 2, 'forca': 3, 'agilidade': 10, 'dano': '1d7'}
+{'nome':'Ainaras', 'PV': 10, 'defesa': 13, 'ataque': 7, 'forca': 2, 'agilidade': 7, 'dano': '2d4'}
+{'nome':'Rafael', 'PV': 20, 'defesa': 8, 'ataque': 7, 'forca': 1, 'agilidade': 8, 'dano': '1d8'}
+{'nome':'Julião', 'PV': 15, 'defesa': 17, 'ataque': -2, 'forca': -1, 'agilidade': -8, 'dano': '1d8'}
+{'nome':'Yan', 'PV': 6, 'defesa': 8, 'ataque': 10, 'forca': 10, 'agilidade': 10, 'dano': '2d8'}
+{'nome':'Matheus', 'PV': 13, 'defesa': 9, 'ataque': 7, 'forca': 3, 'agilidade': 5, 'dano': '1d12'}

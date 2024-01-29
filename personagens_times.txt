@@ -1,0 +1,9 @@
+{'nome': 'Siltrall', 'PV': 9, 'defesa': 12, 'ataque': 1, 'forca': 0, 'agilidade': 2, 'dano': '1d6', 'time': 'Aventureiros'}
+{'nome': 'Loyde', 'PV': 22, 'defesa': 17, 'ataque': 8, 'forca': 4, 'agilidade': 5, 'dano': '1d4', 'time': 'Aventureiros'}
+{'nome': 'Bella Lazarius', 'PV': 12, 'defesa': 15, 'ataque': +3, 'forca': 0, 'agilidade': 3, 'dano': '1d8', 'time': 'Aventureiros'}
+{'nome': 'Ainaras', 'PV': 12, 'defesa': 10, 'ataque': +2, 'forca': 1, 'agilidade': 0, 'dano': '1d4', 'time': 'Inimigos2'}
+{'nome': 'Esqueleto_1', 'PV': 12, 'defesa': 10, 'ataque': +2, 'forca': 1, 'agilidade': 0, 'dano': '1d4', 'time': 'Inimigo'}
+{'nome': 'Esqueleto_2', 'PV': 12, 'defesa': 10, 'ataque': +2, 'forca': 1, 'agilidade': 0, 'dano': '1d4', 'time': 'Inimigo'}
+{'nome': 'Esqueleto_3', 'PV': 12, 'defesa': 10, 'ataque': +2, 'forca': 1, 'agilidade': 0, 'dano': '1d4', 'time': 'Inimigo'}
+{'nome': 'Esqueleto_4', 'PV': 12, 'defesa': 10, 'ataque': +2, 'forca': 1, 'agilidade': 0, 'dano': '1d4', 'time': 'Inimigo'}
+{'nome': 'Esqueleto_5', 'PV': 24, 'defesa': 15, 'ataque': +4, 'forca': 2, 'agilidade': 0, 'dano': '1d8', 'time': 'Inimigo'}

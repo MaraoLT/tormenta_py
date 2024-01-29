@@ -1,0 +1,2 @@
+{'nome': 'Roberto', 'PV': 45, 'defesa': 10, 'ataque': 12, 'forca': 3, 'agilidade': 7, 'dano': '1d6'}
+{'nome':'Serio', 'PV': 30, 'defesa': 15, 'ataque': 0, 'forca': 2, 'agilidade': 0, 'dano': '1d8'}
