@@ -17,7 +17,6 @@ Criação de Personagem:
 8-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida)
 9-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
 
-
 Anotações gerais:
 -[X] fazer comentarios na funcoes
 '''
@@ -55,9 +54,11 @@ class Atributo:
         '''
         if pontos_gastos in [-1, 0, 1, 2]:
             return pontos_gastos
-        elif pontos_gastos in [3, 4]:
+        elif pontos_gastos == 3:
+            return 2
+        elif pontos_gastos in [4, 5, 6]:
             return 3
-        elif pontos_gastos in [5, 6, 7]:
+        elif pontos_gastos in [7]:
             return 4
             
 
@@ -232,10 +233,10 @@ class Personagem:
         '''
         while True:
             resp = input('Há duas maneiras de definir seus atributos: com pontos ou com rolagens. Escolha a que preferir: (Pontos OU Rolagens)\n').lower()
-            if resp in 'pontos':
+            if resp in 'pontos' or 'pontos' in resp:
                 self.define_atributos_pontos()
                 break
-            elif resp in 'rolagens' or resp in 'rolagem':
+            elif resp in 'rolagens' or resp in 'rolagem' or 'rolagens' in resp or 'rolagem' in resp:
                 self.define_atributos_rolagens()
                 break
             else:
