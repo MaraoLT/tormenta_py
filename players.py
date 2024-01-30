@@ -1,19 +1,28 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class Personagem:
-    def __init__(self, PV_MAX, PV, PM_MAX, PM) -> None:
-        self.nome = nome
-        self.jogador = jogador
-        self.nivel = nivel
-        self.raca = raca
-        self.classe = classe
-        self.origem = origem
-        self.divindade = divindade
-        self.atributos = self.Atributos()
-        self.PV_MAX = PV_MAX
-        self.PV = PV
-        self.PM_MAX = PM_MAX
-        self.PM = PM
-        self.defesa = defesa
-        self.pericias = self.Pericias()
+        nome: str
+        jogador: str
+        nivel: int
+        raca: str
+        classe: Classe()
+        # self.classe = self.Classe()
+        origem: str
+        divindade: str
+        # self.atributos = self.Atributos()
+        PV_MAX: int
+        PV: int
+        PM_MAX: int
+        PM: int
+        defesa: int
+        # self.pericias = self.Pericias()
+
+
+    def imprime():
+        print('{self.nome} ({self.jogador})')
+        print('{self.classe}/{self.raca} {self.nivel}')
 
 
 
@@ -48,3 +57,31 @@ class Pericias:
         self.intuicao = intuicao
         self.investigacao = investigacao
         self.jogatina = jogatina
+
+
+
+class Classe:
+    def __init__(self,):
+        self.arcanista = arcanista
+        self.barbaro = barbaro
+        self.bardo = bardo
+        self.bucaneiro = bucaneiro
+        self.cacador = cacador
+        self.cavaleiro = cavaleiro
+        self.clerigo = clerigo
+        self.druida = druida
+        self.guerreiro = guerreiro
+        self.inventor = inventor
+        self.ladino = ladino
+        self. lutador = lutador
+        self.nobre = nobre
+        self.paladino = paladino
+
+
+def main():
+    gustavo = Personagem('Doende Mardito', 'Gustavo', 1, 'goblin', 'bucaneiro')
+    gustavo.imprime()
+
+
+
+main()
