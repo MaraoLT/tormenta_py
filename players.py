@@ -34,6 +34,10 @@ def rolagem(dado):
     return resultado
 
 
+def erro():
+    print('Erro, tente novamente!')
+
+
 @dataclass 
 class Atributo:
     valor_pontos: int
@@ -51,9 +55,9 @@ class Atributo:
         '''
         if pontos_gastos in [-1, 0, 1, 2]:
             return pontos_gastos
-        elif pontos_gastos == 4:
+        elif pontos_gastos in [3, 4]:
             return 3
-        elif pontos_gastos == 7:
+        elif pontos_gastos in [5, 6, 7]:
             return 4
             
 
@@ -131,32 +135,39 @@ class Personagem:
         dos modificadores dos atributos básicos de acordo com os pedidos
         do usuário utilizando a regra dos pontos (p.17).
         '''
+
         pontos = 10
-        print('Pontos. Você começa com todos os atributos\
- em 0 e recebe 10 pontos para aumentá-los. O custo\
- para aumentar cada atributo está descrito na tabela\
- abaixo. Você também pode reduzir um atributo para\
- -1 para receber 1 ponto adicional.')
+        print('''Pontos. Você começa com todos os atributos
+ em 0 e recebe 10 pontos para aumentá-los. O custo
+ para aumentar cada atributo está descrito na tabela
+ abaixo. Você também pode reduzir um atributo para
+ -1 para receber 1 ponto adicional.''')
         while True:
             self.imprime_atributos()
             print('Para sair desta função escreva: "sair".')
             atr = input('Escolha um atributo (for, des, con, int, sab, car): ').lower()
             if atr == 'sair':
-                break
+                if pontos != 0:
+                    print('Você ainda não pode sair, pois deve gastar todos os pontos (positivos e/ou negativos).')
+                else:
+                    break
             for nome_atributo in nomes_atributos:
                 if atr in nome_atributo:
                     while True:
-                        pontos_usados = int(input(f'Você possui {pontos} pontos. Quantos pontos deseja gastar em {nome_atributo}? '))
-                        if pontos_usados > 7 or pontos_usados < -1:
-                            print('O número de pontos usado em um atributo deve ser no máximo 7 e no mínimo -1. Tente novamente.')
-                            continue
-                        self.atributos[nome_atributo].valor_pontos = pontos_usados
-                        modificador = self.atributos['forca'].calcula_modificador_pontos(pontos_usados)
-                        self.atributos[nome_atributo].modificador = modificador
-                        pontos_gastos = sum(atributo.valor_pontos for atributo in self.atributos.values())
-                        pontos = 10 - pontos_gastos
-                        print(f'Seu modificador de {nome_atributo} é {modificador} e você possui mais {pontos} pontos.')
-                        break
+                        try:
+                            pontos_usados = int(input(f'Você possui {pontos} pontos. Quantos pontos deseja gastar em {nome_atributo}? '))
+                            if pontos_usados > 7 or pontos_usados < -1:
+                                print('O número de pontos usado em um atributo deve ser no máximo 7 e no mínimo -1. Tente novamente.')
+                                continue
+                            self.atributos[nome_atributo].valor_pontos = pontos_usados
+                            modificador = self.atributos['forca'].calcula_modificador_pontos(pontos_usados)
+                            self.atributos[nome_atributo].modificador = modificador
+                            pontos_gastos = sum(atributo.valor_pontos for atributo in self.atributos.values())
+                            pontos = 10 - pontos_gastos
+                            print(f'Seu modificador de {nome_atributo} é {modificador} e você possui mais {pontos} pontos.')
+                            break
+                        except ValueError:
+                            erro()
 
 
     def define_atributos_rolagens(self):
@@ -194,16 +205,19 @@ class Personagem:
         escolhidos = []
         while i < (len(lista_modificadores)):
             atr = input(f'Selecione em qual atributo você quer colocar o valor {lista_modificadores[i]} (for, des, con, int, sab, car): ').lower()
-            for nome_atributo in nomes_atributos:
-                if atr in nome_atributo:
-                    if nome_atributo not in escolhidos:
-                        escolhidos.append(nome_atributo)
-                        self.atributos[nome_atributo].valor_rolamentos = todas_rolagens[i]
-                        self.atributos[nome_atributo].modificador = lista_modificadores[i]
-                        print(f'{nome_atributo}: {self.atributos[nome_atributo].modificador}')
-                        i += 1
-                    else:
-                        print(f'Você já escolheu o atributo {nome_atributo}, por favor escolha outro ainda não escolhido.')
+            try:
+                for nome_atributo in nomes_atributos:
+                    if atr in nome_atributo:
+                        if nome_atributo not in escolhidos:
+                            escolhidos.append(nome_atributo)
+                            self.atributos[nome_atributo].valor_rolamentos = todas_rolagens[i]
+                            self.atributos[nome_atributo].modificador = lista_modificadores[i]
+                            print(f'{nome_atributo}: {self.atributos[nome_atributo].modificador}')
+                            i += 1
+                        else:
+                            print(f'Você já escolheu o atributo {nome_atributo}, por favor escolha outro ainda não escolhido.')
+            except ValueError:
+                erro()
         
         print('Todos os atributos foram escolhidos.')
         self.imprime_atributos()
@@ -218,15 +232,14 @@ class Personagem:
         '''
         while True:
             resp = input('Há duas maneiras de definir seus atributos: com pontos ou com rolagens. Escolha a que preferir: (Pontos OU Rolagens)\n').lower()
-            if resp == 'pontos':
+            if resp in 'pontos':
                 self.define_atributos_pontos()
                 break
-            elif resp == 'rolagens':
+            elif resp in 'rolagens' or resp in 'rolagem':
                 self.define_atributos_rolagens()
                 break
             else:
                 print(f'Desculpe, {resp} não é uma opção, escolha novamente.')
-
 
 
     def imprime_atributos(self):
