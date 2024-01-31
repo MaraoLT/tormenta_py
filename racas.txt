@@ -1,4 +1,5 @@
-Nome:Humano
+['humano', 'anao', 'dahllan', 'elfo', 'goblin', 'lefou', 'minotauro', 'qarren', 'golem', 'hynne', 'kliren', 'medusa', 'osteon', 'sereia/tritao', 'silfide', 'suraggel (aggelus)', 'suraggel (sulfure)', 'trog']
+Nome: Humano
 Atributos: escolhe 3
 Habilidades:
  Versátil. Você se torna treinado em duas perícias a sua escolha (não precisam ser da sua classe). Você pode trocar uma dessas perícias por um poder geral a sua escolha.

@@ -4,14 +4,20 @@ from random import randint
 import os
 import ast
 
+# paths
+path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
+
+
 
 '''
 Criação de Personagem:
 1-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
-2-[] Escolhendo raça: 17 raças que alteram atributos e adicionam habilidades
-    -[] Adquirir as infos de racas.txt para serem usadas
-    -[] Criar funcao de que adiciona os modificadores da raca
+2-[X] Escolhendo raça: 17 raças que alteram atributos e adicionam habilidades
+    -[X] Adquirir as infos de racas.txt para serem usadas
+    -[X] Criar função que adiciona os modificadores de atributos da raça
+    -[] Criar uma função para cada habilidade (futuramente...)
 3-[] Escolhendo classe: 14 classes
+    -[]
 4-[] Escolhendo origem:
 5-[] Escolhendo divindade (opcional):
 6-[] Escolhendo Pericias
@@ -20,7 +26,8 @@ Criação de Personagem:
 9-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
 
 Anotações gerais:
--[X] fazer comentarios na funcoes
+-[] fazer comentarios nas funções
+-[] verificar se tem lugares no código que necessitam de um 'break'
 '''
 
 nomes_atributos = ['forca', 'destreza', 'constituicao', 'inteligencia', 'sabedoria', 'carisma']
@@ -78,7 +85,27 @@ class Atributo:
 
 
 
+# aqui eu vou escrever todas as habilidades em codigo
+@dataclass
+class Habilidade:
+    nome: str = ''
+    descricao: str = ''
 
+
+    def print(self):
+        print(f'-{self.nome.upper()}')
+        if self.descricao is not None:
+            print(self.descricao + '\n')
+
+
+@dataclass
+class Raca:
+    '''
+    Toda raca tem no max 4 habilidades
+    '''
+    nome: str = ''
+    modificadores_atributos: str = ''
+    habilidades: list = None
 
 dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder muscular. A Força é aplicada em testes de Atletismo e Luta;
                                  rolagens de dano corpo a corpo ou com armas de arremesso, e testes de Força
@@ -105,14 +132,14 @@ dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder m
                                  e beleza. O Carisma é aplicado em testes de Adestramento, Atuação, Diplomacia,\
                                  Enganação, Intimidação e Jogatina.',\
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
-
+raca_default = Raca('', '', '')
 
 @dataclass
 class Personagem:
     nome: str = ''
     jogador: str = ''
     nivel: int = 1
-    raca: str = ''
+    raca: Raca() = raca_default
     classe: str = ''
     origem: str = ''
     divindade: str = ''
@@ -277,29 +304,105 @@ class Personagem:
             print(f'-{nome_atributo}: {self.atributos[nome_atributo].modificador}')
         print()
 
-# aqui eu vou escrever todas as habilidades em codigo
-@dataclass
-class Habilidade:
-    nome: str
-    descricao: str
+
+    def altera_atributos(self):
+
+        lista_modificadores = []
+        modificadores = self.raca.modificadores_atributos.split(', ') #['carisma 2', 'forca 1', 'escolhe 3',...]
+        for modificador in modificadores:
+            modificador = modificador.strip().split()
+            modificador[1] = int(modificador[1])
+            lista_modificadores.append(modificador) # [['carisma', 2], ['forca', 1], ['escolhe', 3]...]
+        i = 0
+        escolhidos = []
+        while i < len(modificadores):
+
+            if lista_modificadores[i][0] in nomes_atributos:
+                self.atributos[lista_modificadores[i][0]].modificador += lista_modificadores[i][1]
+                escolhidos.append(lista_modificadores[i][0])
+                print(f'Seu modificador de {lista_modificadores[i][0]} agora é {self.atributos[lista_modificadores[i][0]].modificador}.')
+            elif lista_modificadores[i][0] == 'escolhe':
+                k = 0
+                while k < lista_modificadores[i][1]:
+                    atr = input(f'Escolha {lista_modificadores[i][1]-k} atributos nos quais deseja adicionar +1 em seu modificador {nomes_atributos}: ')
+                    self.imprime_atributos()
+                    for nome_atributo in nomes_atributos:
+                        if atr in nome_atributo:
+                            if nome_atributo in escolhidos:
+                                print(f'O atributo {nome_atributo} já foi escolhido ou você não pode escolhe-lo, selecione outro {nomes_atributos}')
+                            else:
+                                escolhidos.append(nome_atributo)
+                                k += 1
+                                self.atributos[nome_atributo].modificador += 1
+                                print(f'Agora seu modificador de {nome_atributo} é {self.atributos[nome_atributo].modificador}!')
+                            break
+                        # else:
+                        #     print(f'{atr} não é um atributo. Por favor digite novamente: ')
+            i += 1
+        self.imprime_atributos()
 
 
 
 
-@dataclass
-class Raca:
-    '''
-    Toda raca tem no max 4 habilidades
-    '''
-    nome: str
-    modificadores_atributos: str
-    habilidades: []
+    def alteracoes_raca(self):
+        self.altera_atributos()
 
 
+    def escolhe_raca(self):
+        with open(os.path.join(path, 'racas.txt')) as arquivo:
+            try:
+                nomes_racas = ast.literal_eval(arquivo.readline())
+            except ValueError:
+                print("malformed string; skipping this line")
+            except SyntaxError:
+                print("looks like some encoding errors with this file...")
+            linhas = arquivo.readlines()
+        
+        print('Escolha a sua classe dentre: ')
+        for nome_raca in nomes_racas:
+            print(f'-{nome_raca}')
+        print()
 
 
+        achou = False
+        raca = Raca(habilidades=[])
+        while True:
+            raca_escolhida = input().lower()
+            if raca_escolhida in nomes_racas:
+                break
+            else:
+                print(f'{raca_escolhida} não é uma raça existente, tente novamente.')
 
 
+        for linha in linhas:
+            if not achou:
+                if 'nome: ' + raca_escolhida in linha.lower():
+                    raca.nome = raca_escolhida
+                    achou = True
+            else:
+                if 'atributos: ' in linha.lower():
+                    raca.modificadores_atributos = linha.strip('Atributos:').strip().strip('\n')
+                elif '---' in linha:
+                    break
+                elif 'habilidades:' in linha.lower():
+                    continue
+                else:
+                    habilidade_info = linha.split('. ', 1)
+                    habilidade = Habilidade(habilidade_info[0].strip(), habilidade_info[1].strip().strip('\n'))
+                    raca.habilidades.append(habilidade)
+        self.raca = raca
+
+
+        self.alteracoes_raca()
+        
+
+    def imprime_raca(self):
+        print('-'*40)
+        print(self.raca.nome.title())
+        print(f'Atributos: {self.raca.modificadores_atributos}\n')
+        for habilidade in self.raca.habilidades:
+            habilidade.print()
+        print('-'*40)
 
 
 # melhor usar como dicionario e fazer uma classe chamada 'pericia'
@@ -344,9 +447,11 @@ class Raca:
 
 
 def main():
-    gustavo = Personagem('Doende Mardito', 'Gustavo', 1, 'goblin', 'bucaneiro', atributos=dicionario_atributos)
-    gustavo.imprime()
-    gustavo.define_atributos()
+    gustavo = Personagem(nome='Doende Mardito', jogador='Gustavo', nivel=1, atributos=dicionario_atributos)
+    # gustavo.imprime()
+    # gustavo.define_atributos()
+    gustavo.escolhe_raca()
+    gustavo.imprime_raca()
     # gustavo.imprime_atributos()
 
 
