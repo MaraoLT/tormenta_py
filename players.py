@@ -9,6 +9,8 @@ import ast
 Criação de Personagem:
 1-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
 2-[] Escolhendo raça: 17 raças que alteram atributos e adicionam habilidades
+    -[] Adquirir as infos de racas.txt para serem usadas
+    -[] Criar funcao de que adiciona os modificadores da raca
 3-[] Escolhendo classe: 14 classes
 4-[] Escolhendo origem:
 5-[] Escolhendo divindade (opcional):
