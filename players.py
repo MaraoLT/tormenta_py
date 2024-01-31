@@ -52,10 +52,8 @@ class Atributo:
         do sistema de pontos para os modificadores dos atributos básicos. A função
         recebe os pontos_gastos em 1 atributo e retorna o valor do modificador. 
         '''
-        if pontos_gastos in [-1, 0, 1, 2]:
-            return pontos_gastos
-        elif pontos_gastos == 3:
-            return 2
+        if pontos_gastos in [-1, 0, 1, 2, 3]:
+            return min(pontos_gastos, 2)
         elif pontos_gastos in [4, 5, 6]:
             return 3
         elif pontos_gastos in [7]:
@@ -177,6 +175,7 @@ class Personagem:
         dos modificadores dos atributos básicos de acordo com os pedidos
         do usuário utilizando a regra das rolagens (p.17).
         '''
+
         print('Rolagens. Role 4d6, descarte o menor e some os outros três.\
  Anote o resultado. Repita esse processo cinco vezes, até obter um total de seis números.\
  Então, converta esses números em atributos conforme a tabela abaixo.\
@@ -213,7 +212,9 @@ class Personagem:
                             escolhidos.append(nome_atributo)
                             self.atributos[nome_atributo].valor_rolamentos = todas_rolagens[i]
                             self.atributos[nome_atributo].modificador = lista_modificadores[i]
-                            print(f'{nome_atributo}: {self.atributos[nome_atributo].modificador}')
+                            for escolhido in escolhidos:
+                                print(f'{escolhido}: {self.atributos[escolhido].modificador}')
+
                             i += 1
                         else:
                             print(f'Você já escolheu o atributo {nome_atributo}, por favor escolha outro ainda não escolhido.')
@@ -221,9 +222,26 @@ class Personagem:
                 erro()
         
         print('Todos os atributos foram escolhidos.')
-        self.imprime_atributos()
 
-        
+
+    def define_atributos_manualmente(self):
+        '''
+        Esta funcao deixa o usuario definir os atributos manualmente
+        '''
+
+        print('Aqui voce colocara os atributos manualmente.')
+
+        i = 0
+        while i < len(nomes_atributos):
+            try:
+                atr = int(input(f'Qual o modificador de {nomes_atributos[i]}?\n'))
+                self.atributos[nomes_atributos[i]].modificador = atr
+                i += 1
+                for j in range(i):
+                    print(f'-{nomes_atributos[j]}: {self.atributos[nomes_atributos[j]].modificador}')
+
+            except ValueError:
+                erro()
 
 
     def define_atributos(self):
@@ -232,15 +250,20 @@ class Personagem:
         ele prefere usar (pontos ou rolagens) e direciona-o para a respectiva função dependendo de sua resposta.
         '''
         while True:
-            resp = input('Há duas maneiras de definir seus atributos: com pontos ou com rolagens. Escolha a que preferir: (Pontos OU Rolagens)\n').lower()
+            resp = input('Há tres maneiras de definir seus atributos: com pontos, rolagens ou manualmente. Escolha a que preferir: (Pontos OU Rolagens OU Manualmente)\n').lower()
             if resp in 'pontos' or 'pontos' in resp:
                 self.define_atributos_pontos()
                 break
             elif resp in 'rolagens' or resp in 'rolagem' or 'rolagens' in resp or 'rolagem' in resp:
                 self.define_atributos_rolagens()
                 break
+            elif resp in 'manualmente':
+                self.define_atributos_manualmente()
+                break
             else:
                 print(f'Desculpe, {resp} não é uma opção, escolha novamente.')
+
+        self.imprime_atributos()
 
 
     def imprime_atributos(self):
@@ -252,8 +275,23 @@ class Personagem:
             print(f'-{nome_atributo}: {self.atributos[nome_atributo].modificador}')
         print()
 
+# aqui eu vou escrever todas as habilidades em codigo
+@dataclass
+class Habilidade:
+    nome: str
+    descricao: str
 
 
+
+
+@dataclass
+class Raca:
+    '''
+    Toda raca tem no max 4 habilidades
+    '''
+    nome: str
+    modificadores_atributos: str
+    habilidades: []
 
 
 
