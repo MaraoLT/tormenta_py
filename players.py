@@ -138,7 +138,7 @@ class Classe:
 
     def escolhe_pericias(self, conj_pericias_txt):
 
-        pericias = []
+        pericias_finais = []
         escolha = re.compile(r'^escolha (\d+) entre: ')
         escolhidos = []
         for pericias_txt in conj_pericias_txt:
@@ -147,7 +147,7 @@ class Classe:
                 while True:
                     resp = input(f'Em qual pericia você quer ser treinado? {pericias_txt[0]} ou {pericias_txt[1]}').lower()
                     if resp in pericias_txt[0] or resp in pericias_txt[1]:
-                        pericias.append(resp)
+                        pericias_finais.append(resp)
                         print(f'Perícia em {resp} ')
                         break
                     else:
@@ -160,16 +160,18 @@ class Classe:
                 while i < n_escolhas:
                     print(f'Escolha {n_escolhas-i} perícias dentre: ')
                     for pericia in pericias_txt:
-                        if pericia not in escolhidos:
+                        if pericia not in pericias_finais:
                             print(f'-{pericia}')
                     resp = input('\n')
-                    if resp in pericias_txt:
-                        if resp not in escolhidos:
-
+                    for pericia in pericias_txt:
+                        if resp in pericias_txt:
+                            if resp not in pericias_finais:
+                                pericias_finais.append(pericias_txt)
+                                
+                            else:
+                                print(f'Esta perícia já foi escolhida!')
                         else:
-                            print(f'Esta perícia já foi escolhida!')
-                    else:
-                        print(f'{resp} não é uma perícia válida!')
+                            print(f'{resp} não é uma perícia válida!')
                     
 
 
