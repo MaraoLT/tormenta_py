@@ -4,6 +4,7 @@ from random import randint
 import os
 import ast
 from random import randint
+import re
 
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
@@ -27,8 +28,8 @@ Criação de Personagem:
 5-[] Escolhendo divindade (opcional):
 6-[] Escolhendo Pericias
 7-[] Anotando Equipamento Inicial: definido pela classe e origem
-8-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida)
-9-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
+8-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
+9-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida)
 
 Anotações gerais:
 -[] fazer comentarios nas funções
@@ -103,6 +104,13 @@ class Habilidade:
 
 
 @dataclass
+class Pontos:
+    atual: int = 0
+    max: int = 0
+    temp: int = 0
+
+
+@dataclass
 class Raca:
     '''
     Objetos para todas as 17 raças existentes.
@@ -126,6 +134,45 @@ class Classe:
     pericias: list = None
     proficiencias: list = None
     habilidades: list = None
+
+
+    def escolhe_pericias(self, conj_pericias):
+
+        pericias = []
+        escolha = re.compile(r'^escolha (\d+) entre: ')
+        escolhidos = []
+        for conj_pericia in conj_pericias:
+            if ' ou ' in conj_pericia:
+                conj_pericia = conj_pericia.split(' ou ')
+                while True:
+                    resp = input(f'Em qual pericia você quer ser treinado? {conj_pericia[0]} ou {conj_pericia[1]}').lower()
+                    if resp in conj_pericia:
+                        pericias.append(resp)
+                        break
+                    else:
+                        print(f'{resp} não é uma das opções. ', end='')
+            elif escolha.match(conj_pericia):
+                n_escolhas = int(escolha.match(conj_pericia).group(1))
+                conj_pericia = conj_pericia[conj_pericia.index(':'):].strip('\n').strip().split(', ')
+                i = 0
+                
+                while i < n_escolhas:
+                    print(f'Escolha {n_escolhas-i} perícias dentre: ')
+                    for pericia in conj_pericia:
+                        if pericia not in escolhidos:
+                            print(f'-{pericia}')
+                    resp = input('\n')
+                    if resp in conj_pericia:
+                        if resp not in escolhidos:
+
+                        else:
+                            print(f'Esta perícia já foi escolhida!')
+                    else:
+                        print(f'{resp} não é uma perícia válida!')
+                    
+
+
+
 
 
 
@@ -157,6 +204,7 @@ dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder m
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
 raca_default = Raca('', '', '')
 classe_default = Classe('', '', [], 0, 0, [], [], [])
+pontos_default = Pontos(0, 0, 0)
 
 @dataclass
 class Personagem:
@@ -168,12 +216,9 @@ class Personagem:
     origem: str = ''
     divindade: str = ''
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
-    PV_MAX: int = 0
-    PV: int = 0
-    PM_MAX: int = 0
-    PM: int = 0
+    PV: Pontos() = pontos_default
+    PM: Pontos() = pontos_default
     defesa: int = 0
-    # self.pericias = self.Pericias()
 
 
     def imprime(self):
@@ -448,6 +493,22 @@ class Personagem:
         print('-'*40)
 
 
+    def alteracoes_classe(self):
+        '''
+        Esta função faz as alterações nos PVs e PMs do personagem de acordo com a classe escolhida.
+        '''
+        if self.PV.max == 0:
+            self.PV.max += self.classe.PV + self.atributo['constituicao'].modifciador + (self.nivel-1)*(self.classe.PV//4 + self.atributos['consitituicao'].modificador)
+            self.PV.atual = self.PV.max
+        else:
+            print('Parece que sua seu personagem já tem PVs! Alterações de classe não serão feitas!')
+        if self.PM.max == 0:
+            self.PM.max += self.nivel*(self.classe.PM)
+            self.PM.atual = self.PM.max
+        else:
+            print('Parece que sua seu personagem já tem PMs! Alterações de classe não serão feitas!')
+
+
     def escolhe_classe(self):
         with open(os.path.join(path, 'classes.txt')) as arquivo:
             try:
@@ -492,6 +553,7 @@ class Personagem:
                 elif 'pericias: ' in linha.lower():
                     pericias = linha.strip('Pericias:').strip('\n').strip().split(', ', 2)
                     # escolhe_pericias() # fazer essa função depois das pericias
+                    classe.escolhe_pericias(pericias)
                     classe.pericias = pericias
                 elif 'proficiencias: ' in linha.lower():
                     classe.proficiencias = linha.strip('Proficiencias:').strip('\n').strip().split(', ')
@@ -503,7 +565,15 @@ class Personagem:
                     habilidades_classe.append(linha.strip(f'{nivel}-').strip('\n').strip().split(', '))
                     nivel += 1
         classe.habilidades = habilidades_classe
+        
+        
+
+
+
+
+
         self.classe = classe
+        self.alteracoes_classe()
 
 
     def imprime_classe(self):
