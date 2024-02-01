@@ -342,8 +342,6 @@ class Personagem:
         self.imprime_atributos()
 
 
-
-
     def alteracoes_raca(self):
         self.altera_atributos()
 
@@ -445,13 +443,21 @@ class Personagem:
 #         self.nobre = nobre
 #         self.paladino = paladino
 
+def criar_personagem():
+    nome = input('Digite o nome do seu personagem: ')
+    jogador = input('Qual o nome do jogador desse personagem? ')
+    print()
+    personagem = Personagem(nome=nome, jogador=jogador, atributos=dicionario_atributos)
+
+    return personagem
+
 
 def main():
-    gustavo = Personagem(nome='Doende Mardito', jogador='Gustavo', nivel=1, atributos=dicionario_atributos)
-    # gustavo.imprime()
-    # gustavo.define_atributos()
-    gustavo.escolhe_raca()
-    gustavo.imprime_raca()
+    # gustavo = Personagem(nome='Doende Mardito', jogador='Gustavo', nivel=1, atributos=dicionario_atributos)
+    personagem = criar_personagem()
+    personagem.define_atributos()
+    personagem.escolhe_raca()
+    personagem.imprime_raca()
     # gustavo.imprime_atributos()
 
 
