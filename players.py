@@ -20,7 +20,7 @@ Criação de Personagem:
     -[X] Criar função que adiciona os modificadores de atributos da raça
     -[] Criar uma função para cada habilidade (futuramente...)
 3-[] Escolhendo classe: 14 classes
-    -[] Adquirir as infos de classes.txt para serem usadas
+    -[X] Adquirir as infos de classes.txt para serem usadas
     -[] Criar função que adiciona os PMs e PVs
     -[] Adicionar perícias (futuramente...)
 4-[] Escolhendo origem:
