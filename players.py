@@ -136,33 +136,34 @@ class Classe:
     habilidades: list = None
 
 
-    def escolhe_pericias(self, conj_pericias):
+    def escolhe_pericias(self, conj_pericias_txt):
 
         pericias = []
         escolha = re.compile(r'^escolha (\d+) entre: ')
         escolhidos = []
-        for conj_pericia in conj_pericias:
-            if ' ou ' in conj_pericia:
-                conj_pericia = conj_pericia.split(' ou ')
+        for pericias_txt in conj_pericias_txt:
+            if ' ou ' in pericias_txt:
+                pericias_txt = pericias_txt.split(' ou ')
                 while True:
-                    resp = input(f'Em qual pericia você quer ser treinado? {conj_pericia[0]} ou {conj_pericia[1]}').lower()
-                    if resp in conj_pericia:
+                    resp = input(f'Em qual pericia você quer ser treinado? {pericias_txt[0]} ou {pericias_txt[1]}').lower()
+                    if resp in pericias_txt[0] or resp in pericias_txt[1]:
                         pericias.append(resp)
+                        print(f'Perícia em {resp} ')
                         break
                     else:
                         print(f'{resp} não é uma das opções. ', end='')
-            elif escolha.match(conj_pericia):
-                n_escolhas = int(escolha.match(conj_pericia).group(1))
-                conj_pericia = conj_pericia[conj_pericia.index(':'):].strip('\n').strip().split(', ')
+            elif escolha.match(pericias_txt):
+                n_escolhas = int(escolha.match(pericias_txt).group(1))
+                pericias_txt = pericias_txt[pericias_txt.index(':'):].strip('\n').strip().split(', ')
                 i = 0
                 
                 while i < n_escolhas:
                     print(f'Escolha {n_escolhas-i} perícias dentre: ')
-                    for pericia in conj_pericia:
+                    for pericia in pericias_txt:
                         if pericia not in escolhidos:
                             print(f'-{pericia}')
                     resp = input('\n')
-                    if resp in conj_pericia:
+                    if resp in pericias_txt:
                         if resp not in escolhidos:
 
                         else:
