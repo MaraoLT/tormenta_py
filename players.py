@@ -3,6 +3,7 @@ from typing import DefaultDict
 from random import randint
 import os
 import ast
+from random import randint
 
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
@@ -12,12 +13,16 @@ path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
 '''
 Criação de Personagem:
 1-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
+    -[] Refazer sistema de pontos para conseguir colocar: 'forca 4'/ 'for -1' e coisas do tipo em apenas 1 linha
+    -[X] Sistema para escolher os atributos aleatoriamente
 2-[X] Escolhendo raça: 17 raças que alteram atributos e adicionam habilidades
     -[X] Adquirir as infos de racas.txt para serem usadas
     -[X] Criar função que adiciona os modificadores de atributos da raça
     -[] Criar uma função para cada habilidade (futuramente...)
 3-[] Escolhendo classe: 14 classes
-    -[]
+    -[] Adquirir as infos de classes.txt para serem usadas
+    -[] Criar função que adiciona os PMs e PVs
+    -[] Adicionar perícias (futuramente...)
 4-[] Escolhendo origem:
 5-[] Escolhendo divindade (opcional):
 6-[] Escolhendo Pericias
@@ -84,7 +89,6 @@ class Atributo:
         return lista_modificadores
 
 
-
 # aqui eu vou escrever todas as habilidades em codigo
 @dataclass
 class Habilidade:
@@ -101,11 +105,30 @@ class Habilidade:
 @dataclass
 class Raca:
     '''
-    Toda raca tem no max 4 habilidades
+    Objetos para todas as 17 raças existentes.
     '''
     nome: str = ''
     modificadores_atributos: str = ''
     habilidades: list = None
+
+
+
+@dataclass
+class Classe:
+    '''
+    Objeto para todas as 14 classes existentes.
+    '''
+    nome: str = ''
+    descricao: str = ''
+    atributo: list = None
+    PV: int = 0
+    PM: int = 0
+    pericias: list = None
+    proficiencias: list = None
+    habilidades: list = None
+
+
+
 
 dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder muscular. A Força é aplicada em testes de Atletismo e Luta;
                                  rolagens de dano corpo a corpo ou com armas de arremesso, e testes de Força
@@ -133,6 +156,7 @@ dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder m
                                  Enganação, Intimidação e Jogatina.',\
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
 raca_default = Raca('', '', '')
+classe_default = Classe('', '', [], 0, 0, [], [], [])
 
 @dataclass
 class Personagem:
@@ -140,7 +164,7 @@ class Personagem:
     jogador: str = ''
     nivel: int = 1
     raca: Raca() = raca_default
-    classe: str = ''
+    classe: Classe() = classe_default
     origem: str = ''
     divindade: str = ''
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
@@ -198,6 +222,19 @@ class Personagem:
                             erro()
 
 
+    def rolagens_atributos(self):
+        todas_rolagens = []
+        for _ in range(6):
+            rolagens_somadas = []
+            for _ in range(4):
+                rolagens_somadas.append(rolagem('1d6'))
+            rolagens_somadas = sorted(rolagens_somadas)
+            todas_rolagens.append(sum(rolagens_somadas[1:]))
+        todas_rolagens = sorted(todas_rolagens, reverse=True)
+
+        return todas_rolagens
+
+
     def define_atributos_rolagens(self):
         '''
         Esta função realiza automaticamente o cálculo dos valores
@@ -214,15 +251,7 @@ class Personagem:
  Repita esse processo até seus atributos somarem 6 ou mais.\n\
  Observação: esse programa fará tudo automaticamente e apena lhe fornecerá os resultados dos dados!')
         
-        todas_rolagens = []
-        for _ in range(6):
-            rolagens_somadas = []
-            for _ in range(4):
-                rolagens_somadas.append(rolagem('1d6'))
-            rolagens_somadas = sorted(rolagens_somadas)
-            todas_rolagens.append(sum(rolagens_somadas[1:]))
-        todas_rolagens = sorted(todas_rolagens, reverse=True)
-
+        todas_rolagens = self.rolagens_atributos()
         lista_modificadores = self.atributos['forca'].calcula_modificador_rolagens(todas_rolagens)
 
         print(f'Todas as rolagens foram realizadas e aqui estão todos os resultados [modificado (rolagem)]: ')
@@ -273,13 +302,26 @@ class Personagem:
                 erro()
 
 
+    def define_atributos_aleatoriamente(self):
+        todas_rolagens = self.rolagens_atributos()
+        lista_modificadores = self.atributos['forca'].calcula_modificador_rolagens(todas_rolagens)
+        escolhido = []
+        n_modificador = 0
+        while n_modificador < len(nomes_atributos):
+            aleatorio = randint(0, 5)
+            if nomes_atributos[aleatorio] not in escolhido:
+                self.atributos[nomes_atributos[aleatorio]].modificador = lista_modificadores[n_modificador]
+                n_modificador += 1
+        print('Pronto! Seus atributos foram aleatoriamente gerados e distribuidos.')
+
+
     def define_atributos(self):
         '''
         Esta função simplesmente pergunta ao usuário qual das duas maneiras de definir os atributos básicos 
         ele prefere usar (pontos ou rolagens) e direciona-o para a respectiva função dependendo de sua resposta.
         '''
         while True:
-            resp = input('Há tres maneiras de definir seus atributos: com pontos, rolagens ou manualmente. Escolha a que preferir: (Pontos OU Rolagens OU Manualmente)\n').lower()
+            resp = input('Há quatro maneiras de definir seus atributos: com pontos, rolagens, manualmente ou aleatório. Escolha a que preferir: (Pontos OU Rolagens OU Manualmente OU Aleatorio)\n').lower()
             if resp in 'pontos' or 'pontos' in resp:
                 self.define_atributos_pontos()
                 break
@@ -288,6 +330,9 @@ class Personagem:
                 break
             elif resp in 'manualmente':
                 self.define_atributos_manualmente()
+                break
+            elif resp in 'aleatorio':
+                self.define_atributos_aleatoriamente()
                 break
             else:
                 print(f'Desculpe, {resp} não é uma opção, escolha novamente.')
@@ -356,7 +401,7 @@ class Personagem:
                 print("looks like some encoding errors with this file...")
             linhas = arquivo.readlines()
         
-        print('Escolha a sua classe dentre: ')
+        print('Escolha a sua raça dentre: ')
         for nome_raca in nomes_racas:
             print(f'-{nome_raca}')
         print()
@@ -403,6 +448,84 @@ class Personagem:
         print('-'*40)
 
 
+    def escolhe_classe(self):
+        with open(os.path.join(path, 'classes.txt')) as arquivo:
+            try:
+                nomes_classes = ast.literal_eval(arquivo.readline())
+            except ValueError:
+                print("malformed string; skipping this line")
+            except SyntaxError:
+                print("looks like some encoding errors with this file...")
+            linhas = arquivo.readlines()
+            
+        print('Escolha a sua classe dentre: ')
+        for nome_classe in nomes_classes:
+            print(f'-{nome_classe}')
+        print()
+
+        achou = False
+        classe = Classe(pericias=[], proficiencias=[])
+        while True:
+            classe_escolhida = input().lower()
+            if classe_escolhida in nomes_classes:
+                break
+            else:
+                print(f'{classe_escolhida} não é uma classe existente, tente novamente.')
+
+
+        nivel = 1
+        habilidades_classe = []
+        for linha in linhas:
+            if not achou:
+                if 'classe: ' + classe_escolhida in linha.lower():
+                    classe.nome = classe_escolhida
+                    achou = True
+            else:
+                if 'descricao: ' in linha.lower():
+                    classe.descricao = linha.strip('Descricao:').strip('\n').strip()
+                elif 'atributo: ' in linha.lower():
+                    classe.atributo = linha.strip('Atributo:').strip('\n').strip().split(' ou ')
+                elif 'pv: ' in linha.lower():
+                    classe.PV = int(linha.strip('PV:').strip('\n').strip())
+                elif 'pm: ' in linha.lower():
+                    classe.PM = int(linha.strip('PM:').strip('\n').strip())
+                elif 'pericias: ' in linha.lower():
+                    pericias = linha.strip('Pericias:').strip('\n').strip().split(', ', 2)
+                    # escolhe_pericias() # fazer essa função depois das pericias
+                    classe.pericias = pericias
+                elif 'proficiencias: ' in linha.lower():
+                    classe.proficiencias = linha.strip('Proficiencias:').strip('\n').strip().split(', ')
+                elif '---' in linha:
+                    break
+                elif 'habilidades de classe:' in linha.lower():
+                    continue
+                else:
+                    habilidades_classe.append(linha.strip(f'{nivel}-').strip('\n').strip().split(', '))
+                    nivel += 1
+        classe.habilidades = habilidades_classe
+        self.classe = classe
+
+
+    def imprime_classe(self):
+        print('-'*40)
+        # r = Classe()
+        print(self.classe.nome.upper())
+        print(self.classe.descricao)
+        if len(self.classe.atributo) > 1:
+            print(f'\nOs atributos mais importantes para essa classe são: {self.classe.atributo}')
+        else:
+            print(f'\nO atributo mais importante para essa classe é: {self.classe.atributo}')
+        print(f'PV: {self.classe.PV} + Constituição ({self.classe.PV//4} por nível)')
+        print(f'PM: {self.classe.PM} ({self.classe.PM} por nível)')
+        print(f'Perícias: {self.classe.pericias}')
+        print(f'Proficiências: {self.classe.proficiencias}')
+        print(f'Habilidades de Classe: ')
+        i = 1
+        for habilidade in self.classe.habilidades:
+            print(f'{i}- {habilidade}')
+            i += 1
+        print('-'*40)
+
 # melhor usar como dicionario e fazer uma classe chamada 'pericia'
 # class Pericias:
 #     def __init__(self) -> None:
@@ -425,24 +548,6 @@ class Personagem:
 #         self.jogatina = jogatina
 
 
-
-# class Classe:
-#     def __init__(self,):
-#         self.arcanista = arcanista
-#         self.barbaro = barbaro
-#         self.bardo = bardo
-#         self.bucaneiro = bucaneiro
-#         self.cacador = cacador
-#         self.cavaleiro = cavaleiro
-#         self.clerigo = clerigo
-#         self.druida = druida
-#         self.guerreiro = guerreiro
-#         self.inventor = inventor
-#         self.ladino = ladino
-#         self. lutador = lutador
-#         self.nobre = nobre
-#         self.paladino = paladino
-
 def criar_personagem():
     nome = input('Digite o nome do seu personagem: ')
     jogador = input('Qual o nome do jogador desse personagem? ')
@@ -456,8 +561,10 @@ def main():
     # gustavo = Personagem(nome='Doende Mardito', jogador='Gustavo', nivel=1, atributos=dicionario_atributos)
     personagem = criar_personagem()
     personagem.define_atributos()
-    personagem.escolhe_raca()
-    personagem.imprime_raca()
+    # personagem.escolhe_raca()
+    # personagem.imprime_raca()
+    # personagem.escolhe_classe()
+    # personagem.imprime_classe()
     # gustavo.imprime_atributos()
 
 
