@@ -28,7 +28,7 @@ Criação de Personagem:
 04-[] Escolhendo origem: 35 origens
     -[] Adquirir as infos de origens.txt para serem usadas
     -[] Você escolhe dois benefícios da lista de benefícios
-05-[] Escolhendo divindade (opcional):
+05-[] Escolhendo divindade (opcional): 20 divindades
     -[] Apenas certas classes ou raças podem ser devotos de certas divindades
 06-[] Escolhendo Pericias
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
