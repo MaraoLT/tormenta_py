@@ -120,6 +120,15 @@ class Raca:
     habilidades: list = None
 
 
+    def imprime(self):
+        print('-'*40)
+        print(self.nome.title())
+        print(f'Atributos: {self.modificadores_atributos}\n')
+        for habilidade in self.habilidades:
+            habilidade.print()
+        print('-'*40)
+
+
 
 @dataclass
 class Classe:
@@ -258,7 +267,7 @@ class Personagem:
         print(f'{self.classe.nome.title()}/{self.raca.nome.title()} {self.nivel}')
         print(f'PV: {self.PV.atual}/{self.PV.max}')
         print(f'PM: {self.PM.atual}/{self.PM.max}')
-        print(f'Defesa: {self.defesa}')
+        print(f'Defesa: {self.defesa if self.defesa > 0 else "Ainda não finalizado"}')
 
 
     def define_atributos_pontos(self):
@@ -451,6 +460,7 @@ class Personagem:
                 while k < lista_modificadores[i][1]:
                     atr = input(f'Escolha {lista_modificadores[i][1]-k} atributos nos quais deseja adicionar +1 em seu modificador {nomes_atributos}: ')
                     self.imprime_atributos()
+                    encontrou = False
                     for nome_atributo in nomes_atributos:
                         if atr in nome_atributo:
                             if nome_atributo in escolhidos:
@@ -460,9 +470,10 @@ class Personagem:
                                 k += 1
                                 self.atributos[nome_atributo].modificador += 1
                                 print(f'Agora seu modificador de {nome_atributo} é {self.atributos[nome_atributo].modificador}!')
+                            encontrou = True
                             break
-                        # else:
-                        #     print(f'{atr} não é um atributo. Por favor digite novamente: ')
+                    if not encontrou:
+                        print(f'{atr} não é um atributo. Por favor digite novamente: ')
             i += 1
         self.imprime_atributos()
 
@@ -517,15 +528,7 @@ class Personagem:
 
 
         self.alteracoes_raca()
-        
 
-    def imprime_raca(self):
-        print('-'*40)
-        print(self.raca.nome.title())
-        print(f'Atributos: {self.raca.modificadores_atributos}\n')
-        for habilidade in self.raca.habilidades:
-            habilidade.print()
-        print('-'*40)
 
 
     def alteracoes_classe(self):
@@ -603,25 +606,14 @@ class Personagem:
         self.alteracoes_classe()
 
 
-    def imprime_classe(self):
-        print('-'*40)
-        # r = Classe()
-        print(self.classe.nome.upper())
-        print(self.classe.descricao)
-        if len(self.classe.atributo) > 1:
-            print(f'\nOs atributos mais importantes para essa classe são: {self.classe.atributo}')
-        else:
-            print(f'\nO atributo mais importante para essa classe é: {self.classe.atributo}')
-        print(f'PV: {self.classe.PV} + Constituição ({self.classe.PV//4} por nível)')
-        print(f'PM: {self.classe.PM} ({self.classe.PM} por nível)')
-        print(f'Perícias: {self.classe.pericias}')
-        print(f'Proficiências: {self.classe.proficiencias}')
-        print(f'Habilidades de Classe: ')
-        i = 1
-        for habilidade in self.classe.habilidades:
-            print(f'{i}- {habilidade}')
-            i += 1
-        print('-'*40)
+    def escolhas(self):
+        self.define_atributos()
+        self.escolhe_raca()
+        self.raca.imprime()
+        self.escolhe_classe()
+        self.classe.imprime()
+        self.imprime()
+
 
 # melhor usar como dicionario e fazer uma classe chamada 'pericia'
 # class Pericias:
@@ -657,15 +649,15 @@ def criar_personagem():
 def main():
     # gustavo = Personagem(nome='Doende Mardito', jogador='Gustavo', nivel=1, atributos=dicionario_atributos)
     personagem = criar_personagem()
-    # personagem.escolhas()
+    personagem.escolhas()
     # personagem.define_atributos()
     # personagem.escolhe_raca()
-    # personagem.imprime_raca()
-    personagem.escolhe_classe()
-    personagem.classe.imprime()
-    personagem.imprime()
+    # personagem.raca.imprime()
+    # personagem.escolhe_classe()
+    # personagem.classe.imprime()
+    # personagem.imprime()
     # gustavo.imprime_atributos()
 
 
-
-main()
+if __name__ == "__main__":
+    main()
