@@ -140,44 +140,72 @@ class Classe:
 
         pericias_finais = []
         escolha = re.compile(r'^escolha (\d+) entre: ')
-        escolhidos = []
         for pericias_txt in conj_pericias_txt:
-            if ' ou ' in pericias_txt:
+            if ' ou ' in pericias_txt.lower():
                 pericias_txt = pericias_txt.split(' ou ')
                 while True:
-                    resp = input(f'Em qual pericia você quer ser treinado? {pericias_txt[0]} ou {pericias_txt[1]}').lower()
-                    if resp in pericias_txt[0] or resp in pericias_txt[1]:
-                        pericias_finais.append(resp)
-                        print(f'Perícia em {resp} ')
-                        break
+                    resp = input(f'Em qual pericia você quer ser treinado: {pericias_txt[0].title()} ou {pericias_txt[1].title()}? ').lower()
+                    encontrou = False
+                    for pericia in pericias_txt:
+                        if resp in pericia:
+                            pericias_finais.append(pericia)
+                            print(f'Perícia em {pericia.title()} ')
+                            encontrou = True
+                            break
+                            
+                    if not encontrou:
+                        print(f'{resp.title()} não é uma das opções. ', end='')
                     else:
-                        print(f'{resp} não é uma das opções. ', end='')
+                        break
             elif escolha.match(pericias_txt):
                 n_escolhas = int(escolha.match(pericias_txt).group(1))
-                pericias_txt = pericias_txt[pericias_txt.index(':'):].strip('\n').strip().split(', ')
+                pericias_txt = pericias_txt[pericias_txt.index(':')+2:].strip('\n').strip().split(', ')
                 i = 0
                 
                 while i < n_escolhas:
-                    print(f'Escolha {n_escolhas-i} perícias dentre: ')
+                    print(f'\nEscolha {n_escolhas-i} perícias dentre: ')
                     for pericia in pericias_txt:
                         if pericia not in pericias_finais:
-                            print(f'-{pericia}')
-                    resp = input('\n')
+                            print(f'-{pericia.title()}')
+                    resp = input()
+                    encontrou = False
                     for pericia in pericias_txt:
-                        if resp in pericias_txt:
-                            if resp not in pericias_finais:
-                                pericias_finais.append(pericias_txt)
-                                
+                        if resp in pericia:
+                            if pericia not in pericias_finais:
+                                pericias_finais.append(pericia)
+                                i += 1
+                                print(f'Perícia em {pericia.title()} ')
+                                encontrou = True
                             else:
                                 print(f'Esta perícia já foi escolhida!')
-                        else:
-                            print(f'{resp} não é uma perícia válida!')
-                    
+                                encontrou = True
+                    if not encontrou:
+                        print(f'{resp.title()} não é uma perícia válida!')
+            else:
+                pericias_finais.append(pericias_txt)
+                print(f'Perícia em {pericias_txt.title()}.')
+
+        self.pericias = pericias_finais
 
 
-
-
-
+    def imprime(self):
+        print('-'*40)
+        print(self.nome.upper())
+        print(self.descricao)
+        if len(self.atributo) > 1:
+            print(f'\nOs atributos mais importantes para essa classe são: {self.atributo}')
+        else:
+            print(f'\nO atributo mais importante para essa classe é: {self.atributo}')
+        print(f'PV: {self.PV} + Constituição ({self.PV//4} por nível)')
+        print(f'PM: {self.PM} ({self.PM} por nível)')
+        print(f'Perícias: {self.pericias}')
+        print(f'Proficiências: {self.proficiencias}')
+        print(f'Habilidades de Classe: ')
+        i = 1
+        for habilidade in self.habilidades:
+            print(f'{i}- {habilidade}')
+            i += 1
+        print('-'*40)
 
 
 dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder muscular. A Força é aplicada em testes de Atletismo e Luta;
@@ -207,7 +235,8 @@ dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder m
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
 raca_default = Raca('', '', '')
 classe_default = Classe('', '', [], 0, 0, [], [], [])
-pontos_default = Pontos(0, 0, 0)
+pontos_default1 = Pontos(0, 0, 0)
+pontos_default2 = Pontos(0, 0, 0)
 
 @dataclass
 class Personagem:
@@ -219,14 +248,17 @@ class Personagem:
     origem: str = ''
     divindade: str = ''
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
-    PV: Pontos() = pontos_default
-    PM: Pontos() = pontos_default
+    PV: Pontos() = pontos_default1
+    PM: Pontos() = pontos_default2
     defesa: int = 0
 
 
     def imprime(self):
         print(f'{self.nome} ({self.jogador})')
-        print(f'{self.classe}/{self.raca} {self.nivel}')
+        print(f'{self.classe.nome.title()}/{self.raca.nome.title()} {self.nivel}')
+        print(f'PV: {self.PV.atual}/{self.PV.max}')
+        print(f'PM: {self.PM.atual}/{self.PM.max}')
+        print(f'Defesa: {self.defesa}')
 
 
     def define_atributos_pontos(self):
@@ -501,7 +533,7 @@ class Personagem:
         Esta função faz as alterações nos PVs e PMs do personagem de acordo com a classe escolhida.
         '''
         if self.PV.max == 0:
-            self.PV.max += self.classe.PV + self.atributo['constituicao'].modifciador + (self.nivel-1)*(self.classe.PV//4 + self.atributos['consitituicao'].modificador)
+            self.PV.max += self.classe.PV + self.atributos['constituicao'].modificador + (self.nivel-1)*(self.classe.PV//4 + self.atributos['constituicao'].modificador)
             self.PV.atual = self.PV.max
         else:
             print('Parece que sua seu personagem já tem PVs! Alterações de classe não serão feitas!')
@@ -554,10 +586,9 @@ class Personagem:
                 elif 'pm: ' in linha.lower():
                     classe.PM = int(linha.strip('PM:').strip('\n').strip())
                 elif 'pericias: ' in linha.lower():
-                    pericias = linha.strip('Pericias:').strip('\n').strip().split(', ', 2)
+                    pericias = linha.strip('Pericias:').lower().strip('\n').strip().split(', ', 2)
                     # escolhe_pericias() # fazer essa função depois das pericias
                     classe.escolhe_pericias(pericias)
-                    classe.pericias = pericias
                 elif 'proficiencias: ' in linha.lower():
                     classe.proficiencias = linha.strip('Proficiencias:').strip('\n').strip().split(', ')
                 elif '---' in linha:
@@ -568,13 +599,6 @@ class Personagem:
                     habilidades_classe.append(linha.strip(f'{nivel}-').strip('\n').strip().split(', '))
                     nivel += 1
         classe.habilidades = habilidades_classe
-        
-        
-
-
-
-
-
         self.classe = classe
         self.alteracoes_classe()
 
@@ -622,8 +646,8 @@ class Personagem:
 
 
 def criar_personagem():
-    nome = input('Digite o nome do seu personagem: ')
-    jogador = input('Qual o nome do jogador desse personagem? ')
+    nome = input('Digite o nome do seu personagem: ').title()
+    jogador = input('Qual o nome do jogador desse personagem? ').title()
     print()
     personagem = Personagem(nome=nome, jogador=jogador, atributos=dicionario_atributos)
 
@@ -633,11 +657,13 @@ def criar_personagem():
 def main():
     # gustavo = Personagem(nome='Doende Mardito', jogador='Gustavo', nivel=1, atributos=dicionario_atributos)
     personagem = criar_personagem()
-    personagem.define_atributos()
+    # personagem.escolhas()
+    # personagem.define_atributos()
     # personagem.escolhe_raca()
     # personagem.imprime_raca()
-    # personagem.escolhe_classe()
-    # personagem.imprime_classe()
+    personagem.escolhe_classe()
+    personagem.classe.imprime()
+    personagem.imprime()
     # gustavo.imprime_atributos()
 
 
