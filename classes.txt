@@ -236,7 +236,7 @@ Descricao: O especialista supremo em técnicas de combate com armas.
 Atributo: Forca ou Destreza
 PV: 20
 PM: 3
-Pericias: Luta (For) ou Pontaria (Des), Fortitude (Con), escolha 2 entre: Adestramento (Car), Atletismo (For), Cavalgar (Des), Guerra (Int), Iniciativa (Des), Intimidação (Car), Luta (For), Ofício (Int), Percepção (Sab), Pontaria (Des), Reflexos (Des).
+Pericias: Luta (For) ou Pontaria (Des), Fortitude (Con), escolha 2 entre: Adestramento (Car), Atletismo (For), Cavalgar (Des), Guerra (Int), Iniciativa (Des), Intimidação (Car), Luta (For), Ofício (Int), Percepção (Sab), Pontaria (Des), Reflexos (Des)
 Proficiencias: Armas marciais, armaduras pesadas, escudos.
 Habilidades de Classe:
 1- Ataque especial +4
@@ -294,7 +294,7 @@ Descricao: Aventureiro cheio de truques, confiando mais em agilidade e esperteza
 Atributo: Destreza ou Inteligencia
 PV: 12
 PM: 4
-Pericias: Ladinagem (Des), Reflexos (Des), escolha 8 entre: Acrobacia (Des), Atletismo (For), Atuação (Car), Cavalgar (Des), Conhecimento (Int), Diplomacia (Car), Enganação (Car), Furti- vidade (Des), Iniciativa (Des), Intimidação (Car), Intuição (Sab), Investigação (Int), Jogatina (Car), Luta (For), Ofício (Int), Percepção (Sab), Pilotagem (Des), Pontaria (Des)
+Pericias: Ladinagem (Des), Reflexos (Des), escolha 8 entre: Acrobacia (Des), Atletismo (For), Atuação (Car), Cavalgar (Des), Conhecimento (Int), Diplomacia (Car), Enganação (Car), Furtividade (Des), Iniciativa (Des), Intimidação (Car), Intuição (Sab), Investigação (Int), Jogatina (Car), Luta (For), Ofício (Int), Percepção (Sab), Pilotagem (Des), Pontaria (Des)
 Proficiencias: Nenhuma
 Habilidades de Classe:
 1- Ataque furtivo +1d6, especialista
@@ -381,7 +381,7 @@ Descricao: Um campeão do bem e da ordem, o perfeito soldado dos deuses.
 Atributo: Força ou Carisma
 PV: 20
 PM: 3
-Pericias: Luta (For), Vontade (Sab), escolha 2 entre: Adestramento (Car), Atletismo (For), Cavalgar (Des), Cura (Sab), Diplomacia (Car), Fortitude (Con), Guerra (Int), Iniciativa (Des), In- tuição (Sab), Nobreza (Int), Percepção (Sab), Religião (Sab)
+Pericias: Luta (For), Vontade (Sab), escolha 2 entre: Adestramento (Car), Atletismo (For), Cavalgar (Des), Cura (Sab), Diplomacia (Car), Fortitude (Con), Guerra (Int), Iniciativa (Des), Intuição (Sab), Nobreza (Int), Percepção (Sab), Religião (Sab)
 Proficiencias: Armas marciais, armaduras pesadas, escudos
 Habilidades de Classe:
 1- Abençoado, código do herói, golpe divino (+1d8)

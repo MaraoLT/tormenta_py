@@ -14,25 +14,35 @@ path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
 
 '''
 Criação de Personagem:
-1-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
+01-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
     -[] Refazer sistema de pontos para conseguir colocar: 'forca 4'/ 'for -1' e coisas do tipo em apenas 1 linha
     -[X] Sistema para escolher os atributos aleatoriamente
-2-[X] Escolhendo raça: 17 raças que alteram atributos e adicionam habilidades
+02-[X] Escolhendo raça: 17 raças que alteram atributos e adicionam habilidades
     -[X] Adquirir as infos de racas.txt para serem usadas
     -[X] Criar função que adiciona os modificadores de atributos da raça
     -[] Criar uma função para cada habilidade (futuramente...)
-3-[X] Escolhendo classe: 14 classes
+03-[X] Escolhendo classe: 14 classes
     -[X] Adquirir as infos de classes.txt para serem usadas
     -[X] Criar função que adiciona os PMs e PVs
     -[] Adicionar perícias (futuramente...)
-4-[] Escolhendo origem: 35 origens
+04-[] Escolhendo origem: 35 origens
     -[] Adquirir as infos de origens.txt para serem usadas
     -[] Você escolhe dois benefícios da lista de benefícios
-5-[] Escolhendo divindade (opcional):
-6-[] Escolhendo Pericias
-7-[] Anotando Equipamento Inicial: definido pela classe e origem
-8-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
-9-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida)
+05-[] Escolhendo divindade (opcional):
+    -[] Apenas certas classes ou raças podem ser devotos de certas divindades
+06-[] Escolhendo Pericias
+07-[] Anotando Equipamento Inicial: definido pela classe e origem
+08-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
+09-[] Salvar personagem criado em arquivo nome_personagem.txt
+10-[] Importar personagem em arquivos nome_personagem.txt para um objeto dentro do programa
+11-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida) - (necessária ajuda ou maior conhecimento de web scraping)
+12-[] Combates entre personagens
+13-[] Funções de:
+    -[] Habilidades
+    -[] Poderes
+    -[] Magias
+14-[] Fichas de Ameaças (necessário maior conhecimento de web scraping para fazer todos os inimigos)
+
 
 Anotações gerais:
 -[] fazer comentarios nas funções
