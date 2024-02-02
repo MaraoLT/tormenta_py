@@ -5,6 +5,7 @@ import os
 import ast
 from random import randint
 import re
+from unicodedata import unicode # para ignorar acentuação
 
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
@@ -20,11 +21,13 @@ Criação de Personagem:
     -[X] Adquirir as infos de racas.txt para serem usadas
     -[X] Criar função que adiciona os modificadores de atributos da raça
     -[] Criar uma função para cada habilidade (futuramente...)
-3-[] Escolhendo classe: 14 classes
+3-[X] Escolhendo classe: 14 classes
     -[X] Adquirir as infos de classes.txt para serem usadas
-    -[] Criar função que adiciona os PMs e PVs
+    -[X] Criar função que adiciona os PMs e PVs
     -[] Adicionar perícias (futuramente...)
-4-[] Escolhendo origem:
+4-[] Escolhendo origem: 35 origens
+    -[] Adquirir as infos de origens.txt para serem usadas
+    -[] Você escolhe dois benefícios da lista de benefícios
 5-[] Escolhendo divindade (opcional):
 6-[] Escolhendo Pericias
 7-[] Anotando Equipamento Inicial: definido pela classe e origem
@@ -105,6 +108,9 @@ class Habilidade:
 
 @dataclass
 class Pontos:
+    '''
+    Objeto usado para os PVs e PMs. Armazena atual, maximo e temporário.
+    '''
     atual: int = 0
     max: int = 0
     temp: int = 0
@@ -113,7 +119,7 @@ class Pontos:
 @dataclass
 class Raca:
     '''
-    Objetos para todas as 17 raças existentes.
+    Objeto usado para todas as 17 raças existentes.
     '''
     nome: str = ''
     modificadores_atributos: str = ''
@@ -121,6 +127,9 @@ class Raca:
 
 
     def imprime(self):
+        '''
+        Esta função simplesmente imprime as características que a classe adiciona
+        '''
         print('-'*40)
         print(self.nome.title())
         print(f'Atributos: {self.modificadores_atributos}\n')
@@ -129,11 +138,10 @@ class Raca:
         print('-'*40)
 
 
-
 @dataclass
 class Classe:
     '''
-    Objeto para todas as 14 classes existentes.
+    Objeto usado para todas as 14 classes existentes.
     '''
     nome: str = ''
     descricao: str = ''
@@ -146,6 +154,10 @@ class Classe:
 
 
     def escolhe_pericias(self, conj_pericias_txt):
+        '''
+        Esta função recebe as perícias em forma de texto e através de perguntas ao usuário
+        seleciona quais perícias a classe adicionará ao personagem.
+        '''
 
         pericias_finais = []
         escolha = re.compile(r'^escolha (\d+) entre: ')
@@ -198,6 +210,9 @@ class Classe:
 
 
     def imprime(self):
+        '''
+        Esta função simplesmente imprime as informações que a classe adiciona ao personagem.
+        '''
         print('-'*40)
         print(self.nome.upper())
         print(self.descricao)
@@ -249,6 +264,10 @@ pontos_default2 = Pontos(0, 0, 0)
 
 @dataclass
 class Personagem:
+    '''
+    Este é o objeto que representa um personagem. É o objeto principal para fichas de personagens e grande
+    parte do código é relacionado a esse objeto e seus atributos.
+    '''
     nome: str = ''
     jogador: str = ''
     nivel: int = 1
@@ -263,6 +282,9 @@ class Personagem:
 
 
     def imprime(self):
+        '''
+        Imprime as informações básicas do personagem criado
+        '''
         print(f'{self.nome} ({self.jogador})')
         print(f'{self.classe.nome.title()}/{self.raca.nome.title()} {self.nivel}')
         print(f'PV: {self.PV.atual}/{self.PV.max}')
@@ -312,6 +334,9 @@ class Personagem:
 
 
     def rolagens_atributos(self):
+        '''
+        Esta função faz a rolagem de dados para os atributos, retornando 'todas_rolagens'
+        '''
         todas_rolagens = []
         for _ in range(6):
             rolagens_somadas = []
@@ -392,6 +417,9 @@ class Personagem:
 
 
     def define_atributos_aleatoriamente(self):
+        '''
+        Esta função utiliza do sistema por rolagens para definir aleatoriamente os atributos do personagem
+        '''
         todas_rolagens = self.rolagens_atributos()
         lista_modificadores = self.atributos['forca'].calcula_modificador_rolagens(todas_rolagens)
         escolhido = []
@@ -440,6 +468,10 @@ class Personagem:
 
 
     def altera_atributos(self):
+        '''
+        Esta função modifica os atributos anteriormente selecionados de acordo com a raça escolhida
+        pelo usuário.
+        '''
 
         lista_modificadores = []
         modificadores = self.raca.modificadores_atributos.split(', ') #['carisma 2', 'forca 1', 'escolhe 3',...]
@@ -647,7 +679,6 @@ def criar_personagem():
 
 
 def main():
-    # gustavo = Personagem(nome='Doende Mardito', jogador='Gustavo', nivel=1, atributos=dicionario_atributos)
     personagem = criar_personagem()
     personagem.escolhas()
     # personagem.define_atributos()
