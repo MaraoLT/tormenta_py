@@ -1,0 +1,145 @@
+['Acólito', 'Amigo dos Animais', 'Amnésico', 'Aristocrata', 'Artesão', 'Artista', 'Assistente de Laboratório', 'Batedor', 'Capanga', 'Charlatão', 'Circense', 'Criminoso', 'Curandeiro', 'Eremita', 'Escravo', 'Estudioso', 'Fazendeiro', 'Forasteiro', 'Gladiador', 'Guarda', 'Herdeiro', 'Herói Camponês', 'Marujo', 'Mateiro', 'Membro de Guilda', 'Mercador', 'Minerador', 'Nômade', 'Pivete', 'Refugiado', 'Seguidor', 'Selvagem', 'Soldado', 'Taverneiro', 'Trabalhador']
+Origem: Acólito
+Beneficios: Cura, Religião, Vontade; Medicina, Membro da Igreja, Vontade de Ferro
+Itens: Símbolo sagrado, traje de sacerdote
+--- 
+Origem: Amigo dos Animais
+Beneficios: Adestramento, Cavalgar; Amigo Especial
+Itens: Cão de caça, cavalo, pônei ou trobo (escolha um)
+---
+Origem: Amnésico
+Beneficios: Uma perícia e um poder escolhidos pelo mestre e o poder Lembranças Graduais
+Itens: Um ou mais itens (somando até T$ 500), aprovados pelo mestre, que podem ser uma pista misteriosa do seu passado
+---
+Origem: Aristocrata
+Beneficios: Diplomacia, Enganação, Nobreza; Comandar, Sangue Azul
+Itens: Joia de família no valor de T$ 300, traje da corte
+---
+Origem: Artesão
+Beneficios: Ofício, Vontade; Frutos do Trabalho, Sortudo
+Itens: Instrumentos de ofício (qualquer), um item que você possa fabricar de até T$ 50.
+---
+Origem: Artista
+Beneficios: Atuação, Enganação; Atraente, Dom Artístico, Sortudo, Torcida
+Itens: Estojo de disfarces ou um instrumento musical a sua escolha
+---
+Origem: Assistente de Laboratório
+Beneficios: Ofício (alquimista), Misticismo; Esse Cheiro..., Venefício, um poder da Tormenta a sua escolha
+Itens: Instrumentos de Ofício (alquimista)
+---
+Origem: Batedor
+Beneficios: Furtividade, Percepção, Sobrevivência; À Prova de Tudo, Estilo de Disparo, Sentidos Aguçados
+Itens: Barraca, equipamento de viagem, uma arma simples ou marcial de ataque à distância
+---
+Origem: Capanga
+Beneficios: Luta, Intimidação; Confissão, um poder de combate a sua escolha
+Itens: Tatuagem ou outro adereço de sua gangue (+1 em Intimidação), uma arma simples corpo a corpo
+---
+Origem: Charlatão
+Beneficios: Enganação, Jogatina; Alpinista Social, Aparência Inofensiva, Sortudo
+Itens: Estojo de disfarces, joia falsificada (valor aparente de T$ 100, sem valor real)
+---
+Origem: Circense
+Beneficios: Acrobacia, Atuação, Reflexos; Acrobático, Torcida, Truque de Mágica
+Itens: Três bolas coloridas para malabarismo (+1 em Atuação)
+---
+Origem: Criminoso
+Beneficios: Enganação, Furtividade, Ladinagem; Punguista, Venefício
+Itens: Estojo de disfarces ou gazua
+---
+Origem: Curandeiro
+Beneficios: Cura, Vontade; Medicina, Médico de Campo, Venefício
+Itens: Bálsamo restaurador x2, maleta de medicamentos
+---
+Origem: Eremita
+Beneficios: Misticismo, Religião, Sobrevivência; Busca Interior, Lobo Solitário
+Itens: Barraca, equipamento de viagem.
+---
+Origem: Escravo
+Beneficios: Atletismo, Fortitude, Furtividade; Desejo de Liberdade, Vitalidade
+Itens: Algemas, uma ferramenta pesada (mesmas estatísticas de uma maça)
+---
+Origem: Estudioso
+Beneficios: Conhecimento, Guerra, Misticismo; Aparência Inofensiva, Palpite Fundamentado
+Itens: Coleção de livros (+1 em Conhecimento, Guerra, Misticismo ou Nobreza, a sua escolha).
+---
+Origem: Fazendeiro
+Beneficios: Adestramento, Cavalgar, Ofício (fazendeiro), Sobrevivência; Água no Feijão, Ginete
+Itens: Carroça, uma ferramenta agrícola (mesmas estatísticas de uma lança), 10 rações de viagem, um animal não combativo (como uma galinha, porco ou ovelha)
+---
+Origem: Forasteiro
+Beneficios: Cavalgar, Pilotagem, Sobrevivência; Cultura Exótica, Lobo Solitário
+Itens: Equipamento de viagem, instrumento musical exótico (+1 em uma perícia de Carisma aprovada pelo mestre), traje estrangeiro
+---
+Origem: Gladiador
+Beneficios: Atuação, Luta; Atraente, Pão e Circo, Torcida, um poder de combate a sua escolha
+Itens: Uma arma marcial ou exótica, um item sem valor recebido de um admirador
+---
+Origem: Guarda
+Beneficios: Investigação, Luta, Percepção; Detetive, Investigador, um poder de combate a sua escolha
+Itens: Apito, insígnia da milícia, uma arma marcial.
+--- 
+Origem: Herdeiro
+Beneficios: Misticismo, Nobreza, Ofício; Comandar, Herança
+Itens: Um símbolo de sua herança, como um anel de sinete ou manto cerimonial. Enquanto estiver com esse item, você pode ser reconhecido por sua descendência, o que pode ser bom... ou não!
+---
+Origem: Herói Camponês
+Beneficios: Adestramento, Ofício; Coração Heroico, Sortudo, Surto Heroico, Torcida
+Itens: Instrumentos de ofício ou uma arma simples, traje de plebeu
+---
+Origem: Marujo
+Beneficios: Atletismo, Jogatina, Pilotagem; Acrobático, Passagem de Navio
+Itens: T$ 2d6 (seu último salário), corda
+---
+Origem: Mateiro
+Beneficios: Atletismo, Furtividade, Sobrevivência; Lobo Solitário, Sentidos Aguçados, Vendedor de Carcaças
+Itens: Arco curto, barraca, equipamento de viagem, 20 flechas
+---
+Origem: Membro de Guilda
+Beneficios: Diplomacia, Enganação, Misticismo, Ofício; Foco em Perícia, Rede de Contatos
+Itens: Gazua ou instrumentos de ofício
+---
+Origem: Mercador
+Beneficios: Diplomacia, Intuição, Ofício; Negociação, Proficiência, Sortudo
+Itens: Carroça, trobo, mercadorias para vender no valor de T$ 100
+---
+Origem: Minerador
+Beneficios: Atletismo, Fortitude, Ofício (minerador); Ataque Poderoso, Escavador, Sentidos Aguçados
+Itens: Gemas preciosas no valor de T$ 100, picareta
+---
+Origem: Nômade
+Beneficios: Cavalgar, Pilotagem, Sobrevivência; Lobo Solitário, Mochileiro, Sentidos Aguçados
+Itens: Bordão, equipamento de viagem
+---
+Origem: Pivete 
+Beneficios: Furtividade, Iniciativa, Ladinagem; Acrobático, Aparência Inofensiva, Quebra-Galho
+Itens: Gazua, traje de plebeu, um animal urbano (como um cão, gato, rato ou pombo)
+---
+Origem: Refugiado
+Beneficios: Fortitude, Reflexos, Vontade; Estoico, Vontade de Ferro
+Itens: Fortitude, Reflexos, Vontade; Estoico, Vontade de Ferro
+---
+Origem: Seguidor
+Beneficios: Adestramento, Ofício; Antigo Mestre, Proficiência, Surto Heroico
+Itens: Um item recebido de seu mestre de até T$ 100
+---
+Origem: Selvagem
+Beneficios: Percepção, Reflexos, Sobrevivência; Lobo Solitário, Vida Rústica, Vitalidade
+Itens: Uma arma simples, um pequeno animal de estimação como um pássaro ou esquilo
+---
+Origem: Soldado
+Beneficios: Fortitude, Guerra, Luta, Pontaria; Influência Militar, um poder de combate a sua escolha
+Itens: Uma arma marcial, um uniforme militar, uma insígnia de seu exército
+---
+Origem: Taverneiro
+Beneficios: Diplomacia, Jogatina, Ofício (cozinheiro); Gororoba, Proficiência, Vitalidade
+Itens: Rolo de macarrão ou martelo de carne (mesmas estatísticas de uma clava), uma panela, um avental, uma caneca e um pano sujo
+---
+Origem: Trabalhador
+Beneficios: Atletismo, Fortitude; Atlético, Esforçado
+Itens: Uma ferramenta pesada (mesmas estatísticas de uma maça ou lança, a sua escolha)
+---
+Origem: 
+Beneficios: 
+Itens: 
+---
