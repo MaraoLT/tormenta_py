@@ -5,7 +5,7 @@ import os
 import ast
 from random import randint
 import re
-from unicodedata import unicode # para ignorar acentuação
+# from unicodedata import unicode # para ignorar acentuação
 
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
@@ -515,7 +515,7 @@ class Personagem:
                             encontrou = True
                             break
                     if not encontrou:
-                        print(f'{atr} não é um atributo. Por favor digite novamente: ')
+                        print(f'{atr.title()} não é um atributo. Por favor digite novamente: ')
             i += 1
         self.imprime_atributos()
 
