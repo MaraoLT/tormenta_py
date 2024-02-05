@@ -5,7 +5,7 @@ import os
 import ast
 from random import randint
 import re
-# from unicodedata import unicode # para ignorar acentuação
+import unicodedata
 
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
@@ -26,9 +26,10 @@ Criação de Personagem:
     -[X] Criar função que adiciona os PMs e PVs
     -[] Adicionar perícias (futuramente...)
 04-[] Escolhendo origem: 35 origens
-    -[] Adquirir as infos de origens.txt para serem usadas
+    -[X] Adquirir as infos de origens.txt para serem usadas
     -[] Você escolhe dois benefícios da lista de benefícios
 05-[] Escolhendo divindade (opcional): 20 divindades
+    -[X] Adquirir as infos de divindades.txt para serem usadas 
     -[] Apenas certas classes ou raças podem ser devotos de certas divindades
 06-[] Escolhendo Pericias
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
@@ -47,6 +48,7 @@ Criação de Personagem:
 Anotações gerais:
 -[] fazer comentarios nas funções
 -[] verificar se tem lugares no código que necessitam de um 'break'
+-[] implementar em todo o código a função de ignorar acentos
 '''
 
 nomes_atributos = ['forca', 'destreza', 'constituicao', 'inteligencia', 'sabedoria', 'carisma']
@@ -63,6 +65,60 @@ def rolagem(dado):
 
 def erro():
     print('Erro, tente novamente!')
+
+
+def abre_arquivo(nome_arquivo):
+    informacoes = []
+    with open(os.path.join(path, nome_arquivo)) as arquivo:
+            try:
+                nomes_categoria = ast.literal_eval(arquivo.readline())
+            except ValueError:
+                print("malformed string; skipping this line")
+            except SyntaxError:
+                print("looks like some encoding errors with this file...")
+            linhas = arquivo.readlines()
+
+    return nomes_categoria, linhas
+
+
+def remove_acentos(original):
+    processamento = unicodedata.normalize("NFD", original)
+    processamento = processamento.encode("ascii", "ignore")
+    processamento = processamento.decode("utf-8")
+
+    return processamento
+
+
+def formatacao(texto):
+    return remove_acentos(texto.lower().strip())
+
+
+def escolhe_categoria(categoria, nomes_categoria, genero = 0):
+    if genero == 1: print(f'Escolha o seu {categoria} dentre: ')
+    else: print(f'Escolha a sua {categoria} dentre: ')
+    for nome_categoria in nomes_categoria:
+        print(f'-{nome_categoria}')
+    print()
+
+    achou = False
+    while True:
+        item_escolhido = remove_acentos(input().lower())
+        for nome_categoria in nomes_categoria:
+            if item_escolhido in formatacao(nome_categoria):
+                item_escolhido = nome_categoria
+                achou = True
+                break
+        if not achou:
+            if genero == 1: print(f'{item_escolhido.title()} não é um {categoria} existente, tente novamente.')
+            else: print(f'{item_escolhido.title()} não é uma {categoria} existente, tente novamente.')
+        else:
+            break
+    
+    if genero == 1: print(f'{categoria.title()} escolhido: {item_escolhido.upper()}')
+    else: print(f'{categoria.title()} escolhida: {item_escolhido.upper()}')
+    
+    
+    return item_escolhido
 
 
 @dataclass 
@@ -110,7 +166,7 @@ class Habilidade:
     descricao: str = ''
 
 
-    def print(self):
+    def imprime(self):
         print(f'-{self.nome.upper()}')
         if self.descricao is not None:
             print(self.descricao + '\n')
@@ -141,10 +197,10 @@ class Raca:
         Esta função simplesmente imprime as características que a classe adiciona
         '''
         print('-'*40)
-        print(self.nome.title())
+        print(self.nome.upper())
         print(f'Atributos: {self.modificadores_atributos}\n')
         for habilidade in self.habilidades:
-            habilidade.print()
+            habilidade.imprime()
         print('-'*40)
 
 
@@ -242,6 +298,60 @@ class Classe:
         print('-'*40)
 
 
+
+@dataclass
+class Origem:
+    '''
+    
+    '''
+    nome: str = ''
+    beneficios: list = None
+    itens: list = None
+
+
+    def imprime(self):
+        '''
+        Esta função simplesmente imprime as características que a origem adiciona
+        '''
+        print('-'*40)
+        print(self.nome.upper())
+        print(f'Benefícios: {self.beneficios}')
+        print(f'Itens: {self.itens}')
+        print('-'*40)
+
+
+@dataclass
+class Divindade:
+    nome: str = ''
+    crencas_objetivos: str = ''
+    simbolo: str = ''
+    energia: str = ''
+    arma: str = ''
+    devotos: list = None
+    poderes: list = None
+    obrigacoes_restricoes: str = ''
+
+
+    def escolhe_poder(self, poderes):
+        pass
+
+
+    def imprime(self):
+        '''
+        Esta função simplesmente imprime as características que a origem adiciona
+        '''
+        print('-'*40)
+        print(self.nome.upper())
+        print(f'Crenças e Objetivos: {self.crencas_objetivos}')
+        print(f'Símbolo Sagrado: {self.simbolo}')
+        print(f'Energia: {self.energia}')
+        print(f'Arma Preferida: {self.arma}')
+        print(f'Devotos: {self.devotos}')
+        print(f'Poderes Concedidos: {self.poderes}')
+        print(f'Obrigações & Restrições: {self.obrigacoes_restricoes}')
+        print('-'*40)
+
+
 dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder muscular. A Força é aplicada em testes de Atletismo e Luta;
                                  rolagens de dano corpo a corpo ou com armas de arremesso, e testes de Força
                                  para levantar peso e atos similares.''',\
@@ -271,6 +381,9 @@ raca_default = Raca('', '', '')
 classe_default = Classe('', '', [], 0, 0, [], [], [])
 pontos_default1 = Pontos(0, 0, 0)
 pontos_default2 = Pontos(0, 0, 0)
+origem_default = Origem('', [], [])
+divindade_default = Divindade('', '', '', '', '', [], [])
+
 
 @dataclass
 class Personagem:
@@ -283,8 +396,8 @@ class Personagem:
     nivel: int = 1
     raca: Raca() = raca_default
     classe: Classe() = classe_default
-    origem: str = ''
-    divindade: str = ''
+    origem: Origem() = origem_default
+    divindade: Divindade() = divindade_default
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
     PV: Pontos() = pontos_default1
     PM: Pontos() = pontos_default2
@@ -296,10 +409,13 @@ class Personagem:
         Imprime as informações básicas do personagem criado
         '''
         print(f'{self.nome} ({self.jogador})')
-        print(f'{self.classe.nome.title()}/{self.raca.nome.title()} {self.nivel}')
+        print(f'{self.raca.nome.title()}/{self.classe.nome.title()} {self.nivel}')
         print(f'PV: {self.PV.atual}/{self.PV.max}')
         print(f'PM: {self.PM.atual}/{self.PM.max}')
         print(f'Defesa: {self.defesa if self.defesa > 0 else "Ainda não finalizado"}')
+        self.imprime_atributos()
+        self.raca.imprime()
+        self.classe.imprime()
 
 
     def define_atributos_pontos(self):
@@ -525,31 +641,11 @@ class Personagem:
 
 
     def escolhe_raca(self):
-        with open(os.path.join(path, 'racas.txt')) as arquivo:
-            try:
-                nomes_racas = ast.literal_eval(arquivo.readline())
-            except ValueError:
-                print("malformed string; skipping this line")
-            except SyntaxError:
-                print("looks like some encoding errors with this file...")
-            linhas = arquivo.readlines()
-        
-        print('Escolha a sua raça dentre: ')
-        for nome_raca in nomes_racas:
-            print(f'-{nome_raca}')
-        print()
-
+        nomes_racas, linhas = abre_arquivo('racas.txt')
+        raca = Raca(habilidades=[])
+        raca_escolhida = escolhe_categoria('raça', nomes_racas)
 
         achou = False
-        raca = Raca(habilidades=[])
-        while True:
-            raca_escolhida = input().lower()
-            if raca_escolhida in nomes_racas:
-                break
-            else:
-                print(f'{raca_escolhida} não é uma raça existente, tente novamente.')
-
-
         for linha in linhas:
             if not achou:
                 if 'nome: ' + raca_escolhida in linha.lower():
@@ -590,30 +686,11 @@ class Personagem:
 
 
     def escolhe_classe(self):
-        with open(os.path.join(path, 'classes.txt')) as arquivo:
-            try:
-                nomes_classes = ast.literal_eval(arquivo.readline())
-            except ValueError:
-                print("malformed string; skipping this line")
-            except SyntaxError:
-                print("looks like some encoding errors with this file...")
-            linhas = arquivo.readlines()
-            
-        print('Escolha a sua classe dentre: ')
-        for nome_classe in nomes_classes:
-            print(f'-{nome_classe}')
-        print()
+        nomes_classes, linhas = abre_arquivo('classes.txt')
+        classe = Classe(pericias=[], proficiencias=[])
+        classe_escolhida = escolhe_categoria('classe', nomes_classes)
 
         achou = False
-        classe = Classe(pericias=[], proficiencias=[])
-        while True:
-            classe_escolhida = input().lower()
-            if classe_escolhida in nomes_classes:
-                break
-            else:
-                print(f'{classe_escolhida} não é uma classe existente, tente novamente.')
-
-
         nivel = 1
         habilidades_classe = []
         for linha in linhas:
@@ -632,7 +709,6 @@ class Personagem:
                     classe.PM = int(linha.strip('PM:').strip('\n').strip())
                 elif 'pericias: ' in linha.lower():
                     pericias = linha.strip('Pericias:').lower().strip('\n').strip().split(', ', 2)
-                    # escolhe_pericias() # fazer essa função depois das pericias
                     classe.escolhe_pericias(pericias)
                 elif 'proficiencias: ' in linha.lower():
                     classe.proficiencias = linha.strip('Proficiencias:').strip('\n').strip().split(', ')
@@ -648,13 +724,80 @@ class Personagem:
         self.alteracoes_classe()
 
 
+    def escolhe_origem(self):
+        '''
+        
+        '''
+        nomes_origens, linhas = abre_arquivo('origens.txt')
+        origem_escolhida = escolhe_categoria('origem', nomes_origens)
+        
+        origem = Origem(beneficios=[], itens=[])
+        achou = False
+        for linha in linhas:
+            if not achou:
+                if 'origem: ' + origem_escolhida.lower() in linha.lower():
+                    origem.nome = origem_escolhida
+                    achou = True
+            else:
+                if 'beneficios: ' in formatacao(linha):
+                    origem.beneficios.append(linha.strip('Beneficios:').strip().strip('\n'))
+                elif 'itens:' in formatacao(linha):
+                    origem.itens.append(linha.strip('Itens:').strip().strip('\n'))
+                elif '---' in linha:
+                    break
+        
+        self.origem = origem
+
+
+    def escolhe_divindade(self):
+        religioso = formatacao(input('Você quer tornar-se um seguidor de alguma divindade? (SIM ou NÃO)\n'))
+        if religioso in 'nao':
+            print('Você optou por não seguir nenhuma religião. Toda vez que subir de nível você terá outra \
+oportunidade de virar seguidor de alguma divindade.')
+            return
+        else:
+            nomes_divindades, linhas = abre_arquivo('divindades.txt')
+            divindade_escolhida = escolhe_categoria('divindade', nomes_divindades)
+
+            divindade = Divindade(devotos=[], poderes=[])
+            achou = False
+            for linha in linhas:
+                if not achou:
+                    if 'divindade: ' + divindade_escolhida.lower() in linha.lower():
+                        divindade.nome = divindade_escolhida
+                        achou = True
+                else:
+                    if 'crencas e objetivos: ' in formatacao(linha):
+                        divindade.crencas_objetivos = linha.strip('Crenças e Objetivos:').strip().strip('\n')
+                    elif 'simbolo sagrado: ' in formatacao(linha):
+                        divindade.simbolo = linha.strip('Símbolo Sagrado:').strip().strip('\n')
+                    elif 'canalizar energia: ' in formatacao(linha):
+                        divindade.energia = linha.strip('Canalizar Energia:').strip().strip('\n')
+                    elif 'arma preferida: ' in formatacao(linha):
+                        divindade.arma = linha.strip('Arma Preferida:').strip().strip('\n')
+                    elif 'devotos: ' in formatacao(linha):
+                        divindade.devotos = linha.lower().strip('').strip().strip('\n').strip('.').split(', ')
+                    elif 'poderes concedidos: ' in formatacao(linha):
+                        divindade.poderes.append(escolhe_categoria('poder', linha.strip('Poderes Concedidos:').strip().strip('\n').strip('.').split(', '), 1))
+                    elif 'obrigacoes & restricoes' in formatacao(linha):
+                        divindade = linha.strip('Obrigações & Restrições:').strip().strip('\n')
+                    elif '---' in linha:
+                        break
+            
+            self.divindade = divindade
+
+
     def escolhas(self):
         self.define_atributos()
         self.escolhe_raca()
         self.raca.imprime()
         self.escolhe_classe()
         self.classe.imprime()
-        self.imprime()
+        self.escolhe_origem()
+        self.origem.imprime()
+        self.escolhe_divindade()
+        self.divindade.imprime()
+        # self.imprime()
 
 
 # melhor usar como dicionario e fazer uma classe chamada 'pericia'
