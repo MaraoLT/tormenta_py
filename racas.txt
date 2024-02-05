@@ -49,7 +49,7 @@ Habilidades:
  Medo de Altura. Se estiver adjacente a uma queda de 3m ou mais de altura (como um buraco ou penhasco), você fica abalado.
 ---
 Nome: Qarren
-Atributos: carisma 2, inteligencia, sabedoria -1
+Atributos: carisma 2, inteligencia 1, sabedoria -1
 Habilidades:
  Desejos. Se lançar uma magia que alguém tenha pedido desde seu último turno, o custo da magia diminui em –1 PM. Fazer um desejo ao qareen é uma ação livre.
  Resistência Elemental. Conforme sua ascendência, você recebe redução 10 a um tipo de dano. Escolha uma: frio (qareen da água), eletricidade (do ar), fogo (do fogo), ácido (da terra), luz (da luz) ou trevas (qareen das trevas).

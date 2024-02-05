@@ -27,10 +27,10 @@ Criação de Personagem:
     -[] Adicionar perícias (futuramente...)
 04-[] Escolhendo origem: 35 origens
     -[X] Adquirir as infos de origens.txt para serem usadas
-    -[] Você escolhe dois benefícios da lista de benefícios
+    -[] Você escolhe dois benefícios da lista de benefícios -> fazer depois de implementar perícias
 05-[] Escolhendo divindade (opcional): 20 divindades
     -[X] Adquirir as infos de divindades.txt para serem usadas 
-    -[] Apenas certas classes ou raças podem ser devotos de certas divindades
+    -[X] Apenas certas classes ou raças podem ser devotos de certas divindades
 06-[] Escolhendo Pericias
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
 08-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
@@ -158,6 +158,18 @@ class Atributo:
         
         return lista_modificadores
 
+
+penalidade_treino = ['adestramento', 'atuação', 'conhecimento', 'guerra', 'jogatina', 'ladinagem',
+                      'misticismo', 'nobreza', 'ofício', 'pilotagem', 'religião']
+penalidade_armadura = ['acrobacia', 'furtividade', 'ladinagem']
+@dataclass
+class Pericia:
+    nome: str = ''
+    atributo: str = ''
+    treinada: bool = False
+    penalidade_treino: int = 0 
+    penalidade_armadura: int = 0
+    
 
 # aqui eu vou escrever todas as habilidades em codigo
 @dataclass
@@ -298,7 +310,6 @@ class Classe:
         print('-'*40)
 
 
-
 @dataclass
 class Origem:
     '''
@@ -307,6 +318,10 @@ class Origem:
     nome: str = ''
     beneficios: list = None
     itens: list = None
+
+
+    def escolhe_beneficios(self, beneficios):
+        pass
 
 
     def imprime(self):
@@ -332,13 +347,18 @@ class Divindade:
     obrigacoes_restricoes: str = ''
 
 
-    def escolhe_poder(self, poderes):
-        pass
+    def verifica_devotos(self, raca, classe, devotos):
+        for devoto in devotos:
+            if raca in devoto or classe in devoto:
+                return True
+        
+        print(f'Infelizmente você não pode ser devoto dessa divindade, pois apenas {devotos} podem ser devotos.')
+        return False
 
 
     def imprime(self):
         '''
-        Esta função simplesmente imprime as características que a origem adiciona
+        Esta função simplesmente imprime as características que a divindade adiciona
         '''
         print('-'*40)
         print(self.nome.upper())
@@ -616,7 +636,12 @@ class Personagem:
             elif lista_modificadores[i][0] == 'escolhe':
                 k = 0
                 while k < lista_modificadores[i][1]:
-                    atr = input(f'Escolha {lista_modificadores[i][1]-k} atributos nos quais deseja adicionar +1 em seu modificador {nomes_atributos}: ')
+                    print(f'Escolha {lista_modificadores[i][1]-k} atributos nos quais deseja adicionar +1 em seu modificador: ')
+                    for nome_atributo in nomes_atributos:
+                        if nome_atributo not in escolhidos:
+                            print(f'-{nome_atributo}')
+                    atr = input()
+                    print()
                     self.imprime_atributos()
                     encontrou = False
                     for nome_atributo in nomes_atributos:
@@ -666,7 +691,6 @@ class Personagem:
 
 
         self.alteracoes_raca()
-
 
 
     def alteracoes_classe(self):
@@ -740,6 +764,7 @@ class Personagem:
                     achou = True
             else:
                 if 'beneficios: ' in formatacao(linha):
+                    self.origem.escolhe_beneficios(linha[len('Beneficios: '):].strip().strip('\n'))
                     origem.beneficios.append(linha.strip('Beneficios:').strip().strip('\n'))
                 elif 'itens:' in formatacao(linha):
                     origem.itens.append(linha.strip('Itens:').strip().strip('\n'))
@@ -750,40 +775,54 @@ class Personagem:
 
 
     def escolhe_divindade(self):
-        religioso = formatacao(input('Você quer tornar-se um seguidor de alguma divindade? (SIM ou NÃO)\n'))
+        devotos_obrigatorios = ['clerigo', 'druida', 'paladino']
+        if self.classe.nome in devotos_obrigatorios:
+            religioso = 'sim'
+        else:
+            religioso = formatacao(input('Você quer tornar-se um seguidor de alguma divindade? (SIM ou NÃO)\n'))
+
         if religioso in 'nao':
             print('Você optou por não seguir nenhuma religião. Toda vez que subir de nível você terá outra \
 oportunidade de virar seguidor de alguma divindade.')
             return
         else:
-            nomes_divindades, linhas = abre_arquivo('divindades.txt')
-            divindade_escolhida = escolhe_categoria('divindade', nomes_divindades)
+            devoto = False
+            while not devoto:
+                nomes_divindades, linhas = abre_arquivo('divindades.txt')
+                divindade_escolhida = escolhe_categoria('divindade', nomes_divindades)
 
-            divindade = Divindade(devotos=[], poderes=[])
-            achou = False
-            for linha in linhas:
-                if not achou:
-                    if 'divindade: ' + divindade_escolhida.lower() in linha.lower():
-                        divindade.nome = divindade_escolhida
-                        achou = True
-                else:
-                    if 'crencas e objetivos: ' in formatacao(linha):
-                        divindade.crencas_objetivos = linha.strip('Crenças e Objetivos:').strip().strip('\n')
-                    elif 'simbolo sagrado: ' in formatacao(linha):
-                        divindade.simbolo = linha.strip('Símbolo Sagrado:').strip().strip('\n')
-                    elif 'canalizar energia: ' in formatacao(linha):
-                        divindade.energia = linha.strip('Canalizar Energia:').strip().strip('\n')
-                    elif 'arma preferida: ' in formatacao(linha):
-                        divindade.arma = linha.strip('Arma Preferida:').strip().strip('\n')
-                    elif 'devotos: ' in formatacao(linha):
-                        divindade.devotos = linha.lower().strip('').strip().strip('\n').strip('.').split(', ')
-                    elif 'poderes concedidos: ' in formatacao(linha):
-                        divindade.poderes.append(escolhe_categoria('poder', linha.strip('Poderes Concedidos:').strip().strip('\n').strip('.').split(', '), 1))
-                    elif 'obrigacoes & restricoes' in formatacao(linha):
-                        divindade = linha.strip('Obrigações & Restrições:').strip().strip('\n')
-                    elif '---' in linha:
-                        break
-            
+                divindade = Divindade(devotos=[], poderes=[])
+                achou = False
+                for linha in linhas:
+                    if not achou:
+                        if 'divindade: ' + divindade_escolhida.lower() in linha.lower():
+                            divindade.nome = divindade_escolhida
+                            achou = True
+                    else:
+                        if 'devotos: ' in formatacao(linha):
+                            if self.raca.nome != 'humano' and self.classe.nome != 'clerigo':
+                                devoto = self.divindade.verifica_devotos(self.raca.nome, self.classe.nome, linha.strip('Devotos:').lower().strip().strip('\n').strip('.').split(', '))
+                                if not devoto:
+                                    break
+                            else:
+                                devoto = True
+                            divindade.devotos = linha[len('Devotos: '):].lower().strip().strip('\n').strip('.').split(', ')
+                        elif 'crencas e objetivos: ' in formatacao(linha):
+                            divindade.crencas_objetivos = linha[len('Crenças e Objetivos: '):].strip().strip('\n')
+                        elif 'simbolo sagrado: ' in formatacao(linha):
+                            divindade.simbolo = linha[len('Símbolo Sagrado: '):].strip().strip('\n')
+                        elif 'canalizar energia: ' in formatacao(linha):
+                            divindade.energia = linha[len('Canalizar Energia: '):].strip().strip('\n')
+                        elif 'arma preferida: ' in formatacao(linha):
+                            divindade.arma = linha[len('Arma Preferida: '):].strip().strip('\n')
+                        elif 'poderes concedidos: ' in formatacao(linha):
+                            divindade.poderes.append(escolhe_categoria('poder', linha[len('Poderes Concedidos: '):].strip().strip('\n').strip('.').split(', '), 1))
+                        elif 'obrigacoes & restricoes' in formatacao(linha):
+                            divindade.obrigacoes_restricoes = linha[len('Obrigações & Restrições: '):].strip().strip('\n')
+                        elif '---' in linha:
+                            break
+                        
+                        
             self.divindade = divindade
 
 
@@ -797,7 +836,7 @@ oportunidade de virar seguidor de alguma divindade.')
         self.origem.imprime()
         self.escolhe_divindade()
         self.divindade.imprime()
-        # self.imprime()
+        self.imprime()
 
 
 # melhor usar como dicionario e fazer uma classe chamada 'pericia'

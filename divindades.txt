@@ -1,181 +1,181 @@
 ['Aharadak', 'Allihanna', 'Arsenal', 'Azgher', 'Hyninn', 'Kallyadranoch', 'Khalmyr', 'Luna', 'Lin-Wu', 'Marah', 'Megalokk', 'Nimb', 'Oceano', 'Sszzaas', 'Tanna-Toh', 'Tenebra', 'Thwor', 'Thyatis', 'Valkaria', 'Wynna']
 Divindade: Aharadak
+Devotos: Quaisquer. A Tormenta aceita tudo e todos.
 Crenças e Objetivos: Reverenciar a Tormenta, apregoar a inevitabilidade de sua chegada ao mundo. Praticar a devassidão e a perversão. Deturpar tudo que é correto, desfigurar tudo que é normal. Abraçar a agonia, crueldade e loucura.
 Símbolo Sagrado: Um olho macabro de pupila vertical e cercado de espinhos.
 Canalizar Energia: Negativa.
 Arma Preferida: Corrente de espinhos.
-Devotos: Quaisquer. A Tormenta aceita tudo e todos.
 Poderes Concedidos: Afinidade com a Tormenta, Êxtase da Loucura, Percepção Temporal, Rejeição Divina
 Obrigações & Restrições: Quase todos os cultistas de Aharadak são maníacos insanos, compelidos a praticar os atos mais abomináveis. No entanto, talvez devido à natureza alienígena e incompreensível deste deus, alguns devotos conseguem se resguardar. Preservam sua humanidade, abstendo-se de cometer crimes ou profanações. Ainda assim, o devoto paga um preço. No início de qualquer cena de ação, role 1d6. Com um resultado ímpar, você fica fascinado na primeira rodada, perdido em devaneios sobre a futilidade da vida (mesmo que seja imune a esta condição).
 ---
 Divindade: Allihanna
+Devotos: Dahllan, elfos, sílfides, bárbaros, caçadores, druidas.
 Crenças e Objetivos: Reverenciar os seres da natureza. Proteger a vida selvagem. Promover harmonia entre a natureza e a civilização. Combater monstros, mortos-vivos e outras criaturas que perturbam o equilíbrio natural.
 Símbolo Sagrado: Para bárbaros e outros adoradores de animais, o símbolo corresponde ao respectivo animal. Para outros, uma pequena árvore.
 Canalizar Energia: Positiva.
 Arma Preferida: Bordão.
-Devotos: Dahllan, elfos, sílfides, bárbaros, caçadores, druidas.
 Poderes Concedidos: Compreender os Ermos, Dedo Verde, Descanso Natural, Voz da Natureza.
 Obrigações & Restrições: Devotos de Allihanna não podem usar armaduras e escudos feitos de metal. Assim, você só pode usar armadura acolchoada, de couro, gibão de peles e escudo leve, ou itens feitos de materiais especiais não metálicos. Devotos de Allihanna não podem descansar em nenhuma comunidade maior que uma aldeia (não perdem seus poderes, mas também não recuperam pontos de vida ou mana). Por isso, sempre preferem o relento a um quarto de estalagem.
 ---
 Divindade: Arsenal
+Devotos: anão, minotauros, bárbaros, cavaleiros, guerreiros, lutadores.
 Crenças e Objetivos: Promover a guerra e o conflito. Vencer a qualquer custo, pela força ou estratégia. Jamais oferecer ou aceitar rendição. Eliminar as próprias fraquezas. Conhecer o inimigo como a si mesmo. Sempre encontrar condições de vitória; quando não existirem, criá-las.
 Símbolo Sagrado: Um martelo de guerra e uma espada longa cruzados sobre um escudo.
 Canalizar Energia: Qualquer.
 Arma Preferida: Martelo de guerra.
-Devotos: Anões, minotauros, bárbaros, cavaleiros, guerreiros, lutadores.
 Poderes Concedidos: Conjurar Arma, Coragem Total, Fé Guerreira, Sangue de Ferro.
 Obrigações & Restrições: Um devoto de Arsenal é proibido de ser derrotado em qualquer tipo de combate ou disputa (como um teste oposto para ver quem é mais forte). Caso seu grupo seja derrotado, isso também constitui uma violação das obrigações.
 ...
 Divindade: Azgher
+Devotos: Suraggel (aggelus), qareen, arcanistas, bárbaros, caçadores, cavaleiros, guerreiros, nobres, paladinos.
 Crenças e Objetivos: Praticar a gratidão pela proteção e generosidade do sol. Promover a honestidade, expor embustes e mentiras. Praticar a caridade e o altruísmo. Proteger os necessitados. Oferecer clemência, perdão e redenção. Combater o mal.
 Símbolo Sagrado: Um sol dourado.
 Canalizar Energia: Positiva.
 Arma Preferida: Cimitarra.
-Devotos: Aggelus, qareen, arcanistas, bárbaros, caçadores, cavaleiros, guerreiros, nobres, paladinos.
 Poderes Concedidos: Espada Solar, Fulgor Solar, Habitante do Deserto, Inimigo de Tenebra.
 Obrigações & Restrições: O devoto de Azgher deve manter o rosto sempre coberto (com uma máscara, capuz ou trapos). Sua face pode ser revelada apenas ao sumo-sacerdote ou em seu funeral. Devotos do Sol também devem doar para a igreja de Azgher 20% de qualquer tesouro obtido. Essa doação deve ser feita em ouro, seja na forma de moedas ou itens.
 ---
 Divindade: Hyninn
+Devotos: Hynne, goblins, sílfides, bardos, bucaneiros, ladinos, inventores, nobres.
 Crenças e Objetivos: Praticar a astúcia e a esperteza. Demonstrar que honestidade e sinceridade levam ao fracasso. Desafiar a lei e a ordem. Ser vitorioso sem seguir regras. Fazer aos outros antes que façam a você. Levar vantagem em tudo.
 Símbolo Sagrado: Uma adaga atravessando uma máscara, ou uma raposa.
 Canalizar Energia: Qualquer.
 Arma Preferida: Adaga.
-Devotos: Hynne, goblins, sílfides, bardos, bucaneiros, ladinos, inventores, nobres.
 Poderes Concedidos: Apostar com o Trapaceiro, Farsa do Fingidor, Forma de Macaco, Golpista Divino.
 Obrigações & Restrições: Um devoto de Hyninn não recusa participação em um golpe, trapaça ou artimanha (o que muitas vezes inclui missões para roubar... hã, resgatar tesouros), exceto quando prejudica seus próprios aliados. O devoto também deve fazer um ato furtivo, ousado ou proibido por dia (ou por sessão de jogo, o que demorar mais), como oferenda a Hyninn. Roubar uma bolsa, enganar um miliciano, invadir o quarto de um nobre... Em termos de jogo, uma ação exigindo um teste de Enganação ou Ladinagem com CD mínima 15 + metade do seu nível.
 ---
 Divindade: Kallyadranoch
+Devotos: Elfos, medusas, suraggel (sulfure), arcanistas, cavaleiros, guerreiros, lutadores, nobres.
 Crenças e Objetivos: Praticar a soberania. Demonstrara orgulho, superioridade, majestade. Praticar o acúmulo de riquezas. Proteger suas posses e sua dignidade. Ser implacável com seus inimigos. Reverenciar os dragões e suas crias.
 Símbolo Sagrado: Escamas de cinco cores diferentes.
 Canalizar Energia: Negativa.
 Arma Preferida: Lança.
-Devotos: Elfos, medusas, sulfure, arcanistas, cavaleiros, guerreiros, lutadores, nobres.
 Poderes Concedidos: Aura de Medo, Escamas Dracônicas, Presas Primordiais, Servos do Dragão.
 Obrigações & Restrições: Para subir de nível, além de acumular XP suficiente, o devoto de Kally deve realizar uma oferenda em tesouro. O valor é igual a 20% da diferença do dinheiro inicial do nível que vai alcançar para o nível atual (por exemplo, T$ 80 para subir para o 4° nível). Sabe-se, também, de devotos malignos que sacrificam vítimas a Kally (não permitido para personagens jogadores).
 ---
 Divindade: Khalmyr
+Devotos: Suraggel (aggelus), anão, cavaleiros, guerreiros, nobres, paladinos.
 Crenças e Objetivos: Praticar a caridade e o altruísmo. Defender a lei, a ordem e os necessitados. Combater a mentira, o crime e o mal. Oferecer clemência, perdão e redenção. Lutar o bom combate.
 Símbolo Sagrado: Espada sobreposta a uma balança.
 Canalizar Energia: Positiva.
 Arma Preferida: Espada longa.
-Devotos: Aggelus, anões, cavaleiros, guerreiros, nobres, paladinos.
 Poderes Concedidos: Coragem Total, Dom da Verdade, Espada Justiceira, Reparar Injustiça.
 Obrigações & Restrições: Devotos de Khalmyr não podem recusar pedidos de ajuda de pessoas inocentes. Também devem cumprir as ordens de superiores na hierarquia da igreja (devotos do Deus da Justiça de nível maior) e só podem usar itens mágicos permanentes criados por devotos do mesmo deus.
 ---
 Divindade: Luna
+Devotos: Dahllan, qareen, nobres, paladinos, mulheres (apenas).
 Crenças e Objetivos: Reverenciar e proteger a vida em todas as suas formas. Reverenciar a fertilidade, a fecundidade, a maternidade e a infância. Praticar a caridade e o altruísmo. Oferecer clemência, perdão e redenção. Aliviar a dor e o sofrimento físico, mental ou espiritual.
 Símbolo Sagrado: Lua crescente prateada.
 Canalizar Energia: Positiva.
 Arma Preferida: Não há. Servos desta deusa não podem lançar a magia Arma Espiritual e similares.
-Devotos: Dahllan, qareen, nobres, paladinos, mulheres (apenas).
 Poderes Concedidos: Ataque Piedoso, Aura Restauradora, Cura Gentil, Curandeira Perfeita.
 Obrigações & Restrições: Devotos de Lena não podem causar dano letal ou perda de PV a criaturas vivas (fornecer bônus em dano letal também é proibido). Podem causar dano não letal e prejudicar seus inimigos (em termos de jogo, impondo condições), desde que não causem dano letal ou perda de PV. Para um devoto de Lena, é preferível perder a própria vida a tirá-la de outros. Apenas mulheres podem ser devotas de Lena. Uma clériga precisa dar à luz pelo menos uma vez antes de receber seus poderes divinos. A fecundação é um mistério bem guardado pelas sacerdotisas; conta-se que a própria deusa vem semear suas discípulas. Paladinos de Lena podem ser homens (são os únicos devotos masculinos permitidos) ou mulheres.
 ---
 Divindade: Lin-Wu
+Devotos: anão, cavaleiros, guerreiros, nobres, paladinos.
 Crenças e Objetivos: Promover a honra acima de tudo. Proteger Tamu-ra e o Reinado de Arton. Praticar honestidade, coragem, cortesia e compaixão. Demonstrar integridade e dignidade. Ser leal a seus companheiros. Buscar redenção após cometer desonra.
 Símbolo Sagrado: Placa de metal com a silhueta de um dragão-serpente celestial.
 Canalizar Energia: Qualquer.
 Arma Preferida: Katana.
-Devotos: Anões, cavaleiros, guerreiros, nobres, paladinos.
 Poderes Concedidos: Coragem Total, Kiai Divino, Mente Vazia, Tradição de Lin-Wu.
 Obrigações & Restrições: Antigas proibições quanto a devotos estrangeiros ou do gênero feminino não mais se aplicam. No entanto, devotos de Lin-Wu ainda devem demonstrar comportamento honrado, jamais recorrendo a mentiras e subterfúgios. Em termos de jogo, são proibidos de tentar qualquer ação que exigiria um teste de Enganação, Furtividade ou Ladinagem.
 ---
 Divindade: Marah
+Devotos: Suraggel (aggelus), elfos, hynne, qareen, bardos, nobres, paladinos.
 Crenças e Objetivos: Praticar o amor e a gratidão pela vida e pela bondade. Promover a paz, harmonia e felicidade. Aliviar a dor e o sofrimento, trazer conforto aos aflitos. Praticar a caridade e o altruísmo. Oferecer clemência, perdão e redenção.
 Símbolo Sagrado: Um coração vermelho.
 Canalizar Energia: Positiva.
 Arma Preferida: Não há. Devotos desta deusa não podem lançar a magia Arma Espiritual e similares.
-Devotos: Aggelus, elfos, hynne, qareen, bardos, nobres, paladinos.
 Poderes Concedidos: Aura de Paz, Dom da Esperança, Palavras de Bondade, Talento Artístico.
 Obrigações & Restrições: Devotos de Marah não podem causar dano, perda de PV e condições a criaturas, exceto enfeitiçado, fascinado e pasmo (fornecer bônus em dano também é proibido). Em combate, só podem recorrer a ações como proteger ou curar — ou fugir, render-se ou aceitar a morte. Um devoto de Marah jamais vai causar violência, nem mesmo para se salvar.
 ---
 Divindade: Megalokk
+Devotos: Goblins, medusas, minotauros, suraggel (sulfure), trogs, bárbaros, caçadores, druidas, lutadores.
 Crenças e Objetivos: Praticar a violência, a soberania do mais forte. Jamais reprimir os próprios instintos e desejos. Jamais ser domado, desafiar qualquer forma de controle. Jamais oferecer perdão ou rendição. Eliminar os fracos. Destruir seus inimigos.
 Símbolo Sagrado: A garra de um monstro.
 Canalizar Energia: Negativa.
 Arma Preferida: Maça.
-Devotos: Goblins, medusas, minotauros, sulfure, trogs, bárbaros, caçadores, druidas, lutadores.
 Poderes Concedidos: Olhar Amedrontador, Presas Primordiais, Urro Divino, Voz dos Monstros.
 Obrigações & Restrições: Devotos de Megalokk devem rejeitar os modos civilizados e se entregar à ferocidade, descontrole e impaciência. Você é proibido de usar perícias baseadas em Inteligência ou Carisma (exceto Adestramento e Intimidação) e não pode preparar uma ação, escolher 10 ou 20 em testes e lançar magias sustentadas (pois são ações que exigem foco e paciência).
 ---
 Divindade: Nimb
+Devotos: Goblins, qareen, sílfides, arcanistas, bárbaros, bardos, bucaneiros, inventores, ladinos.
 Crenças e Objetivos: Reverenciar o caos, a aleatoriedade, a sorte e o azar. Praticar a ousadia e a rebeldia, desafiar regras e leis. Rejeitar o bom senso. Tornar o mundo mais interessante. Ou divertido. Ou terrível. Ou não.
 Símbolo Sagrado: Um dado de seis faces.
 Canalizar Energia: Qualquer.
 Arma Preferida: Nenhuma e todas! Ao usar um efeito que dependa de arma preferida, qualquer arma (ou outro objeto!) pode aparecer, de acordo com o mestre.
-Devotos: Goblins, qareen, sílfides, arcanistas, bárbaros, bardos, bucaneiros, inventores, ladinos.
 Poderes Concedidos: Êxtase da Loucura, Poder Oculto, Sorte dos Loucos, Transmissão da Loucura.
 Obrigações & Restrições: Por serem incapazes de seguir regras, estes devotos não têm “obrigações” verdadeiras (portanto, nunca perdem PM por descumprirem suas O&R). No entanto, sofrem certas restrições que não podem ignorar. Devotos de Nimb são loucos (ou agem como se fossem), não conseguindo convencer ninguém de coisa alguma. Você sofre –5 em testes de perícias baseadas em Carisma. Além disso, no início de cada cena de ação, role 1d6. Com um resultado 1, você fica confuso (mesmo que seja imune a esta condição).
 ---
 Divindade: Oceano
+Devotos: Dahllan, hynne, minotauros, sereias/tritões, bárbaros, bucaneiros, caçadores, druidas.
 Crenças e Objetivos: Reverenciar os mares, o oceano e os seres que ali habitam. Promover harmonia entre o oceano e o mundo seco. Proteger os seres marinhos, mas também os seres do mundo seco que se aventuram sobre as ondas. Demandar devido respeito ao mar e seu poder.
 Símbolo Sagrado: Uma concha.
 Canalizar Energia: Qualquer.
 Arma Preferida: Tridente.
-Devotos: Dahllan, hynne, minotauros, sereias/tritões, bárbaros, bucaneiros, caçadores, druidas.
 Poderes Concedidos: Anfíbio, Arsenal das Profundezas, Mestre dos Mares, Sopro do Mar.
 Obrigações & Restrições: As únicas armas permitidas para devotos do Oceano são a azagaia, a lança, o tridente e a rede. Podem usar apenas armaduras leves. O devoto também não pode se manter afastado do oceano por mais de um mês.
 ---
 Divindade: Sszzaas
+Devotos: Medusas, arcanistas, bardos, bucaneiros, inventores, ladinos, nobres.
 Crenças e Objetivos: Praticar a mentira e a trapaça. Buscar sempre a solução mais inteligente. Demonstrar que lealdade e confiança são fraquezas, devem ser eliminadas. Promover competição, rivalidade, desconfiança. Usar os recursos do inimigo para alcançar seus objetivos. Levar outros a se sacrificarem em seu lugar.
 Símbolo Sagrado: Uma naja vertendo veneno pelas presas.
 Canalizar Energia: Negativa.
 Arma Preferida: Adaga.
-Devotos: Medusas, arcanistas, bardos, bucaneiros, inventores, ladinos, nobres.
 Poderes Concedidos: Astúcia da Serpente, Familiar Ofídico, Presas Venenosas, Sangue Ofídico.
 Obrigações & Restrições: O devoto deve fazer um ato de traição, intriga ou corrupção por dia (ou por sessão de jogo, o que demorar mais) como oferenda a Sszzaas. Pouco importa se o alvo é aliado ou inimigo — uns poucos sszzaazitas usam seus métodos torpes para ajudar colegas aventureiros em suas missões, às vezes sem que eles próprios saibam. Sugerir a alguém que foi traído pelo cônjuge, influenciar um guarda a aceitar suborno, instruir um mercador a roubar nos preços, incriminar alguém por um crime que não cometeu, enganar um guerreiro para que mate um oponente rendido e inofensivo... Em termos de jogo, uma ação exigindo um teste de Enganação com CD mínima 15 + metade do seu nível.
 ---
 Divindade: Tanna-Toh
+Devotos: Golem, kliren, arcanistas, bardos, inventores, nobres, paladinos.
 Crenças e Objetivos: Reverenciar a mente racional, o conhecimento, a civilização, a verdade. Proteger o progresso, o avanço dos povos civilizados. Promover o ensino e a prática das artes e das ciências. Solucionar todos os mistérios, revelar todas as mentiras. Buscar novo conhecimento. Não tolerar a ignorância.
 Símbolo Sagrado: Pergaminho e pena.
 Canalizar Energia: Qualquer.
 Arma Preferida: Bordão.
-Devotos: Golens, kliren, arcanistas, bardos, inventores, nobres, paladinos.
 Poderes Concedidos: Conhecimento Enciclopédico, Mente Analítica, Pesquisa Abençoada, Voz da Civilização.
 Obrigações & Restrições: Devotos de Tanna-Toh jamais podem recusar uma missão que envolva a busca por um novo conhecimento ou informação; investigar rumores sobre um livro perdido, procurar uma aldeia lendária, pesquisar os hábitos de uma criatura desconhecida... Além disso, o devoto sempre deve dizer a verdade e nunca pode se recusar a responder uma pergunta direta, pouco importando as consequências. É proibido para ele esconder qualquer conhecimento.
 ---
 Divindade: Tenebra
+Devotos: anão, medusas, qareen, osteon, suraggel (sulfure), trogs, arcanistas, bardos, ladinos.
 Crenças e Objetivos: Reverenciar a noite, a escuridão, a lua e as estrelas. Proteger segredos e mistérios, proteger tudo que é oculto e invisível. Reverenciar a não vida e os mortos-vivos, propagar a prática da necromancia. Rejeitar o sol e a luz.
 Símbolo Sagrado: Estrela negra de cinco pontas.
 Canalizar Energia: Negativa.
 Arma Preferida: Adaga.
-Devotos: Anões, medusas, qareen, osteon, sulfure, trogs, arcanistas, bardos, ladinos.
 Poderes Concedidos: Carícia Sombria, Manto da Penumbra, Visão nas Trevas, Zumbificar.
 Obrigações & Restrições: Tenebra proíbe que seus devotos sejam tocados por Azgher, o odiado rival. O devoto deve se cobrir inteiramente durante o dia, sem expor ao sol nenhum pedaço de pele.
 ---
 Divindade: Thwor
+Devotos: Qualquer duyshidakk (veja abaixo).
 Crenças e Objetivos: Reverenciar a lealdade, a força e a coragem. Promover a união entre goblins, hobgoblins, bugbears, orcs, ogros e outros povos humanoides. Reverenciar o caos, a mutação, a vida sempre em movimento. Proteger a cultura e o modo de vida goblinoide. Destruir os elfos.
 Símbolo Sagrado: Um grande punho fechado.
 Canalizar Energia: Qualquer.
 Arma Preferida: Machado de guerra.
-Devotos: Qualquer duyshidakk (veja abaixo).
 Poderes Concedidos: Almejar o Impossível, Fúria Divina, Olhar Amedrontador, Tropas Duyshidakk.
 Obrigações & Restrições: Não importando sua raça, o devoto de Thwor deve ser duyshidakk, ou seja, aceito como membro do povo goblinoide. Também deve se esforçar para que o "Mundo Como Deve Ser" tome o continente (veja a página 386). Deve sempre procurar fazer alianças com goblinoides e só lutar contra eles em último caso.
 ---
 Divindade: Thyatis
-Crenças e Objetivos. Proteger a vida e aqueles necessitados de novas chances. Renegar a morte e a mentira. Ajudar os perdidos a encontrar seus caminhos e alcançar seus destinos. Oferecer clemência, perdão e redenção.
-Símbolo Sagrado. Uma ave fênix.
-Canalizar Energia. Positiva.
-Arma Preferida. Espada longa.
-Devotos. Aggelus, cavaleiros, guerreiros, inventores, lutadores, paladinos.
-Poderes Concedidos. Ataque Piedoso, Dom da Imortalidade, Dom da Profecia, Dom da Ressurreição.
-Obrigações & Restrições. Devotos de Thyatis são proibidos de matar criaturas inteligentes (Int –3 ou maior). Podem atacar e causar dano, mas jamais levar à morte. Por esse motivo, devotos de Thyatis preferem armas e ataques que apenas incapacitam seus oponentes ou causam dano não letal.
+Devotos: Suraggel (aggelus), cavaleiros, guerreiros, inventores, lutadores, paladinos.
+Crenças e Objetivos: Proteger a vida e aqueles necessitados de novas chances. Renegar a morte e a mentira. Ajudar os perdidos a encontrar seus caminhos e alcançar seus destinos. Oferecer clemência, perdão e redenção.
+Símbolo Sagrado: Uma ave fênix.
+Canalizar Energia: Positiva.
+Arma Preferida: Espada longa.
+Poderes Concedidos: Ataque Piedoso, Dom da Imortalidade, Dom da Profecia, Dom da Ressurreição.
+Obrigações & Restrições: Devotos de Thyatis são proibidos de matar criaturas inteligentes (Int –3 ou maior). Podem atacar e causar dano, mas jamais levar à morte. Por esse motivo, devotos de Thyatis preferem armas e ataques que apenas incapacitam seus oponentes ou causam dano não letal.
 ---
 Divindade: Valkaria
-Crenças e Objetivos. Praticar o otimismo, a evolução, a rebeldia. Desafiar limites, almejar o impossível. Combater o mal, a opressão e a tirania. Proteger a liberdade. Aceitar o novo e diferente e adaptar-se a ele. Demonstrar ambição, paixão e coragem. Desfrutar e amar a vida.
-Símbolo Sagrado. A Estátua de Valkaria ou seis faixas entrelaçadas.
-Canalizar Energia. Positiva.
-Arma Preferida. Mangual.
-Devotos. Aventureiros; membros de todas as classes podem ser devotos de Valkaria.
-Poderes Concedidos. Almejar o Impossível, Armas da Ambição, Coragem Total, Liberdade Divina.
-Obrigações & Restrições. Valkaria odeia o conformismo. Seus devotos são proibidos de fixar moradia em um mesmo lugar, não podendo permanecer mais de 2d10+10 dias na mesma cidade (ou vila, aldeia, povoado...) ou 1d4+2 meses no mesmo reino. Devotos de Valkaria também são proibidos de se casar ou formar qualquer união estável.
+Devotos: Aventureiros; membros de todas as classes podem ser devotos de Valkaria.
+Crenças e Objetivos: Praticar o otimismo, a evolução, a rebeldia. Desafiar limites, almejar o impossível. Combater o mal, a opressão e a tirania. Proteger a liberdade. Aceitar o novo e diferente e adaptar-se a ele. Demonstrar ambição, paixão e coragem. Desfrutar e amar a vida.
+Símbolo Sagrado: A Estátua de Valkaria ou seis faixas entrelaçadas.
+Canalizar Energia: Positiva.
+Arma Preferida: Mangual.
+Poderes Concedidos: Almejar o Impossível, Armas da Ambição, Coragem Total, Liberdade Divina.
+Obrigações & Restrições: Valkaria odeia o conformismo. Seus devotos são proibidos de fixar moradia em um mesmo lugar, não podendo permanecer mais de 2d10+10 dias na mesma cidade (ou vila, aldeia, povoado...) ou 1d4+2 meses no mesmo reino. Devotos de Valkaria também são proibidos de se casar ou formar qualquer união estável.
 ---
 Divindade: Wynna
-Crenças e Objetivos. Reverenciar a magia arcana e seus praticantes. Promover o ensino da magia. Usar a magia para proteger os necessitados e trazer felicidade ao mundo.
-Símbolo Sagrado. Um anel metálico.
-Canalizar Energia. Qualquer.
-Arma Preferida. Adaga.
-Devotos. Elfos, golens, qareen, sílfides, arcanistas, bardos.
-Poderes Concedidos. Bênção do Mana, Centelha Mágica, Escudo Mágico, Teurgista Místico.
-Obrigações & Restrições. Assim como a magia jamais deva ser negada para quem a busca, devotos de Wynna devem praticar a bondade e a generosidade de sua deusa, jamais recusando um pedido de ajuda de alguém inocente. Além disso, devotos de Wynna são proibidos de matar seres mágicos (elfos, qareen, sílfides e outros a critério do mestre) e conjuradores arcanos.
+Devotos: Elfos, golem, qareen, sílfides, arcanistas, bardos.
+Crenças e Objetivos: Reverenciar a magia arcana e seus praticantes. Promover o ensino da magia. Usar a magia para proteger os necessitados e trazer felicidade ao mundo.
+Símbolo Sagrado: Um anel metálico.
+Canalizar Energia: Qualquer.
+Arma Preferida: Adaga.
+Poderes Concedidos: Bênção do Mana, Centelha Mágica, Escudo Mágico, Teurgista Místico.
+Obrigações & Restrições: Assim como a magia jamais deva ser negada para quem a busca, devotos de Wynna devem praticar a bondade e a generosidade de sua deusa, jamais recusando um pedido de ajuda de alguém inocente. Além disso, devotos de Wynna são proibidos de matar seres mágicos (elfos, qareen, sílfides e outros a critério do mestre) e conjuradores arcanos.
 ---
