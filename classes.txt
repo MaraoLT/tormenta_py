@@ -1,4 +1,4 @@
-['arcanista', 'barbaro', 'bardo', 'bucaneiro', 'cacador', 'cavaleiro', 'clerigo', 'druida', 'guerreiro', 'inventor', 'ladino', 'lutador', 'nobre', 'paladino']
+['Arcanista', 'Bárbaro', 'Bardo', 'Bucaneiro', 'Caçador', 'Cavaleiro', 'Clérigo', 'Druida', 'Guerreiro', 'Inventor', 'Ladino', 'Lutador', 'Nobre', 'Paladino']
 Classe: Arcanista
 Descricao: Um conjurador de magias arcanas, por meio de estudo, um foco ou dom natural.
 Atributo: Inteligencia ou Carisma
@@ -28,7 +28,7 @@ Habilidades de Classe:
 19- Poder de arcanista
 20- Alta arcana, poder de arcanista
 ---
-Classe: Barbaro
+Classe: Bárbaro
 Descricao: Um combatente primitivo, que usa fúria e instintos para destruir seus inimigos.
 Atributo: Forca
 PV: 24
@@ -115,7 +115,7 @@ Habilidades de Classe:
 19- Esquiva sagaz +5, poder de bucaneiro
 20- Poder de bucaneiro, sorte de Nimb
 ---
-Classe: Cacador
+Classe: Caçador
 Descricao: Um exterminador de monstros e mestre da sobrevivência em áreas selvagens.
 Atributo: Forca ou Destreza
 PV: 16
@@ -173,7 +173,7 @@ Habilidades de Classe:
 19- Poder de cavaleiro
 20- Bravura final, poder de cavaleiro
 ---
-Classe: Clerigo
+Classe: Clérigo
 Descricao: Servo de um dos deuses de Arton, usa poderes divinos para defender seus ideais.
 Atributo: Sabedoria
 PV: 16
@@ -352,7 +352,7 @@ Descricao: Um membro da alta sociedade cujas principais armas são as palavras e
 Atributo: Carisma
 PV: 16
 PM: 4
-Pericias: Diplomacia (Car) OU Intimidação (Car), Vontade (Sab), escolha 4 entre: Adestramento (Car), Atuação (Car), Cavalgar (Des), Conhecimento (Int), Diplomacia (Car), Enganação (Car), Fortitude (Con), Guerra (Int), Iniciativa (Des), Intimidação (Car), Intuição (Sab), Investiga- ção (Int), Jogatina (Car), Luta (For), Nobreza (Int), Ofício (Int), Percepção (Sab), Pontaria (Des).
+Pericias: Diplomacia (Car) OU Intimidação (Car), Vontade (Sab), escolha 4 entre: Adestramento (Car), Atuação (Car), Cavalgar (Des), Conhecimento (Int), Diplomacia (Car), Enganação (Car), Fortitude (Con), Guerra (Int), Iniciativa (Des), Intimidação (Car), Intuição (Sab), Investiga- ção (Int), Jogatina (Car), Luta (For), Nobreza (Int), Ofício (Int), Percepção (Sab), Pontaria (Des)
 Proficiencias: Armas marciais, armaduras pesadas e escudos.
 Habilidades de Classe:
 1- Autoconfiança, espólio, orgulho
@@ -411,6 +411,6 @@ Atributo:
 PV: 
 PM: 
 Pericias: 
-Proficiencias: Nenhuma
+Proficiencias:
 Habilidades de Classe:
 ---

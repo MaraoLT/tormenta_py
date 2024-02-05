@@ -31,7 +31,7 @@ Criação de Personagem:
 05-[] Escolhendo divindade (opcional): 20 divindades
     -[X] Adquirir as infos de divindades.txt para serem usadas 
     -[X] Apenas certas classes ou raças podem ser devotos de certas divindades
-06-[] Escolhendo Pericias
+06-[] Escolhendo Pericias: 30 perícias
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
 08-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
 09-[] Salvar personagem criado em arquivo nome_personagem.txt
@@ -52,6 +52,12 @@ Anotações gerais:
 '''
 
 nomes_atributos = ['forca', 'destreza', 'constituicao', 'inteligencia', 'sabedoria', 'carisma']
+
+
+@dataclass
+class Palavra:
+    singular: str = ''
+    plural: str = ''
 
 
 #FUNÇÃO DOS DADOS
@@ -93,32 +99,36 @@ def formatacao(texto):
     return remove_acentos(texto.lower().strip())
 
 
-def escolhe_categoria(categoria, nomes_categoria, genero = 0):
-    if genero == 1: print(f'Escolha o seu {categoria} dentre: ')
-    else: print(f'Escolha a sua {categoria} dentre: ')
-    for nome_categoria in nomes_categoria:
-        print(f'-{nome_categoria}')
-    print()
-
-    achou = False
-    while True:
-        item_escolhido = remove_acentos(input().lower())
+def escolhe_categoria(categoria, nomes_categoria, n_escolhas = 1, escolhidos = [], genero = 0):
+    i = 0
+    while i < n_escolhas:
+        print(f'\nEscolha {n_escolhas-i} ', end='')
+        if n_escolhas > 1: print(f'{categoria.plural} dentre: ')
+        else: print(f'{categoria.singular} dentre: ')
+        for nome_categoria in nomes_categoria:
+            if nome_categoria not in escolhidos:
+                print(f'-{nome_categoria.title()}')
+        item_escolhido = formatacao(input())
+        encontrou = False
         for nome_categoria in nomes_categoria:
             if item_escolhido in formatacao(nome_categoria):
-                item_escolhido = nome_categoria
-                achou = True
-                break
-        if not achou:
-            if genero == 1: print(f'{item_escolhido.title()} não é um {categoria} existente, tente novamente.')
-            else: print(f'{item_escolhido.title()} não é uma {categoria} existente, tente novamente.')
-        else:
-            break
-    
-    if genero == 1: print(f'{categoria.title()} escolhido: {item_escolhido.upper()}')
-    else: print(f'{categoria.title()} escolhida: {item_escolhido.upper()}')
-    
-    
-    return item_escolhido
+                if nome_categoria not in escolhidos:
+                    escolhidos.append(nome_categoria)
+                    i += 1
+                    if genero: print(f'{categoria.singular.title()} escolhido: {nome_categoria.title()}')
+                    else: print(f'{categoria.singular.title()} escolhida: {nome_categoria.title()}')
+                    encontrou = True
+                    break
+                else:
+                    print(f'{nome_categoria.title()} já foi escolhido!')
+                    encontrou = True
+                    break
+        if not encontrou:
+            print(f'{item_escolhido.title()} não é um item válido!')
+
+    return escolhidos
+
+
 
 
 @dataclass 
@@ -164,11 +174,9 @@ penalidade_treino = ['adestramento', 'atuação', 'conhecimento', 'guerra', 'jog
 penalidade_armadura = ['acrobacia', 'furtividade', 'ladinagem']
 @dataclass
 class Pericia:
-    nome: str = ''
     atributo: str = ''
     treinada: bool = False
-    penalidade_treino: int = 0 
-    penalidade_armadura: int = 0
+    modificadores: DefaultDict[str, int] = field(default_factory=dict)
     
 
 # aqui eu vou escrever todas as habilidades em codigo
@@ -259,32 +267,34 @@ class Classe:
             elif escolha.match(pericias_txt):
                 n_escolhas = int(escolha.match(pericias_txt).group(1))
                 pericias_txt = pericias_txt[pericias_txt.index(':')+2:].strip('\n').strip().split(', ')
-                i = 0
                 
-                while i < n_escolhas:
-                    print(f'\nEscolha {n_escolhas-i} perícias dentre: ')
-                    for pericia in pericias_txt:
-                        if pericia not in pericias_finais:
-                            print(f'-{pericia.title()}')
-                    resp = input()
-                    encontrou = False
-                    for pericia in pericias_txt:
-                        if resp in pericia:
-                            if pericia not in pericias_finais:
-                                pericias_finais.append(pericia)
-                                i += 1
-                                print(f'Perícia em {pericia.title()} ')
-                                encontrou = True
-                            else:
-                                print(f'Esta perícia já foi escolhida!')
-                                encontrou = True
-                    if not encontrou:
-                        print(f'{resp.title()} não é uma perícia válida!')
+                pericias_finais = escolhe_categoria(Palavra('perícia', 'perícias'), pericias_txt, n_escolhas, pericias_finais, genero = 0)
+                # i = 0
+                # while i < n_escolhas:
+                #     print(f'\nEscolha {n_escolhas-i} perícias dentre: ')
+                #     for pericia in pericias_txt:
+                #         if pericia not in pericias_finais:
+                #             print(f'-{pericia.title()}')
+                #     resp = input()
+                #     encontrou = False
+                #     for pericia in pericias_txt:
+                #         if resp in pericia:
+                #             if pericia not in pericias_finais:
+                #                 pericias_finais.append(pericia)
+                #                 i += 1
+                #                 print(f'Perícia em {pericia.title()} ')
+                #                 encontrou = True
+                #             else:
+                #                 print(f'Esta perícia já foi escolhida!')
+                #                 encontrou = True
+                #     if not encontrou:
+                #         print(f'{resp.title()} não é uma perícia válida!')
             else:
                 pericias_finais.append(pericias_txt)
                 print(f'Perícia em {pericias_txt.title()}.')
 
         self.pericias = pericias_finais
+
 
 
     def imprime(self):
@@ -321,7 +331,19 @@ class Origem:
 
 
     def escolhe_beneficios(self, beneficios):
-        pass
+        beneficios = beneficios.split('; ')
+        beneficios[0] = beneficios[0].split(', ')
+        beneficios[1] = beneficios[1].split(', ')
+        for i in range(2):
+            for j in range(len(beneficios[i])):
+                if i == 1: beneficios[i][j] = beneficios[i][j] + ' (perícia)'
+                else: beneficios[i][j] = beneficios[i][j] + ' (poder)'
+        beneficios = beneficios[0] + beneficios[1]
+
+        for beneficio in beneficios:
+            print(f'-{beneficio}')
+
+
 
 
     def imprime(self):
@@ -349,7 +371,7 @@ class Divindade:
 
     def verifica_devotos(self, raca, classe, devotos):
         for devoto in devotos:
-            if raca in devoto or classe in devoto:
+            if formatacao(raca) in formatacao(devoto) or formatacao(classe) in formatacao(devoto):
                 return True
         
         print(f'Infelizmente você não pode ser devoto dessa divindade, pois apenas {devotos} podem ser devotos.')
@@ -397,6 +419,23 @@ dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder m
                                  e beleza. O Carisma é aplicado em testes de Adestramento, Atuação, Diplomacia,\
                                  Enganação, Intimidação e Jogatina.',\
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
+
+dicionario_pericias = {'Acrobacia': Pericia('destreza', False, dict()), 'Adestramento': Pericia('carisma', False, dict()), 
+                       'Atletismo': Pericia('forca', False, dict()), 'Atuação': Pericia('carisma', False, dict()),
+                       'Cavalgar': Pericia('destreza', False, dict()), 'Conhecimento': Pericia('inteligencia', False, dict()),
+                       'Conhecimento': Pericia('inteligencia', False, dict()), 'Cura': Pericia('sabedoria', False, dict()),
+                       'Diplomacia': Pericia('carisma', False, dict()), 'Enganação': Pericia('carisma', False, dict()),
+                       'Fortitude': Pericia('constituicao', False, dict()), 'Furtividade': Pericia('destreza', False, dict()),
+                       'Guerra': Pericia('inteligencia', False, dict()), 'Iniciativa': Pericia('destreza', False, dict()),
+                       'Intimidação': Pericia('carisma', False, dict()), 'Intuição': Pericia('sabedoria', False, dict()),
+                       'Investigação': Pericia('inteligencia', False, dict()), 'Jogatina': Pericia('Carisma', False, dict()),
+                       'Ladinagem': Pericia('destreza', False, dict()), 'Luta': Pericia('forca', False, dict()),
+                       'Misticismo': Pericia('inteligencia', False, dict()), 'Nobreza': Pericia('inteligencia', False, dict()),
+                       'Ofício': Pericia('inteligencia', False, dict()), 'Percepção': Pericia('sabedoria', False, dict()),
+                       'Pilotagem': Pericia('destreza', False, dict()), 'Pontaria': Pericia('destreza', False, dict()),
+                       'Reflexos': Pericia('destreza', False, dict()), 'Religião': Pericia('sabedoria', False, dict()),
+                       'Sobrevivência': Pericia('sabedoria', False, dict()), 'Vontade': Pericia('sabedoria', False, dict())}
+
 raca_default = Raca('', '', '')
 classe_default = Classe('', '', [], 0, 0, [], [], [])
 pontos_default1 = Pontos(0, 0, 0)
@@ -419,6 +458,8 @@ class Personagem:
     origem: Origem() = origem_default
     divindade: Divindade() = divindade_default
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
+    pericias: DefaultDict[str, Pericia] = field(default_factory=dict)
+    habilidades_poderes: DefaultDict[str, str] = field(default_factory=dict)
     PV: Pontos() = pontos_default1
     PM: Pontos() = pontos_default2
     defesa: int = 0
@@ -668,12 +709,12 @@ class Personagem:
     def escolhe_raca(self):
         nomes_racas, linhas = abre_arquivo('racas.txt')
         raca = Raca(habilidades=[])
-        raca_escolhida = escolhe_categoria('raça', nomes_racas)
+        raca_escolhida = escolhe_categoria(Palavra('raça', 'raças'), nomes_racas, escolhidos=[])[0]
 
         achou = False
         for linha in linhas:
             if not achou:
-                if 'nome: ' + raca_escolhida in linha.lower():
+                if 'Nome: ' + raca_escolhida in linha:
                     raca.nome = raca_escolhida
                     achou = True
             else:
@@ -708,18 +749,22 @@ class Personagem:
         else:
             print('Parece que sua seu personagem já tem PMs! Alterações de classe não serão feitas!')
 
+        # Perícias
+        for pericia_classe in self.classe.pericias:
+            self.pericias[pericia_classe[:-6].strip().title()].treinada = True
+
 
     def escolhe_classe(self):
         nomes_classes, linhas = abre_arquivo('classes.txt')
         classe = Classe(pericias=[], proficiencias=[])
-        classe_escolhida = escolhe_categoria('classe', nomes_classes)
+        classe_escolhida = escolhe_categoria(Palavra('classe', 'classes'), nomes_classes, escolhidos=[])[0]
 
         achou = False
         nivel = 1
         habilidades_classe = []
         for linha in linhas:
             if not achou:
-                if 'classe: ' + classe_escolhida in linha.lower():
+                if 'Classe: ' + classe_escolhida in linha:
                     classe.nome = classe_escolhida
                     achou = True
             else:
@@ -753,7 +798,7 @@ class Personagem:
         
         '''
         nomes_origens, linhas = abre_arquivo('origens.txt')
-        origem_escolhida = escolhe_categoria('origem', nomes_origens)
+        origem_escolhida = escolhe_categoria(Palavra('origem', 'origens'), nomes_origens, escolhidos=[])[0]
         
         origem = Origem(beneficios=[], itens=[])
         achou = False
@@ -789,7 +834,7 @@ oportunidade de virar seguidor de alguma divindade.')
             devoto = False
             while not devoto:
                 nomes_divindades, linhas = abre_arquivo('divindades.txt')
-                divindade_escolhida = escolhe_categoria('divindade', nomes_divindades)
+                divindade_escolhida = escolhe_categoria(Palavra('divindade', 'divindades'), nomes_divindades, escolhidos=[])[0]
 
                 divindade = Divindade(devotos=[], poderes=[])
                 achou = False
@@ -816,7 +861,7 @@ oportunidade de virar seguidor de alguma divindade.')
                         elif 'arma preferida: ' in formatacao(linha):
                             divindade.arma = linha[len('Arma Preferida: '):].strip().strip('\n')
                         elif 'poderes concedidos: ' in formatacao(linha):
-                            divindade.poderes.append(escolhe_categoria('poder', linha[len('Poderes Concedidos: '):].strip().strip('\n').strip('.').split(', '), 1))
+                            divindade.poderes.append(escolhe_categoria(Palavra('poder', 'poderes'), linha[len('Poderes Concedidos: '):].strip().strip('\n').strip('.').split(', '), escolhidos = [], genero = 1)[0])
                         elif 'obrigacoes & restricoes' in formatacao(linha):
                             divindade.obrigacoes_restricoes = linha[len('Obrigações & Restrições: '):].strip().strip('\n')
                         elif '---' in linha:
@@ -839,33 +884,11 @@ oportunidade de virar seguidor de alguma divindade.')
         self.imprime()
 
 
-# melhor usar como dicionario e fazer uma classe chamada 'pericia'
-# class Pericias:
-#     def __init__(self) -> None:
-#         self.acrobacia = acrobacia
-#         self.adestramento = adestramento
-#         self.atletismo = atletismo
-#         self.atuacao = atuacao
-#         self.cavalgar = cavalgar
-#         self.conhecimento = conhecimento
-#         self.cura = cura
-#         self.diplomacia = diplomacia
-#         self.enganacao = enganacao
-#         self.fortitude = fortitude
-#         self.furtividade = furtividade
-#         self.guerra = guerra
-#         self.iniciativa = iniciativa
-#         self.intimidacao = intimidacao
-#         self.intuicao = intuicao
-#         self.investigacao = investigacao
-#         self.jogatina = jogatina
-
-
 def criar_personagem():
     nome = input('Digite o nome do seu personagem: ').title()
     jogador = input('Qual o nome do jogador desse personagem? ').title()
     print()
-    personagem = Personagem(nome=nome, jogador=jogador, atributos=dicionario_atributos)
+    personagem = Personagem(nome=nome, jogador=jogador, atributos=dicionario_atributos, pericias=dicionario_pericias)
 
     return personagem
 
@@ -873,13 +896,6 @@ def criar_personagem():
 def main():
     personagem = criar_personagem()
     personagem.escolhas()
-    # personagem.define_atributos()
-    # personagem.escolhe_raca()
-    # personagem.raca.imprime()
-    # personagem.escolhe_classe()
-    # personagem.classe.imprime()
-    # personagem.imprime()
-    # gustavo.imprime_atributos()
 
 
 if __name__ == "__main__":

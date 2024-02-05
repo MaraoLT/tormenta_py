@@ -1,10 +1,10 @@
-['humano', 'anao', 'dahllan', 'elfo', 'goblin', 'lefou', 'minotauro', 'qarren', 'golem', 'hynne', 'kliren', 'medusa', 'osteon', 'sereia/tritao', 'silfide', 'suraggel (aggelus)', 'suraggel (sulfure)', 'trog']
+['Humano', 'Anão', 'Dahllan', 'Elfo', 'Goblin', 'Lefou', 'Minotauro', 'Qarren', 'Golem', 'Hynne', 'Kliren', 'Medusa', 'Osteon', 'Sereia/tritão', 'Sílfide', 'Suraggel (aggelus)', 'Suraggel (sulfure)', 'Trog']
 Nome: Humano
 Atributos: escolhe 3
 Habilidades:
  Versátil. Você se torna treinado em duas perícias a sua escolha (não precisam ser da sua classe). Você pode trocar uma dessas perícias por um poder geral a sua escolha.
 ---
-Nome: Anao
+Nome: Anão
 Atributos: constituicao 2, sabedoria 1, destreza -1
 Habilidades:
  Conhecimento das Rochas. Você recebe visão no escuro e +2 em testes de Percepção e Sobrevivência realizados no subterrâneo.
@@ -93,14 +93,14 @@ Habilidades:
  Natureza Esquelética. Você é uma criatura do tipo morto-vivo. Recebe visão no escuro e imunidade a efeitos de cansaço, me-o tabólicos, de trevas e de veneno. Além disso, não precisa respirar, alimentar-se ou dormir. Por fim, efeitos mágicos de cura de luz causam dano a você e você não se beneficia de itens da categoria alimentação, mas dano de trevas recupera seus PV.
  Preço da Não Vida. Você precisa passar oito horas sob a luz de estrelas ou no subterrâneo. Se fizer isso, recupera PV e PM por descanso em condições normais (osteon não são afetados por condições boas ou ruins de descanso). Caso contrário, sofre os efeitos de fome.
 ---
-Nome: Sereia/Tritao
+Nome: Sereia/Tritão
 Atributos: escolhe 3
 Habilidades:
  Canção dos Mares. Você pode lançar duas das magias a seguir: Amedrontar, Comando, Despedaçar, Enfeitiçar, Hipnotismo ou Sono (atributo-chave Carisma). Caso aprenda novamente uma dessas magias, seu custo diminui em –1 PM. @
  Mestre do Tridente. Para você, o tridente é uma arma simples. Além disso, você recebe +2 em rolagens de dano com azagaias, lanças e tridentes.
  Transformação Anfíbia. Você pode respirar debaixo d’água e possui uma cauda que fornece deslocamento de natação 12m. Quando fora d’água, sua cauda desaparece e dá lugar a pernas (deslocamento 9m). Se permanecer mais de um dia sem contato com água, você não recupera PM com descanso até voltar para a água (ou, pelo menos, tomar um bom banho!).
 ---
-Nome: Silfide
+Nome: Sílfide
 Atributos: carisma 2, destreza 1, forca -2
 Habilidades:
  Asas de Borboleta. Seu tamanho é Minúsculo. Você pode pairar a 1,5m do chão com deslocamento 9m. Isso permite que você ignore terreno difícil e o torna imune a dano por queda (a menos que esteja inconsciente). Você pode gastar 1 PM por rodada para voar com deslocamento de 12m.
