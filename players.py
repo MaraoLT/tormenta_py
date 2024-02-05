@@ -52,6 +52,11 @@ Anotações gerais:
 '''
 
 nomes_atributos = ['forca', 'destreza', 'constituicao', 'inteligencia', 'sabedoria', 'carisma']
+nomes_pericias = {'Acrobacia', 'Adestramento', 'Atletismo', 'Atuação', 'Cavalgar', 'Conhecimento',
+                       'Conhecimento', 'Cura', 'Diplomacia', 'Enganação', 'Fortitude', 'Furtividade',
+                       'Guerra', 'Iniciativa', 'Intimidação', 'Intuição', 'Investigação', 'Jogatina',
+                       'Ladinagem', 'Luta', 'Misticismo', 'Nobreza', 'Ofício', 'Percepção',
+                       'Pilotagem', 'Pontaria', 'Reflexos', 'Religião', 'Sobrevivência', 'Vontade'}
 
 
 @dataclass
@@ -99,20 +104,21 @@ def formatacao(texto):
     return remove_acentos(texto.lower().strip())
 
 
-def escolhe_categoria(categoria, nomes_categoria, n_escolhas = 1, escolhidos = [], genero = 0):
+def escolhe_categoria(categoria, nomes_categoria, n_escolhas = 1, escolhidos_antes = [], genero = 0):
     i = 0
+    escolhidos = []
     while i < n_escolhas:
         print(f'\nEscolha {n_escolhas-i} ', end='')
         if n_escolhas > 1: print(f'{categoria.plural} dentre: ')
         else: print(f'{categoria.singular} dentre: ')
         for nome_categoria in nomes_categoria:
-            if nome_categoria not in escolhidos:
+            if nome_categoria not in escolhidos and nome_categoria not in escolhidos_antes:
                 print(f'-{nome_categoria.title()}')
         item_escolhido = formatacao(input())
         encontrou = False
         for nome_categoria in nomes_categoria:
             if item_escolhido in formatacao(nome_categoria):
-                if nome_categoria not in escolhidos:
+                if nome_categoria not in escolhidos and nome_categoria not in escolhidos_antes:
                     escolhidos.append(nome_categoria)
                     i += 1
                     if genero: print(f'{categoria.singular.title()} escolhido: {nome_categoria.title()}')
@@ -172,6 +178,8 @@ class Atributo:
 penalidade_treino = ['adestramento', 'atuação', 'conhecimento', 'guerra', 'jogatina', 'ladinagem',
                       'misticismo', 'nobreza', 'ofício', 'pilotagem', 'religião']
 penalidade_armadura = ['acrobacia', 'furtividade', 'ladinagem']
+
+
 @dataclass
 class Pericia:
     atributo: str = ''
@@ -268,33 +276,12 @@ class Classe:
                 n_escolhas = int(escolha.match(pericias_txt).group(1))
                 pericias_txt = pericias_txt[pericias_txt.index(':')+2:].strip('\n').strip().split(', ')
                 
-                pericias_finais = escolhe_categoria(Palavra('perícia', 'perícias'), pericias_txt, n_escolhas, pericias_finais, genero = 0)
-                # i = 0
-                # while i < n_escolhas:
-                #     print(f'\nEscolha {n_escolhas-i} perícias dentre: ')
-                #     for pericia in pericias_txt:
-                #         if pericia not in pericias_finais:
-                #             print(f'-{pericia.title()}')
-                #     resp = input()
-                #     encontrou = False
-                #     for pericia in pericias_txt:
-                #         if resp in pericia:
-                #             if pericia not in pericias_finais:
-                #                 pericias_finais.append(pericia)
-                #                 i += 1
-                #                 print(f'Perícia em {pericia.title()} ')
-                #                 encontrou = True
-                #             else:
-                #                 print(f'Esta perícia já foi escolhida!')
-                #                 encontrou = True
-                #     if not encontrou:
-                #         print(f'{resp.title()} não é uma perícia válida!')
+                pericias_finais = pericias_finais + escolhe_categoria(Palavra('perícia', 'perícias'), pericias_txt, n_escolhas, pericias_finais, genero = 0)
             else:
                 pericias_finais.append(pericias_txt)
                 print(f'Perícia em {pericias_txt.title()}.')
 
         self.pericias = pericias_finais
-
 
 
     def imprime(self):
@@ -328,22 +315,6 @@ class Origem:
     nome: str = ''
     beneficios: list = None
     itens: list = None
-
-
-    def escolhe_beneficios(self, beneficios):
-        beneficios = beneficios.split('; ')
-        beneficios[0] = beneficios[0].split(', ')
-        beneficios[1] = beneficios[1].split(', ')
-        for i in range(2):
-            for j in range(len(beneficios[i])):
-                if i == 1: beneficios[i][j] = beneficios[i][j] + ' (perícia)'
-                else: beneficios[i][j] = beneficios[i][j] + ' (poder)'
-        beneficios = beneficios[0] + beneficios[1]
-
-        for beneficio in beneficios:
-            print(f'-{beneficio}')
-
-
 
 
     def imprime(self):
@@ -709,7 +680,7 @@ class Personagem:
     def escolhe_raca(self):
         nomes_racas, linhas = abre_arquivo('racas.txt')
         raca = Raca(habilidades=[])
-        raca_escolhida = escolhe_categoria(Palavra('raça', 'raças'), nomes_racas, escolhidos=[])[0]
+        raca_escolhida = escolhe_categoria(Palavra('raça', 'raças'), nomes_racas, escolhidos_antes=[])[0]
 
         achou = False
         for linha in linhas:
@@ -757,7 +728,7 @@ class Personagem:
     def escolhe_classe(self):
         nomes_classes, linhas = abre_arquivo('classes.txt')
         classe = Classe(pericias=[], proficiencias=[])
-        classe_escolhida = escolhe_categoria(Palavra('classe', 'classes'), nomes_classes, escolhidos=[])[0]
+        classe_escolhida = escolhe_categoria(Palavra('classe', 'classes'), nomes_classes, escolhidos_antes=[])[0]
 
         achou = False
         nivel = 1
@@ -793,12 +764,33 @@ class Personagem:
         self.alteracoes_classe()
 
 
+    def escolhe_beneficios(self, beneficios):
+        beneficios = beneficios.split('; ')
+        beneficios = beneficios[0].split(', ') + beneficios[1].split(', ')
+        # beneficios[0] = beneficios[0].split(', ')
+        # beneficios[1] = beneficios[1].split(', ')
+        # for i in range(2):
+        #     for j in range(len(beneficios[i])):
+        #         if i == 0: beneficios[i][j] = beneficios[i][j] + ' (perícia)'
+        #         else: beneficios[i][j] = beneficios[i][j] + ' (poder)'
+        # beneficios = beneficios[0] + beneficios[1]
+
+        escolhidas = []
+        for pericia in nomes_pericias:
+            if self.pericias[pericia].treinada:
+                escolhidas.append(pericia)
+
+        beneficios = escolhe_categoria(Palavra('benefício', 'benefícios'), beneficios, 2, escolhidas, genero=1)
+
+        return beneficios
+
+
     def escolhe_origem(self):
         '''
         
         '''
         nomes_origens, linhas = abre_arquivo('origens.txt')
-        origem_escolhida = escolhe_categoria(Palavra('origem', 'origens'), nomes_origens, escolhidos=[])[0]
+        origem_escolhida = escolhe_categoria(Palavra('origem', 'origens'), nomes_origens, escolhidos_antes=[])[0]
         
         origem = Origem(beneficios=[], itens=[])
         achou = False
@@ -809,8 +801,7 @@ class Personagem:
                     achou = True
             else:
                 if 'beneficios: ' in formatacao(linha):
-                    self.origem.escolhe_beneficios(linha[len('Beneficios: '):].strip().strip('\n'))
-                    origem.beneficios.append(linha.strip('Beneficios:').strip().strip('\n'))
+                    origem.beneficios = self.escolhe_beneficios(linha[len('Beneficios: '):].strip().strip('\n'))
                 elif 'itens:' in formatacao(linha):
                     origem.itens.append(linha.strip('Itens:').strip().strip('\n'))
                 elif '---' in linha:
@@ -880,7 +871,7 @@ oportunidade de virar seguidor de alguma divindade.')
         self.escolhe_origem()
         self.origem.imprime()
         self.escolhe_divindade()
-        self.divindade.imprime()
+        if self.divindade.nome != '': self.divindade.imprime()
         self.imprime()
 
 
