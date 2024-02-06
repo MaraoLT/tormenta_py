@@ -450,6 +450,11 @@ class Personagem:
         self.classe.imprime()
 
 
+    def imprime_pericias(self):
+        for pericia in nomes_pericias:
+            print(f'{pericia}: {self.pericias[pericia]}')
+
+
     def define_atributos_pontos(self):
         '''
         Esta função realiza automaticamente o cálculo dos valores
@@ -807,6 +812,11 @@ class Personagem:
                 elif '---' in linha:
                     break
         
+        for pericia in nomes_pericias:
+            for beneficio in origem.beneficios:
+                if beneficio in pericia:
+                    self.pericias[pericia].treinada = True
+
         self.origem = origem
 
 
@@ -821,11 +831,11 @@ class Personagem:
             print('Você optou por não seguir nenhuma religião. Toda vez que subir de nível você terá outra \
 oportunidade de virar seguidor de alguma divindade.')
             return
-        else:
+        elif religioso in 'sim':
             devoto = False
             while not devoto:
                 nomes_divindades, linhas = abre_arquivo('divindades.txt')
-                divindade_escolhida = escolhe_categoria(Palavra('divindade', 'divindades'), nomes_divindades, escolhidos=[])[0]
+                divindade_escolhida = escolhe_categoria(Palavra('divindade', 'divindades'), nomes_divindades, escolhidos_antes=[])[0]
 
                 divindade = Divindade(devotos=[], poderes=[])
                 achou = False
@@ -858,8 +868,11 @@ oportunidade de virar seguidor de alguma divindade.')
                         elif '---' in linha:
                             break
                         
-                        
+
             self.divindade = divindade
+
+        else:
+            
 
 
     def escolhas(self):
@@ -873,6 +886,7 @@ oportunidade de virar seguidor de alguma divindade.')
         self.escolhe_divindade()
         if self.divindade.nome != '': self.divindade.imprime()
         self.imprime()
+        self.imprime_pericias()
 
 
 def criar_personagem():
