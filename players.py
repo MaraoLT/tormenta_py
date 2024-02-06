@@ -3,12 +3,17 @@ from typing import DefaultDict
 from random import randint
 import os
 import ast
-from random import randint
 import re
 import unicodedata
+import sys
+
 
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
+
+sys.path.append(path+'/funcoes_especificas')
+import racas
+
 
 '''
 Criação de Personagem:
@@ -33,6 +38,7 @@ Criação de Personagem:
 06-[X] Escolhendo Pericias: 30 perícias
     -[] Criar forma personalizada para a perícia Ofício
     -[X] Função que calcula o bônus de perícia
+-[] Percebi que preciso todas as funções de raças e classes para continuar daqui em diante
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
 08-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
 09-[] Salvar personagem criado em arquivo nome_personagem.txt
@@ -51,9 +57,12 @@ Anotações gerais:
 -[] fazer comentarios nas funções
 -[] verificar se tem lugares no código que necessitam de um 'break'
 -[] implementar em todo o código a função de ignorar acentos
+
+URGENTE:
+-[] Criar método __init__ para criar pacote python
 '''
 
-nomes_atributos = ['forca', 'destreza', 'constituicao', 'inteligencia', 'sabedoria', 'carisma']
+nomes_atributos = ['Força', 'Destreza', 'Constituição', 'Inteligência', 'Sabedoria', 'Carisma']
 nomes_pericias = {'Acrobacia', 'Adestramento', 'Atletismo', 'Atuação', 'Cavalgar', 'Conhecimento',
                        'Conhecimento', 'Cura', 'Diplomacia', 'Enganação', 'Fortitude', 'Furtividade',
                        'Guerra', 'Iniciativa', 'Intimidação', 'Intuição', 'Investigação', 'Jogatina',
@@ -67,7 +76,6 @@ class Palavra:
     plural: str = ''
 
 
-#FUNÇÃO DOS DADOS
 def rolagem(dado):
     resultado = 0
     dado = dado.split('d')
@@ -81,8 +89,7 @@ def erro():
 
 
 def abre_arquivo(nome_arquivo):
-    informacoes = []
-    with open(os.path.join(path, nome_arquivo)) as arquivo:
+    with open(os.path.join(path+'/informacoes', nome_arquivo)) as arquivo:
             try:
                 nomes_categoria = ast.literal_eval(arquivo.readline())
             except ValueError:
@@ -188,21 +195,21 @@ class Pericia:
     modificador: int = 0
     
 
-dicionario_pericias = {'Acrobacia': Pericia('destreza'), 'Adestramento': Pericia('carisma'), 
-                       'Atletismo': Pericia('forca'), 'Atuação': Pericia('carisma'),
-                       'Cavalgar': Pericia('destreza'), 'Conhecimento': Pericia('inteligencia'),
-                       'Conhecimento': Pericia('inteligencia'), 'Cura': Pericia('sabedoria'),
-                       'Diplomacia': Pericia('carisma'), 'Enganação': Pericia('carisma'),
-                       'Fortitude': Pericia('constituicao'), 'Furtividade': Pericia('destreza'),
-                       'Guerra': Pericia('inteligencia'), 'Iniciativa': Pericia('destreza'),
-                       'Intimidação': Pericia('carisma'), 'Intuição': Pericia('sabedoria'),
-                       'Investigação': Pericia('inteligencia'), 'Jogatina': Pericia('carisma'),
-                       'Ladinagem': Pericia('destreza'), 'Luta': Pericia('forca'),
-                       'Misticismo': Pericia('inteligencia'), 'Nobreza': Pericia('inteligencia'),
-                       'Ofício': Pericia('inteligencia'), 'Percepção': Pericia('sabedoria'),
-                       'Pilotagem': Pericia('destreza'), 'Pontaria': Pericia('destreza'),
-                       'Reflexos': Pericia('destreza'), 'Religião': Pericia('sabedoria'),
-                       'Sobrevivência': Pericia('sabedoria'), 'Vontade': Pericia('sabedoria')}
+dicionario_pericias = {'Acrobacia': Pericia('Destreza'), 'Adestramento': Pericia('Carisma'), 
+                       'Atletismo': Pericia('Força'), 'Atuação': Pericia('Carisma'),
+                       'Cavalgar': Pericia('Destreza'), 'Conhecimento': Pericia('Inteligência'),
+                       'Conhecimento': Pericia('Inteligência'), 'Cura': Pericia('Sabedoria'),
+                       'Diplomacia': Pericia('Carisma'), 'Enganação': Pericia('Carisma'),
+                       'Fortitude': Pericia('Constituição'), 'Furtividade': Pericia('Destreza'),
+                       'Guerra': Pericia('Inteligência'), 'Iniciativa': Pericia('Destreza'),
+                       'Intimidação': Pericia('Carisma'), 'Intuição': Pericia('Sabedoria'),
+                       'Investigação': Pericia('Inteligência'), 'Jogatina': Pericia('Carisma'),
+                       'Ladinagem': Pericia('Destreza'), 'Luta': Pericia('Força'),
+                       'Misticismo': Pericia('Inteligência'), 'Nobreza': Pericia('Inteligência'),
+                       'Ofício': Pericia('Inteligência'), 'Percepção': Pericia('Sabedoria'),
+                       'Pilotagem': Pericia('Destreza'), 'Pontaria': Pericia('Destreza'),
+                       'Reflexos': Pericia('Destreza'), 'Religião': Pericia('Sabedoria'),
+                       'Sobrevivência': Pericia('Sabedoria'), 'Vontade': Pericia('Sabedoria')}
 
 
 # aqui eu vou escrever todas as habilidades em codigo
@@ -359,6 +366,9 @@ class Divindade:
 
 
     def verifica_devotos(self, raca, classe, devotos):
+        '''
+        Verifica se a raça ou classe do personagem pertence a devotos da divindade retornando True ou False
+        '''
         for devoto in devotos:
             if formatacao(raca) in formatacao(devoto) or formatacao(classe) in formatacao(devoto):
                 return True
@@ -383,32 +393,31 @@ class Divindade:
         print('-'*40)
 
 
-dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder muscular. A Força é aplicada em testes de Atletismo e Luta;
+dicionario_atributos = {'Força': Atributo(0, 10, 0, '''Força (FOR): Seu poder muscular. A Força é aplicada em testes de Atletismo e Luta;
                                  rolagens de dano corpo a corpo ou com armas de arremesso, e testes de Força
                                  para levantar peso e atos similares.''',\
                                       'Atletismo, Luta'), \
-                'destreza': Atributo(0, 10, 0, 'Destreza (DES): Sua agilidade, reflexos, equilíbrio e coordenação motora. A Destreza é\
+                'Destreza': Atributo(0, 10, 0, 'Destreza (DES): Sua agilidade, reflexos, equilíbrio e coordenação motora. A Destreza é\
                                  aplicada na Defesa e em testes de Acrobacia, Cavalgar, Furtividade, Iniciativa,\
                                  Ladinagem, Pilotagem, Pontaria e Reflexos.',\
                                       'Acrobacia, Cavalgar, Furtividade, Iniciativa, Ladinagem, Pilotagem, Pontaria, Reflexos'), \
-                'constituicao': Atributo(0, 10, 0, 'Constituição (CON): Sua saúde e vigor. A Constituição é aplicada aos pontos de vida\
+                'Constituição': Atributo(0, 10, 0, 'Constituição (CON): Sua saúde e vigor. A Constituição é aplicada aos pontos de vida\
                                  iniciais e por nível e em testes de Fortitude. Se a Constituição muda, seus pontos de vida\
                                  aumentam ou diminuem retroativamente de acordo.',\
                                       'Fortitude'), \
-                'inteligencia': Atributo(0, 10, 0, 'Inteligência (INT): Sua capacidade de raciocínio, memória e educação.\
+                'Inteligência': Atributo(0, 10, 0, 'Inteligência (INT): Sua capacidade de raciocínio, memória e educação.\
                                  A Inteligência é aplicada em testes de Conhecimento, Guerra, Investigação,\
                                  Misticismo, Nobreza e Ofício. Além disso, se sua Inteligência for positiva,\
                                  você recebe um número de perícias treinadas igual ao valor dela (não precisam ser\
                                  da sua classe).',\
                                       'Conhecimento, Guerra, Investigação, Misticismo, Nobreza, Ofício'), \
-                'sabedoria': Atributo(0, 10, 0, 'Sabedoria (SAB): Sua observação, ponderação e determinação. A Sabedoria é aplicada\
+                'Sabedoria': Atributo(0, 10, 0, 'Sabedoria (SAB): Sua observação, ponderação e determinação. A Sabedoria é aplicada\
                                  em testes de Cura, Intuição, Percepção, Religião, Sobrevivência e Vontade.',\
                                       'Cura, Intuição, Percepção, Religião, Sobrevivência, Vontade'), \
-                'carisma': Atributo(0, 10, 0, 'Carisma (CAR): Sua força de personalidade e capacidade de persuasão, além de uma mistura de simpatia\
+                'Carisma': Atributo(0, 10, 0, 'Carisma (CAR): Sua força de personalidade e capacidade de persuasão, além de uma mistura de simpatia\
                                  e beleza. O Carisma é aplicado em testes de Adestramento, Atuação, Diplomacia,\
                                  Enganação, Intimidação e Jogatina.',\
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
-
 
 
 raca_default = Raca('', '', '')
@@ -438,7 +447,8 @@ class Personagem:
     equipamento: list = None
     PV: Pontos() = pontos_default1
     PM: Pontos() = pontos_default2
-    defesa: int = 0
+    # defesa: Defesa() = defesa_default
+    # tamanho: Tamanho() = tamanho_default
 
 
     def imprime(self):
@@ -449,7 +459,7 @@ class Personagem:
         print(f'{self.raca.nome.title()}/{self.classe.nome.title()} {self.nivel}')
         print(f'PV: {self.PV.atual}/{self.PV.max}')
         print(f'PM: {self.PM.atual}/{self.PM.max}')
-        print(f'Defesa: {self.defesa if self.defesa > 0 else "Ainda não finalizado"}')
+        # print(f'Defesa: {self.defesa if self.defesa > 0 else "Ainda não finalizado"}')
         self.imprime_atributos()
         self.raca.imprime()
         self.classe.imprime()
@@ -525,7 +535,7 @@ class Personagem:
                 else:
                     break
             for nome_atributo in nomes_atributos:
-                if atr in nome_atributo:
+                if atr in formatacao(nome_atributo):
                     while True:
                         try:
                             pontos_usados = int(input(f'Você possui {pontos} pontos. Quantos pontos deseja gastar em {nome_atributo}? '))
@@ -533,7 +543,7 @@ class Personagem:
                                 print('O número de pontos usado em um atributo deve ser no máximo 7 e no mínimo -1. Tente novamente.')
                                 continue
                             self.atributos[nome_atributo].valor_pontos = pontos_usados
-                            modificador = self.atributos['forca'].calcula_modificador_pontos(pontos_usados)
+                            modificador = self.atributos['Força'].calcula_modificador_pontos(pontos_usados)
                             self.atributos[nome_atributo].modificador = modificador
                             pontos_gastos = sum(atributo.valor_pontos for atributo in self.atributos.values())
                             pontos = 10 - pontos_gastos
@@ -576,7 +586,7 @@ class Personagem:
  Observação: esse programa fará tudo automaticamente e apena lhe fornecerá os resultados dos dados!')
         
         todas_rolagens = self.rolagens_atributos()
-        lista_modificadores = self.atributos['forca'].calcula_modificador_rolagens(todas_rolagens)
+        lista_modificadores = self.atributos['Força'].calcula_modificador_rolagens(todas_rolagens)
 
         print(f'Todas as rolagens foram realizadas e aqui estão todos os resultados [modificado (rolagem)]: ')
         for i in range(len(lista_modificadores)):
@@ -589,7 +599,7 @@ class Personagem:
             atr = input(f'Selecione em qual atributo você quer colocar o valor {lista_modificadores[i]} (for, des, con, int, sab, car): ').lower()
             try:
                 for nome_atributo in nomes_atributos:
-                    if atr in nome_atributo:
+                    if atr in formatacao(nome_atributo):
                         if nome_atributo not in escolhidos:
                             escolhidos.append(nome_atributo)
                             self.atributos[nome_atributo].valor_rolamentos = todas_rolagens[i]
@@ -631,7 +641,7 @@ class Personagem:
         Esta função utiliza do sistema por rolagens para definir aleatoriamente os atributos do personagem
         '''
         todas_rolagens = self.rolagens_atributos()
-        lista_modificadores = self.atributos['forca'].calcula_modificador_rolagens(todas_rolagens)
+        lista_modificadores = self.atributos['Força'].calcula_modificador_rolagens(todas_rolagens)
         escolhido = []
         n_modificador = 0
         while n_modificador < len(nomes_atributos):
@@ -709,7 +719,7 @@ class Personagem:
                     self.imprime_atributos()
                     encontrou = False
                     for nome_atributo in nomes_atributos:
-                        if atr in nome_atributo:
+                        if atr in formatacao(nome_atributo):
                             if nome_atributo in escolhidos:
                                 print(f'O atributo {nome_atributo} já foi escolhido ou você não pode escolhe-lo, selecione outro {nomes_atributos}')
                             else:
@@ -737,7 +747,7 @@ class Personagem:
         achou = False
         for linha in linhas:
             if not achou:
-                if 'Nome: ' + raca_escolhida in linha:
+                if 'nome: ' + formatacao(raca_escolhida) in formatacao(linha):
                     raca.nome = raca_escolhida
                     achou = True
             else:
@@ -762,7 +772,7 @@ class Personagem:
         Esta função faz as alterações nos PVs e PMs do personagem de acordo com a classe escolhida.
         '''
         if self.PV.max == 0:
-            self.PV.max += self.classe.PV + self.atributos['constituicao'].modificador + (self.nivel-1)*(self.classe.PV//4 + self.atributos['constituicao'].modificador)
+            self.PV.max += self.classe.PV + self.atributos['Constituição'].modificador + (self.nivel-1)*(self.classe.PV//4 + self.atributos['Constituição'].modificador)
             self.PV.atual = self.PV.max
         else:
             print('Parece que sua seu personagem já tem PVs! Alterações de classe não serão feitas!')
@@ -922,13 +932,14 @@ class Personagem:
 
 
     def escolhe_pericias(self):
-        n_pericias_escolher = max(self.atributos['inteligencia'].modificador, 0)
+        n_pericias_escolher = max(self.atributos['Inteligência'].modificador, 0)
         if n_pericias_escolher:
-            print(f'Como o seu modificador de inteligência é {self.atributos["inteligencia"].modificador}, você pode escolhe mais {self.atributos["inteligencia"].modificador} perícias para ser treinado.')
+            print(f'Como o seu modificador de inteligência é {self.atributos["Inteligência"].modificador}, você pode escolhe mais {self.atributos["Inteligência"].modificador} perícias para ser treinado.')
             pericias = escolhe_categoria(Palavra('perícia', 'perícias'), nomes_pericias, n_pericias_escolher, self.pericias_treinadas())
             for pericia in pericias:
                 self.pericias[pericia].treinada = True
         
+        # atribui valor de bônus às perícias
         for pericia in nomes_pericias:
             self.calcula_pericia(pericia)
 
