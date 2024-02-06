@@ -10,8 +10,6 @@ import unicodedata
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
 
-
-
 '''
 Criação de Personagem:
 01-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
@@ -21,28 +19,32 @@ Criação de Personagem:
     -[X] Adquirir as infos de racas.txt para serem usadas
     -[X] Criar função que adiciona os modificadores de atributos da raça
     -[] Criar uma função para cada habilidade (futuramente...)
+    -[] Criar excessão do golem não poder escolher origem e sim um poder geral
 03-[X] Escolhendo classe: 14 classes
     -[X] Adquirir as infos de classes.txt para serem usadas
     -[X] Criar função que adiciona os PMs e PVs
-    -[] Adicionar perícias (futuramente...)
-04-[] Escolhendo origem: 35 origens
+    -[X] Adicionar perícias (futuramente...)
+04-[X] Escolhendo origem: 35 origens
     -[X] Adquirir as infos de origens.txt para serem usadas
-    -[] Você escolhe dois benefícios da lista de benefícios -> fazer depois de implementar perícias
-05-[] Escolhendo divindade (opcional): 20 divindades
+    -[X] Você escolhe dois benefícios da lista de benefícios -> fazer depois de implementar perícias
+05-[X] Escolhendo divindade (opcional): 20 divindades
     -[X] Adquirir as infos de divindades.txt para serem usadas 
     -[X] Apenas certas classes ou raças podem ser devotos de certas divindades
-06-[] Escolhendo Pericias: 30 perícias
+06-[X] Escolhendo Pericias: 30 perícias
+    -[] Criar forma personalizada para a perícia Ofício
+    -[X] Função que calcula o bônus de perícia
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
 08-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
 09-[] Salvar personagem criado em arquivo nome_personagem.txt
 10-[] Importar personagem em arquivos nome_personagem.txt para um objeto dentro do programa
 11-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida) - (necessária ajuda ou maior conhecimento de web scraping)
 12-[] Combates entre personagens
-13-[] Funções de:
+13-[] Criar loja de compras com saldo do personagem
+14-[] Funções de:
     -[] Habilidades
     -[] Poderes
     -[] Magias
-14-[] Fichas de Ameaças (necessário maior conhecimento de web scraping para fazer todos os inimigos)
+15-[] Fichas de Ameaças (necessário maior conhecimento de web scraping para fazer todos os inimigos)
 
 
 Anotações gerais:
@@ -135,8 +137,6 @@ def escolhe_categoria(categoria, nomes_categoria, n_escolhas = 1, escolhidos_ant
     return escolhidos
 
 
-
-
 @dataclass 
 class Atributo:
     valor_pontos: int
@@ -185,7 +185,25 @@ class Pericia:
     atributo: str = ''
     treinada: bool = False
     modificadores: DefaultDict[str, int] = field(default_factory=dict)
+    modificador: int = 0
     
+
+dicionario_pericias = {'Acrobacia': Pericia('destreza'), 'Adestramento': Pericia('carisma'), 
+                       'Atletismo': Pericia('forca'), 'Atuação': Pericia('carisma'),
+                       'Cavalgar': Pericia('destreza'), 'Conhecimento': Pericia('inteligencia'),
+                       'Conhecimento': Pericia('inteligencia'), 'Cura': Pericia('sabedoria'),
+                       'Diplomacia': Pericia('carisma'), 'Enganação': Pericia('carisma'),
+                       'Fortitude': Pericia('constituicao'), 'Furtividade': Pericia('destreza'),
+                       'Guerra': Pericia('inteligencia'), 'Iniciativa': Pericia('destreza'),
+                       'Intimidação': Pericia('carisma'), 'Intuição': Pericia('sabedoria'),
+                       'Investigação': Pericia('inteligencia'), 'Jogatina': Pericia('carisma'),
+                       'Ladinagem': Pericia('destreza'), 'Luta': Pericia('forca'),
+                       'Misticismo': Pericia('inteligencia'), 'Nobreza': Pericia('inteligencia'),
+                       'Ofício': Pericia('inteligencia'), 'Percepção': Pericia('sabedoria'),
+                       'Pilotagem': Pericia('destreza'), 'Pontaria': Pericia('destreza'),
+                       'Reflexos': Pericia('destreza'), 'Religião': Pericia('sabedoria'),
+                       'Sobrevivência': Pericia('sabedoria'), 'Vontade': Pericia('sabedoria')}
+
 
 # aqui eu vou escrever todas as habilidades em codigo
 @dataclass
@@ -391,21 +409,7 @@ dicionario_atributos = {'forca': Atributo(0, 10, 0, '''Força (FOR): Seu poder m
                                  Enganação, Intimidação e Jogatina.',\
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
 
-dicionario_pericias = {'Acrobacia': Pericia('destreza', False, dict()), 'Adestramento': Pericia('carisma', False, dict()), 
-                       'Atletismo': Pericia('forca', False, dict()), 'Atuação': Pericia('carisma', False, dict()),
-                       'Cavalgar': Pericia('destreza', False, dict()), 'Conhecimento': Pericia('inteligencia', False, dict()),
-                       'Conhecimento': Pericia('inteligencia', False, dict()), 'Cura': Pericia('sabedoria', False, dict()),
-                       'Diplomacia': Pericia('carisma', False, dict()), 'Enganação': Pericia('carisma', False, dict()),
-                       'Fortitude': Pericia('constituicao', False, dict()), 'Furtividade': Pericia('destreza', False, dict()),
-                       'Guerra': Pericia('inteligencia', False, dict()), 'Iniciativa': Pericia('destreza', False, dict()),
-                       'Intimidação': Pericia('carisma', False, dict()), 'Intuição': Pericia('sabedoria', False, dict()),
-                       'Investigação': Pericia('inteligencia', False, dict()), 'Jogatina': Pericia('Carisma', False, dict()),
-                       'Ladinagem': Pericia('destreza', False, dict()), 'Luta': Pericia('forca', False, dict()),
-                       'Misticismo': Pericia('inteligencia', False, dict()), 'Nobreza': Pericia('inteligencia', False, dict()),
-                       'Ofício': Pericia('inteligencia', False, dict()), 'Percepção': Pericia('sabedoria', False, dict()),
-                       'Pilotagem': Pericia('destreza', False, dict()), 'Pontaria': Pericia('destreza', False, dict()),
-                       'Reflexos': Pericia('destreza', False, dict()), 'Religião': Pericia('sabedoria', False, dict()),
-                       'Sobrevivência': Pericia('sabedoria', False, dict()), 'Vontade': Pericia('sabedoria', False, dict())}
+
 
 raca_default = Raca('', '', '')
 classe_default = Classe('', '', [], 0, 0, [], [], [])
@@ -431,6 +435,7 @@ class Personagem:
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
     pericias: DefaultDict[str, Pericia] = field(default_factory=dict)
     habilidades_poderes: DefaultDict[str, str] = field(default_factory=dict)
+    equipamento: list = None
     PV: Pontos() = pontos_default1
     PM: Pontos() = pontos_default2
     defesa: int = 0
@@ -451,8 +456,50 @@ class Personagem:
 
 
     def imprime_pericias(self):
+        print('PERÍCIAS: ')
         for pericia in nomes_pericias:
-            print(f'{pericia}: {self.pericias[pericia]}')
+            print(f'{pericia} ({self.pericias[pericia].atributo[:3]}): {self.pericias[pericia].modificador} {"(T)" if self.pericias[pericia].treinada else ""}')
+
+
+    def pericias_treinadas(self):
+        pericias_treinadas = []
+        for pericia in nomes_pericias:
+            if self.pericias[pericia].treinada:
+                pericias_treinadas.append(pericia)
+        
+        return pericias_treinadas
+
+
+    def bonus_treinamento(self):
+        '''
+        Retorna o bônus de treinamento de perícias de acordo com o nível do jogador
+        '''
+        if self.nivel < 7: return 2
+        elif self.nivel >= 7 and self.nivel < 15: return 4
+        else: return 6
+
+
+    def modificadores(self, pericia):
+        '''
+        Faz a soma de todos os modificadores que estão atuando em uma certa perícias passada como argumento
+        e retona a soma dos modificadores.
+        '''
+        soma = 0
+        for modificador in self.pericias[pericia].modificadores:
+            soma += modificador
+
+        return soma
+
+
+    def calcula_pericia(self, pericia):
+        '''
+        Esta função faz o cálculo do modificador de uma perícia analisando todos os aspectos que podem afeta-lá
+        atualizando o modificador dessa perícia que é passada como argumento.
+        '''
+
+        # bônus de perícia = modificador atributo + metade do nível + bônus treinamento (se for treinada)
+        self.pericias[pericia].modificador = self.atributos[self.pericias[pericia].atributo].modificador + self.nivel//2 +\
+        (self.bonus_treinamento() if self.pericias[pericia].treinada else 0) + self.modificadores(pericia)
 
 
     def define_atributos_pontos(self):
@@ -828,8 +875,7 @@ class Personagem:
             religioso = formatacao(input('Você quer tornar-se um seguidor de alguma divindade? (SIM ou NÃO)\n'))
 
         if religioso in 'nao':
-            print('Você optou por não seguir nenhuma religião. Toda vez que subir de nível você terá outra \
-oportunidade de virar seguidor de alguma divindade.')
+            print('Você optou por não seguir nenhuma religião. Toda vez que subir de nível você terá outra oportunidade de virar seguidor de alguma divindade.')
             return
         elif religioso in 'sim':
             devoto = False
@@ -862,17 +908,29 @@ oportunidade de virar seguidor de alguma divindade.')
                         elif 'arma preferida: ' in formatacao(linha):
                             divindade.arma = linha[len('Arma Preferida: '):].strip().strip('\n')
                         elif 'poderes concedidos: ' in formatacao(linha):
-                            divindade.poderes.append(escolhe_categoria(Palavra('poder', 'poderes'), linha[len('Poderes Concedidos: '):].strip().strip('\n').strip('.').split(', '), escolhidos = [], genero = 1)[0])
+                            divindade.poderes.append(escolhe_categoria(Palavra('poder', 'poderes'), linha[len('Poderes Concedidos: '):].strip().strip('\n').strip('.').split(', '), escolhidos_antes = [], genero = 1)[0])
                         elif 'obrigacoes & restricoes' in formatacao(linha):
                             divindade.obrigacoes_restricoes = linha[len('Obrigações & Restrições: '):].strip().strip('\n')
                         elif '---' in linha:
                             break
                         
-
             self.divindade = divindade
 
         else:
-            
+            print(f'{religioso.title()} não é uma resposta válida!')
+            self.escolhe_divindade()
+
+
+    def escolhe_pericias(self):
+        n_pericias_escolher = max(self.atributos['inteligencia'].modificador, 0)
+        if n_pericias_escolher:
+            print(f'Como o seu modificador de inteligência é {self.atributos["inteligencia"].modificador}, você pode escolhe mais {self.atributos["inteligencia"].modificador} perícias para ser treinado.')
+            pericias = escolhe_categoria(Palavra('perícia', 'perícias'), nomes_pericias, n_pericias_escolher, self.pericias_treinadas())
+            for pericia in pericias:
+                self.pericias[pericia].treinada = True
+        
+        for pericia in nomes_pericias:
+            self.calcula_pericia(pericia)
 
 
     def escolhas(self):
@@ -885,6 +943,7 @@ oportunidade de virar seguidor de alguma divindade.')
         self.origem.imprime()
         self.escolhe_divindade()
         if self.divindade.nome != '': self.divindade.imprime()
+        self.escolhe_pericias()
         self.imprime()
         self.imprime_pericias()
 
