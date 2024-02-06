@@ -6,16 +6,20 @@ import ast
 import re
 import unicodedata
 import sys
+from funcoes_especificas import racas
+from funcoes_especificas import classes
+from funcoes_especificas import origens
 
 
 # paths
-path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop
-
-sys.path.append(path+'/funcoes_especificas')
-import racas
+path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop/notebook
 
 
 '''
+URGENTE:
+-[] Mover todas as funções para fora de Personagem() para poder criar um arquivo com apenas as classes
+-[] Criar método __init__ para criar pacote python
+
 Criação de Personagem:
 01-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
     -[] Refazer sistema de pontos para conseguir colocar: 'forca 4'/ 'for -1' e coisas do tipo em apenas 1 linha
@@ -57,9 +61,6 @@ Anotações gerais:
 -[] fazer comentarios nas funções
 -[] verificar se tem lugares no código que necessitam de um 'break'
 -[] implementar em todo o código a função de ignorar acentos
-
-URGENTE:
--[] Criar método __init__ para criar pacote python
 '''
 
 nomes_atributos = ['Força', 'Destreza', 'Constituição', 'Inteligência', 'Sabedoria', 'Carisma']
@@ -955,8 +956,8 @@ class Personagem:
         self.escolhe_divindade()
         if self.divindade.nome != '': self.divindade.imprime()
         self.escolhe_pericias()
-        self.imprime()
         self.imprime_pericias()
+        self.imprime()
 
 
 def criar_personagem():
