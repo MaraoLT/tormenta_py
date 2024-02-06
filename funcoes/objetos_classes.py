@@ -106,6 +106,7 @@ class Pontos:
     atual: int = 0
     max: int = 0
     temp: int = 0
+    extra_nivel: DefaultDict(str, int) = field(default_factory=dict)
 
 
 @dataclass
@@ -289,14 +290,6 @@ dicionario_atributos = {'Força': Atributo(0, 10, 0, '''Força (FOR): Seu poder 
                                       'Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}
 
 
-raca_default = Raca('', '', '')
-classe_default = Classe('', '', [], 0, 0, [], [], [])
-pontos_default1 = Pontos(0, 0, 0)
-pontos_default2 = Pontos(0, 0, 0)
-origem_default = Origem('', [], [])
-divindade_default = Divindade('', '', '', '', '', [], [])
-
-
 @dataclass
 class Personagem:
     '''
@@ -312,6 +305,7 @@ class Personagem:
     divindade: Divindade = field(default_factory=Divindade)
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
     pericias: DefaultDict[str, Pericia] = field(default_factory=dict)
+    caracteristicas: DefaultDict[str, str] = field(default_factory=dict)
     habilidades_poderes: DefaultDict[str, str] = field(default_factory=dict)
     equipamento: list = None
     PV: Pontos = field(default_factory=Pontos)
