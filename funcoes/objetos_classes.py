@@ -51,14 +51,16 @@ class Atributo:
         return lista_modificadores
 
 # PERÍCIA
-nomes_pericias = {'Acrobacia', 'Adestramento', 'Atletismo', 'Atuação', 'Cavalgar', 'Conhecimento',
-                       'Conhecimento', 'Cura', 'Diplomacia', 'Enganação', 'Fortitude', 'Furtividade',
-                       'Guerra', 'Iniciativa', 'Intimidação', 'Intuição', 'Investigação', 'Jogatina',
-                       'Ladinagem', 'Luta', 'Misticismo', 'Nobreza', 'Ofício', 'Percepção',
-                       'Pilotagem', 'Pontaria', 'Reflexos', 'Religião', 'Sobrevivência', 'Vontade'}
-penalidade_treino = ['adestramento', 'atuação', 'conhecimento', 'guerra', 'jogatina', 'ladinagem',
-                      'misticismo', 'nobreza', 'ofício', 'pilotagem', 'religião']
-penalidade_armadura = ['acrobacia', 'furtividade', 'ladinagem']
+nomes_pericias = ['Acrobacia', 'Adestramento', 'Atletismo', 'Atuação', 'Cavalgar', 'Conhecimento', 
+                        'Cura', 'Diplomacia', 'Enganação', 'Fortitude', 'Furtividade',
+                        'Guerra', 'Iniciativa', 'Intimidação', 'Intuição', 'Investigação', 'Jogatina',
+                        'Ladinagem', 'Luta', 'Misticismo', 'Nobreza', 'Ofício', 'Percepção',
+                        'Pilotagem', 'Pontaria', 'Reflexos', 'Religião', 'Sobrevivência', 'Vontade']
+
+penalidade_treino = ['Adestramento', 'Atuação', 'Conhecimento', 'Guerra', 'Jogatina', 'Ladinagem',
+                      'Misticismo', 'Nobreza', 'Ofício', 'Pilotagem', 'Religião']
+
+penalidade_armadura = ['Acrobacia', 'Furtividade', 'Ladinagem']
 
 @dataclass
 class Pericia:
@@ -350,7 +352,7 @@ class Personagem:
                 pericias_treinadas.append(pericia)
         
         return pericias_treinadas
-
+    
 
     def bonus_treinamento(self):
         '''
@@ -382,6 +384,17 @@ class Personagem:
         # bônus de perícia = modificador atributo + metade do nível + bônus treinamento (se for treinada)
         self.pericias[pericia].modificador = self.atributos[self.pericias[pericia].atributo].modificador + self.nivel//2 +\
         (self.bonus_treinamento() if self.pericias[pericia].treinada else 0) + self.modificadores(pericia)
+
+
+    def adiciona_pericia(self, pericia):
+        self.pericias[pericia].treinada = True
+        self.calcula_pericia(pericia)
+
+
+    def atualiza_pericias(self):
+        # atribui valor de bônus às perícias
+        for pericia in nomes_pericias:
+            self.calcula_pericia(pericia)
 
 
     def imprime_atributos(self):

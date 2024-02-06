@@ -264,8 +264,19 @@ def altera_atributos(personagem):
     personagem.imprime_atributos()
 
 
+def adiciona_habilidades(personagem):
+    for habilidade in personagem.raca.habilidades:
+        nome_funcao = formatacao(habilidade.nome)
+        if nome_funcao in funcoes_racas:
+            funcao_executada = funcoes_racas[nome_funcao]
+            funcao_executada(personagem)
+        else:
+            print(f'A função {nome_funcao} não existe :(')
+
+
 def alteracoes_raca(personagem):
     altera_atributos(personagem)
+    adiciona_habilidades(personagem)
 
 
 def escolhe_raca(personagem):
@@ -314,6 +325,7 @@ def alteracoes_classe(personagem):
     # Perícias
     for pericia_classe in personagem.classe.pericias:
         personagem.pericias[pericia_classe[:-6].strip().title()].treinada = True
+
 
 
 def escolhe_classe(personagem):
@@ -466,11 +478,9 @@ def escolhe_pericias(personagem):
         print(f'Como o seu modificador de inteligência é {personagem.atributos["Inteligência"].modificador}, você pode escolhe mais {personagem.atributos["Inteligência"].modificador} perícias para ser treinado.')
         pericias = escolhe_categoria(Palavra('perícia', 'perícias'), nomes_pericias, n_pericias_escolher, personagem.pericias_treinadas())
         for pericia in pericias:
-            personagem.pericias[pericia].treinada = True
-    
-    # atribui valor de bônus às perícias
-    for pericia in nomes_pericias:
-        personagem.calcula_pericia(pericia)
+            personagem.adiciona_pericia(pericia)
+
+    personagem.atualiza_pericias()
 
 
 def escolhas(personagem):
