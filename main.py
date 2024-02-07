@@ -6,7 +6,6 @@ from funcoes import *
 URGENTE:
 -[X] Mover todas as funções para fora de Personagem() para poder criar um arquivo com apenas as classes
 -[X] Criar método __init__ para criar pacote python
--[X] Erro escolhendo minotauro druida em '-Adestramento (Car) Atletismo (For)'
 -[] Analisar bug em PM no fim
 -[] Retirar código comentado em racas.py
 
@@ -425,7 +424,7 @@ def escolhe_origem(personagem):
                 if 'beneficios: ' in formatacao(linha):
                     if origem.nome != 'Amnésico': # provisório
                         origem.beneficios = escolhe_beneficios(personagem, linha[len('Beneficios: '):].strip().strip('\n'))
-                    else: origem.beneficios.appen(linha[len('Beneficios: '):].strip().strip('\n'))
+                    else: origem.beneficios.append(linha[len('Beneficios: '):].strip().strip('\n'))
                 elif 'itens:' in formatacao(linha):
                     origem.itens.append(linha.strip('Itens:').strip().strip('\n'))
                 elif '---' in linha:
