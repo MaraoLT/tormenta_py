@@ -91,17 +91,17 @@ class Defesa:
     modificadores: DefaultDict[str, int] = field(default_factory=dict)
 
 
-    def calcula(self):
-        soma = 10
+    def calcula(self, destreza):
+        soma_modificadores = 0
         for modificador in self.modificadores.values():
-            soma += modificador
+            soma_modificadores += modificador
 
-        self.valor = soma
+        self.valor = 10 + soma_modificadores + destreza 
 
 
-    def imprime(self):
-        self.calcula()
-        print(f'Defesa: {self.valor}')
+    def imprime(self, destreza):
+        self.calcula(destreza)
+        print(f'Defesa: {self.valor} (10 + {destreza} (des) + {self.modificadores})')
 
 
 @dataclass
@@ -266,7 +266,7 @@ class Divindade:
             if formatacao(raca) in formatacao(devoto) or formatacao(classe) in formatacao(devoto):
                 return True
         
-        print(f'Infelizmente você não pode ser devoto dessa divindade, pois apenas {devotos} podem ser devotos.')
+        # print(f'Infelizmente você não pode ser devoto dessa divindade, pois apenas {devotos} podem ser devotos.')
         return False
 
 
@@ -275,12 +275,12 @@ class Divindade:
         Esta função simplesmente imprime as características que a divindade adiciona
         '''
         print(self.nome.upper())
-        print(f'Crenças e Objetivos: {self.crencas_objetivos}')
-        print(f'Símbolo Sagrado: {self.simbolo}')
-        print(f'Energia: {self.energia}')
-        print(f'Arma Preferida: {self.arma}')
-        print(f'Devotos: {self.devotos}')
-        print(f'Poderes Concedidos: {self.poderes}')
+        print(f'Crenças e Objetivos: {self.crencas_objetivos}\n')
+        print(f'Símbolo Sagrado: {self.simbolo}\n')
+        print(f'Energia: {self.energia}\n')
+        print(f'Arma Preferida: {self.arma}\n')
+        print(f'Devotos: {self.devotos}\n')
+        print(f'Poderes Concedidos: {self.poderes}\n')
         print(f'Obrigações & Restrições: {self.obrigacoes_restricoes}')
         print('-'*40)
 
@@ -353,14 +353,15 @@ class Personagem:
         print(f'Deslocamento: {self.deslocamento}m')
         print(f'Resistências: {self.resistencias}')
         print(f'Fraquezas: {self.fraquezas}')
-        print(f'Imunidades: {self.imunidades}')
-        self.imprime_caracteristicas()
-        self.imprime_habilidades_poderes()
+        print(f'Imunidades: {self.imunidades}\n')
+        print(f'Proficiências: {self.proficiencias}\n')
         self.PV.imprime('PV')
         self.PM.imprime('PM')
-        self.defesa.imprime()
+        self.defesa.imprime(self.atributos['Destreza'].modificador)
         self.imprime_atributos()
         self.imprime_pericias()
+        self.imprime_caracteristicas()
+        self.imprime_habilidades_poderes()
         self.raca.imprime()
         self.classe.imprime()
         self.origem.imprime()
@@ -418,7 +419,7 @@ class Personagem:
         e retona a soma dos modificadores.
         '''
         soma = 0
-        for modificador in self.pericias[pericia].modificadores:
+        for modificador in self.pericias[pericia].modificadores.values():
             soma += modificador
 
         return soma

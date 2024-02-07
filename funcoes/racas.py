@@ -116,7 +116,7 @@ def elfo(personagem):
     personagem.deslocamento = 12
     # Sangue Mágico
     personagem.PM.max += 1
-    personagem.PM.extra_nivel.append(Habilidade('Sangue Mágico', '1'))
+    personagem.PM.extra_nivel['Sangue Mágico'] = 1
     # Sentidos Élficos
     personagem.caracteristicas.append(Habilidade('Visão na Penumbra', 'Você vê na penumbra.'))
     personagem.pericias['Misticismo'].modificadores['Sentidos Élficos'] = 2
@@ -258,7 +258,7 @@ def qarren(personagem):
     # Desejos
     personagem.caracteristicas.append(Habilidade('Desejos', 'Se lançar uma magia que alguém tenha pedido desde seu último turno, o custo da magia diminui em -1 PM. Fazer um desejo ao qareen é uma ação livre.'))
     # Resistência Elemental
-    resistencia = escolhe_categoria(Palavra('resistência', 'resistências'), ['Frio', 'Eletricidade', 'Fogo', 'Ácido', 'Luz', 'Trevas'], escolhidos_antes=[])
+    resistencia = escolhe_categoria(Palavra('resistência', 'resistências'), ['Frio', 'Eletricidade', 'Fogo', 'Ácido', 'Luz', 'Trevas'], escolhidos_antes=[])[0]
     personagem.resistencias[resistencia] = 10
     # Tatuagem Mística
     personagem.habilidades_poderes.append(Habilidade('Tatuagem Mística', 'Você pode lançar uma magia de 1o círculo a sua escolha (atributo-chave Carisma). Caso aprenda novamente essa magia, seu custo diminui em -1 PM. @'))
@@ -350,7 +350,7 @@ def kliren(personagem):
     personagem.caracteristicas.append(Habilidade('Ossos Frágeis', 'Você sofre 1 ponto de dano adicional por dado de dano de impacto. Exemplo: clava (1d6 -> 1d6+1 de dano), queda 3m (2d6 -> 2d6+2 de dano).'))
     # Vaguardista
     personagem.proficiencias.append('armas de fogo')
-    personagem.pericias['Ofício'].modificadores['Vangaurdista'] = 2 # especificar oficio dps
+    personagem.pericias['Ofício'].modificadores['Vanguardista'] = 2 # especificar oficio dps
 
 
 

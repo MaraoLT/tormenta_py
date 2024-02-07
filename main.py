@@ -6,6 +6,9 @@ from funcoes import *
 URGENTE:
 -[X] Mover todas as funções para fora de Personagem() para poder criar um arquivo com apenas as classes
 -[X] Criar método __init__ para criar pacote python
+-[X] Erro escolhendo minotauro druida em '-Adestramento (Car) Atletismo (For)'
+-[] Analisar bug em PM no fim
+-[] Retirar código comentado em racas.py
 
 Criação de Personagem:
 01-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
@@ -24,20 +27,20 @@ Criação de Personagem:
     -[X] Adquirir as infos de origens.txt para serem usadas
     -[X] Você escolhe dois benefícios da lista de benefícios -> fazer depois de implementar perícias
 05-[X] Escolhendo divindade (opcional): 20 divindades
-    -[] Poder sair da escolha de divindades
-    -[] Descrição da divindade na lista de divindades
-    -[] Não mostrar as divindades que não podem ser escolhidas
+    -[X] Poder sair da escolha de divindades
+    -[X] Descrição da divindade na lista de divindades
+    -[X] Não mostrar as divindades que não podem ser escolhidas
     -[X] Adquirir as infos de divindades.txt para serem usadas 
     -[X] Apenas certas classes ou raças podem ser devotos de certas divindades
 06-[X] Escolhendo Pericias: 30 perícias
     -[] Criar forma personalizada para a perícia Ofício
     -[X] Função que calcula o bônus de perícia
 -[] Percebi que preciso todas as funções de raças e classes para continuar daqui em diante
-    -[X] Funções raças prontas com excessões
+    -[X] Funções raças prontas com excessões: escolha de magias, osteon, escolha de poderes
     -[] Funções classes
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
-08-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
-    -[] Cálculo defesa
+08-[X] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
+    -[X] Cálculo defesa
 09-[] Salvar personagem criado em arquivo nome_personagem.txt
 10-[] Importar personagem em arquivos nome_personagem.txt para um objeto dentro do programa
 11-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida) - (necessária ajuda ou maior conhecimento de web scraping)
@@ -53,7 +56,7 @@ Criação de Personagem:
 Anotações gerais:
 -[] fazer comentarios nas funções
 -[] verificar se tem lugares no código que necessitam de um 'break'
--[] implementar em todo o código a função de ignorar acentos
+-[] implementar em todo o código a função de ignorar acentos -> falta nos atributos
 '''
 
 
@@ -420,7 +423,9 @@ def escolhe_origem(personagem):
                     achou = True
             else:
                 if 'beneficios: ' in formatacao(linha):
-                    origem.beneficios = escolhe_beneficios(personagem, linha[len('Beneficios: '):].strip().strip('\n'))
+                    if origem.nome != 'Amnésico': # provisório
+                        origem.beneficios = escolhe_beneficios(personagem, linha[len('Beneficios: '):].strip().strip('\n'))
+                    else: origem.beneficios.appen(linha[len('Beneficios: '):].strip().strip('\n'))
                 elif 'itens:' in formatacao(linha):
                     origem.itens.append(linha.strip('Itens:').strip().strip('\n'))
                 elif '---' in linha:
@@ -437,6 +442,35 @@ def escolhe_origem(personagem):
         # programar a parte de escolher poder
 
 
+def divindades_aceitas(personagem):
+    nomes_divindades, linhas = abre_arquivo('divindades.txt')
+    divindades_aceitas = []
+    for divindade in nomes_divindades:
+        encontrou = False
+        for linha in linhas:
+            if 'Divindade: ' + divindade in linha:
+                encontrou = True
+                continue
+            if encontrou:
+                devotos = formatacao(linha[len('Devotos: '):]).strip().strip('\n').strip('.').split(', ')
+                devoto = personagem.divindade.verifica_devotos(personagem.raca.nome, personagem.classe.nome, devotos)
+                if devoto:
+                    divindades_aceitas.append(divindade)
+                break
+
+    return divindades_aceitas
+
+
+def cria_descricoes_divindades():
+    nomes_divindades, linhas = abre_arquivo('divindades.txt')
+    descricoes_divindades = []
+    for linha in linhas:
+        if 'Crenças e Objetivos:'.lower() in linha.lower():
+            descricoes_divindades.append(linha[len('Crenças e Objetivos: '):linha.index('. ')+1])
+    
+    return descricoes_divindades
+
+
 def escolhe_divindade(personagem):
     devotos_obrigatorios = ['clerigo', 'druida', 'paladino']
     if personagem.classe.nome in devotos_obrigatorios:
@@ -451,7 +485,39 @@ def escolhe_divindade(personagem):
         devoto = False
         while not devoto:
             nomes_divindades, linhas = abre_arquivo('divindades.txt')
-            divindade_escolhida = escolhe_categoria(Palavra('divindade', 'divindades'), nomes_divindades, escolhidos_antes=[])[0]
+            descricoes_divindades = cria_descricoes_divindades()
+            if formatacao(personagem.raca.nome) != 'humano' and formatacao(personagem.classe.nome) != 'clerigo':
+                pode_ser_devoto = divindades_aceitas(personagem)
+            else:
+                pode_ser_devoto = nomes_divindades
+            escolhida = False
+            while not escolhida:
+                print(f'\nEscolha 1 divindade dentre: ')
+                i = 0
+                for nome_divindade in nomes_divindades:
+                    if nome_divindade in pode_ser_devoto:
+                        print(f'-{nome_divindade.upper()}. {descricoes_divindades[i]} ')
+                    i += 1
+                divindade_escolhida = formatacao(input())
+                if formatacao(divindade_escolhida) in 'sair':
+                    print('Você optou por não seguir nenhuma religião. Toda vez que subir de nível você terá outra oportunidade de virar seguidor de alguma divindade.')
+                    return
+                encontrou = False
+                for nome_divindade in nomes_divindades:
+                    if divindade_escolhida in formatacao(nome_divindade):
+                        if nome_divindade in pode_ser_devoto:
+                            divindade_escolhida = nome_divindade
+                            escolhida = True
+                            print(f'Divindade escolhida: {nome_divindade.title()}')
+                            encontrou = True
+                            break
+                        else:
+                            print(f'{nome_divindade.title()} já foi escolhido!')
+                            encontrou = True
+                            break
+                if not encontrou:
+                    print(f'{divindade_escolhida.title()} não é um item válido!')
+
 
             divindade = Divindade(devotos=[], poderes=[])
             achou = False

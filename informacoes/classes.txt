@@ -207,7 +207,7 @@ Descricao: Guardião do mundo natural e devoto das forças selvagens, naturais o
 Atributo: Sabedoria
 PV: 16
 PM: 4
-Pericias: Sobrevivência (Sab), Vontade (Sab), escolha 4 entre: Adestramento (Car) Atletismo (For), Cavalgar (Des), Conhecimento (Int), Cura (Sab), Fortitude (Con), Iniciativa (Des), Intuição (Sab), Luta (For), Misticismo (Int), Ofício (Int), Percepção (Sab), Religião (Sab)
+Pericias: Sobrevivência (Sab), Vontade (Sab), escolha 4 entre: Adestramento (Car), Atletismo (For), Cavalgar (Des), Conhecimento (Int), Cura (Sab), Fortitude (Con), Iniciativa (Des), Intuição (Sab), Luta (For), Misticismo (Int), Ofício (Int), Percepção (Sab), Religião (Sab)
 Proficiencias: Escudos
 Habilidades de Classe:
 1- Devoto fiel, empatia selvagem, magias (1o círculo)
