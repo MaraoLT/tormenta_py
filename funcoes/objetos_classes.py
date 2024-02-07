@@ -143,7 +143,7 @@ class Raca:
 
     def imprime(self):
         '''
-        Esta função simplesmente imprime as características que a classe adiciona
+        Esta função simplesmente imprime as características que a raça adiciona
         '''
         print(self.nome.upper())
         print(f'Atributos: {self.modificadores_atributos}\n')
@@ -328,8 +328,8 @@ class Personagem:
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
     pericias: DefaultDict[str, Pericia] = field(default_factory=dict)
     proficiencias: list = field(default_factory=list)
-    caracteristicas: DefaultDict[str, str] = field(default_factory=dict)
-    habilidades_poderes: DefaultDict[str, str] = field(default_factory=dict)
+    caracteristicas: list = field(default_factory=list)
+    habilidades_poderes: list = field(default_factory=list)
     PV: Pontos = field(default_factory=Pontos)
     PM: Pontos = field(default_factory=Pontos)
     resistencias: DefaultDict[str, int] = field(default_factory=dict)
@@ -354,10 +354,8 @@ class Personagem:
         print(f'Resistências: {self.resistencias}')
         print(f'Fraquezas: {self.fraquezas}')
         print(f'Imunidades: {self.imunidades}')
-        print(f'Características:')
-        print(self.caracteristicas)
-        print(f'Habilidades e Poderes:')
-        print(self.habilidades_poderes)
+        self.imprime_caracteristicas()
+        self.imprime_habilidades_poderes()
         self.PV.imprime('PV')
         self.PM.imprime('PM')
         self.defesa.imprime()
@@ -368,6 +366,25 @@ class Personagem:
         self.origem.imprime()
         if self.divindade.nome != '': self.divindade.imprime()
 
+
+    def imprime_caracteristicas(self):
+        '''
+        Esta função simplesmente imprime as características do personagem
+        '''
+        print('CARACTERÍSTICAS:')
+        for caracteristica in self.caracteristicas:
+            caracteristica.imprime()
+        print('-'*40)
+
+
+    def imprime_habilidades_poderes(self):
+        '''
+        Esta função simplesmente imprime as características do personagem
+        '''
+        print('HABILIDADES E PODERES:')
+        for habili_poderes in self.habilidades_poderes:
+            habili_poderes.imprime()
+        print('-'*40)
 
 
     def imprime_pericias(self):
