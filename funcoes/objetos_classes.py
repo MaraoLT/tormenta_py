@@ -56,10 +56,8 @@ nomes_pericias = ['Acrobacia', 'Adestramento', 'Atletismo', 'Atuação', 'Cavalg
                         'Guerra', 'Iniciativa', 'Intimidação', 'Intuição', 'Investigação', 'Jogatina',
                         'Ladinagem', 'Luta', 'Misticismo', 'Nobreza', 'Ofício', 'Percepção',
                         'Pilotagem', 'Pontaria', 'Reflexos', 'Religião', 'Sobrevivência', 'Vontade']
-
 penalidade_treino = ['Adestramento', 'Atuação', 'Conhecimento', 'Guerra', 'Jogatina', 'Ladinagem',
                       'Misticismo', 'Nobreza', 'Ofício', 'Pilotagem', 'Religião']
-
 penalidade_armadura = ['Acrobacia', 'Furtividade', 'Ladinagem']
 
 @dataclass
@@ -68,6 +66,7 @@ class Pericia:
     treinada: bool = False
     modificadores: DefaultDict[str, int] = field(default_factory=dict)
     modificador: int = 0
+
 
 dicionario_pericias = {'Acrobacia': Pericia('Destreza'), 'Adestramento': Pericia('Carisma'), 
                        'Atletismo': Pericia('Força'), 'Atuação': Pericia('Carisma'),
@@ -84,6 +83,25 @@ dicionario_pericias = {'Acrobacia': Pericia('Destreza'), 'Adestramento': Pericia
                        'Pilotagem': Pericia('Destreza'), 'Pontaria': Pericia('Destreza'),
                        'Reflexos': Pericia('Destreza'), 'Religião': Pericia('Sabedoria'),
                        'Sobrevivência': Pericia('Sabedoria'), 'Vontade': Pericia('Sabedoria')}
+
+
+@dataclass
+class Defesa:
+    valor: int = 10
+    modificadores: DefaultDict[str, int] = field(default_factory=dict)
+
+
+    def calcula(self):
+        soma = 10
+        for modificador in self.modificadores.values():
+            soma += modificador
+
+        self.valor = soma
+
+
+    def imprime(self):
+        self.calcula()
+        print(f'Defesa: {self.valor}')
 
 
 @dataclass
@@ -106,7 +124,11 @@ class Pontos:
     atual: int = 0
     max: int = 0
     temp: int = 0
-    extra_nivel: DefaultDict(str, int) = field(default_factory=dict)
+    extra_nivel: DefaultDict[str, int] = field(default_factory=dict)
+
+
+    def imprime(self, texto):
+        print(f'{texto}: {self.atual}/{self.max}')
 
 
 @dataclass
@@ -305,13 +327,19 @@ class Personagem:
     divindade: Divindade = field(default_factory=Divindade)
     atributos: DefaultDict[str, Atributo] = field(default_factory=dict)
     pericias: DefaultDict[str, Pericia] = field(default_factory=dict)
+    proficiencias: list = field(default_factory=list)
     caracteristicas: DefaultDict[str, str] = field(default_factory=dict)
     habilidades_poderes: DefaultDict[str, str] = field(default_factory=dict)
-    equipamento: list = None
     PV: Pontos = field(default_factory=Pontos)
     PM: Pontos = field(default_factory=Pontos)
-    # defesa: Defesa() = defesa_default
-    # tamanho: Tamanho() = tamanho_default
+    resistencias: DefaultDict[str, int] = field(default_factory=dict)
+    fraquezas: DefaultDict[str, int] = field(default_factory=dict)
+    imunidades: list = field(default_factory=list)
+    defesa: Defesa = field(default_factory=Defesa)
+    tamanho: str = 'Médio'
+    deslocamento: int = 9 # em metros
+    penalidade_armadura: DefaultDict[str, int] = field(default_factory=dict)
+    equipamento: list = field(default_factory=list)
 
 
     def imprime(self):
@@ -321,15 +349,25 @@ class Personagem:
         print()
         print(f'{self.nome} ({self.jogador})')
         print(f'{self.raca.nome.title()}/{self.classe.nome.title()} {self.nivel}')
-        print(f'PV: {self.PV.atual}/{self.PV.max}')
-        print(f'PM: {self.PM.atual}/{self.PM.max}')
-        # print(f'Defesa: {self.defesa if self.defesa > 0 else "Ainda não finalizado"}')
+        print(f'Tamanho: {self.tamanho}')
+        print(f'Deslocamento: {self.deslocamento}m')
+        print(f'Resistências: {self.resistencias}')
+        print(f'Fraquezas: {self.fraquezas}')
+        print(f'Imunidades: {self.imunidades}')
+        print(f'Características:')
+        print(self.caracteristicas)
+        print(f'Habilidades e Poderes:')
+        print(self.habilidades_poderes)
+        self.PV.imprime('PV')
+        self.PM.imprime('PM')
+        self.defesa.imprime()
         self.imprime_atributos()
         self.imprime_pericias()
         self.raca.imprime()
         self.classe.imprime()
         self.origem.imprime()
         if self.divindade.nome != '': self.divindade.imprime()
+
 
 
     def imprime_pericias(self):

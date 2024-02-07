@@ -264,14 +264,21 @@ def altera_atributos(personagem):
     personagem.imprime_atributos()
 
 
-def adiciona_habilidades(personagem):
-    for habilidade in personagem.raca.habilidades:
-        nome_funcao = formatacao(habilidade.nome)
-        if nome_funcao in funcoes_racas:
-            funcao_executada = funcoes_racas[nome_funcao]
-            funcao_executada(personagem)
-        else:
-            print(f'A função {nome_funcao} não existe :(')
+def adiciona_habilidades(personagem): # talvez percise usar isso pro OSTEON funcionar
+    # for habilidade in personagem.raca.habilidades:
+    #     nome_funcao = formatacao(habilidade.nome)
+    #     if nome_funcao in funcoes_racas:
+    #         funcao_executada = funcoes_racas[nome_funcao]
+    #         funcao_executada(personagem)
+    #     else:
+    #         print(f'A função {nome_funcao} não existe :(')
+    
+    nome_funcao = formatacao(personagem.raca.nome)
+    if nome_funcao in funcoes_racas:
+        funcao_executada = funcoes_racas[nome_funcao]
+        funcao_executada(personagem)
+    else:
+        print(f'A função {nome_funcao} não existe :(')
 
 
 def alteracoes_raca(personagem):
@@ -326,6 +333,8 @@ def alteracoes_classe(personagem):
     for pericia_classe in personagem.classe.pericias:
         personagem.pericias[pericia_classe[:-6].strip().title()].treinada = True
 
+    # Proficiência
+    personagem.proficiencias += personagem.classe.proficiencias
 
 
 def escolhe_classe(personagem):
@@ -392,30 +401,34 @@ def escolhe_origem(personagem):
     '''
     
     '''
-    nomes_origens, linhas = abre_arquivo('origens.txt')
-    origem_escolhida = escolhe_categoria(Palavra('origem', 'origens'), nomes_origens, escolhidos_antes=[])[0]
-    
-    origem = Origem(beneficios=[], itens=[])
-    achou = False
-    for linha in linhas:
-        if not achou:
-            if 'origem: ' + origem_escolhida.lower() in linha.lower():
-                origem.nome = origem_escolhida
-                achou = True
-        else:
-            if 'beneficios: ' in formatacao(linha):
-                origem.beneficios = escolhe_beneficios(personagem, linha[len('Beneficios: '):].strip().strip('\n'))
-            elif 'itens:' in formatacao(linha):
-                origem.itens.append(linha.strip('Itens:').strip().strip('\n'))
-            elif '---' in linha:
-                break
-    
-    for pericia in nomes_pericias:
-        for beneficio in origem.beneficios:
-            if beneficio in pericia:
-                personagem.pericias[pericia].treinada = True
+    if formatacao(personagem.raca.nome) != 'golem':
+        nomes_origens, linhas = abre_arquivo('origens.txt')
+        origem_escolhida = escolhe_categoria(Palavra('origem', 'origens'), nomes_origens, escolhidos_antes=[])[0]
+        
+        origem = Origem(beneficios=[], itens=[])
+        achou = False
+        for linha in linhas:
+            if not achou:
+                if 'origem: ' + origem_escolhida.lower() in linha.lower():
+                    origem.nome = origem_escolhida
+                    achou = True
+            else:
+                if 'beneficios: ' in formatacao(linha):
+                    origem.beneficios = escolhe_beneficios(personagem, linha[len('Beneficios: '):].strip().strip('\n'))
+                elif 'itens:' in formatacao(linha):
+                    origem.itens.append(linha.strip('Itens:').strip().strip('\n'))
+                elif '---' in linha:
+                    break
+        
+        for pericia in nomes_pericias:
+            for beneficio in origem.beneficios:
+                if beneficio in pericia:
+                    personagem.pericias[pericia].treinada = True
 
-    personagem.origem = origem
+        personagem.origem = origem
+    else:
+        print('Por ser um golem você foi construído “pronto” para um propósito específico e não teve uma infância. Você não tem direito a escolher uma origem, mas recebe um poder geral a sua escolha.')
+        # programar a parte de escolher poder
 
 
 def escolhe_divindade(personagem):
