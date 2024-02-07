@@ -5,7 +5,7 @@ from funcoes import *
 '''
 URGENTE:
 -[X] Mover todas as funções para fora de Personagem() para poder criar um arquivo com apenas as classes
--[] Criar método __init__ para criar pacote python
+-[X] Criar método __init__ para criar pacote python
 
 Criação de Personagem:
 01-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
@@ -24,14 +24,20 @@ Criação de Personagem:
     -[X] Adquirir as infos de origens.txt para serem usadas
     -[X] Você escolhe dois benefícios da lista de benefícios -> fazer depois de implementar perícias
 05-[X] Escolhendo divindade (opcional): 20 divindades
+    -[] Poder sair da escolha de divindades
+    -[] Descrição da divindade na lista de divindades
+    -[] Não mostrar as divindades que não podem ser escolhidas
     -[X] Adquirir as infos de divindades.txt para serem usadas 
     -[X] Apenas certas classes ou raças podem ser devotos de certas divindades
 06-[X] Escolhendo Pericias: 30 perícias
     -[] Criar forma personalizada para a perícia Ofício
     -[X] Função que calcula o bônus de perícia
 -[] Percebi que preciso todas as funções de raças e classes para continuar daqui em diante
+    -[X] Funções raças prontas com excessões
+    -[] Funções classes
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
 08-[] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
+    -[] Cálculo defesa
 09-[] Salvar personagem criado em arquivo nome_personagem.txt
 10-[] Importar personagem em arquivos nome_personagem.txt para um objeto dentro do programa
 11-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida) - (necessária ajuda ou maior conhecimento de web scraping)
