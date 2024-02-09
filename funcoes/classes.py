@@ -7,8 +7,8 @@ def arcanista(personagem):
     
     '''
     for i in range(personagem.nivel):
-        for habiliade in personagem.classe.habilidades:
-
+        for habilidade in personagem.classe.habilidades:
+            
 
 
 
