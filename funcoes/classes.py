@@ -1,7 +1,7 @@
 from .basicas import *
 from .objetos_classes import *
 
-# # Arcanista
+# Arcanista
 def arcanista(personagem):
     '''
     
