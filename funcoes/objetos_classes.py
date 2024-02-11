@@ -85,6 +85,10 @@ dicionario_pericias = {'Acrobacia': Pericia('Destreza'), 'Adestramento': Pericia
                        'Sobrevivência': Pericia('Sabedoria'), 'Vontade': Pericia('Sabedoria')}
 
 
+# @dataclass
+# class Magia:
+    
+
 @dataclass
 class Defesa:
     valor: int = 10
