@@ -84,6 +84,9 @@ dicionario_pericias = {'Acrobacia': Pericia('Destreza'), 'Adestramento': Pericia
                        'Reflexos': Pericia('Destreza'), 'Religião': Pericia('Sabedoria'),
                        'Sobrevivência': Pericia('Sabedoria'), 'Vontade': Pericia('Sabedoria')}
 
+# Oficios: armeiro, alquimista, cozinheiro, alfaiate, carpinteiro, pedreiro, ourives, 
+# fazendeiro, pescador, estalajadeiro, escriba, escultor, pintor
+
 
 # @dataclass
 # class Magia:

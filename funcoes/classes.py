@@ -1,6 +1,32 @@
 from .basicas import *
 from .objetos_classes import *
 
+
+poderes_arcanista = {
+    'Arcano de Batalha': '',
+    'Aumento de Atributo': '',
+    'Caldeirão do Bruxo': 'Bruxo, treinado em Ofício (alquimista)',
+    'Conhecimento Mágico': '',
+    'Contramágica Aprimorada': 'Dissipar Magia',
+    'Envolto em Mistério': '',
+    'Escriba Arcano': 'Mago, treinado em Ofício (escriba)',
+    'Especialista em Escola': 'Bruxo, Mago',
+    'Familiar': '',
+    'Fluxo de Mana': 'nível 10',
+    'Foco Vital': 'Bruxo',
+    'Fortalecimento Arcano': 'nível 5',
+    'Herança Aprimorada': 'Feiticeiro, nível 6',
+    'Herança Superior': 'Herança Aprimorada, nível 11',
+    'Magia Pungente': '',
+    'Mestre em Escola': 'Especialista em Escola com a escola escolhida, nível 8',
+    'Poder Mágico': '',
+    # falta ainda
+}
+
+def verifica_poderes(personagem):
+    
+
+
 # Arcanista
 def arcanista(personagem):
     '''
@@ -38,7 +64,7 @@ def arcanista(personagem):
 
 
     def poder_de_arcanista(personagem):
-        ...
+        poderes_possiveis = verifica_poderes(personagem)
 
 
 

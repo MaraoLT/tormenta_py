@@ -527,12 +527,12 @@ def escolhe_divindade(personagem):
                         achou = True
                 else:
                     if 'devotos: ' in formatacao(linha):
-                        if personagem.raca.nome != 'humano' and personagem.classe.nome != 'clerigo':
-                            devoto = personagem.divindade.verifica_devotos(personagem.raca.nome, personagem.classe.nome, linha.strip('Devotos:').lower().strip().strip('\n').strip('.').split(', '))
-                            if not devoto:
-                                break
-                        else:
-                            devoto = True
+                        # if personagem.raca.nome != 'humano' and personagem.classe.nome != 'clerigo':
+                        #     devoto = personagem.divindade.verifica_devotos(personagem.raca.nome, personagem.classe.nome, linha.strip('Devotos:').lower().strip().strip('\n').strip('.').split(', '))
+                        #     if not devoto:
+                        #         break
+                        # else:
+                        devoto = True
                         divindade.devotos = linha[len('Devotos: '):].lower().strip().strip('\n').strip('.').split(', ')
                     elif 'crencas e objetivos: ' in formatacao(linha):
                         divindade.crencas_objetivos = linha[len('Crenças e Objetivos: '):].strip().strip('\n')
