@@ -591,9 +591,14 @@ def criar_personagem():
     return personagem
 
 
+def personagem_pdf(personagem):
+    preencher_campos_selecao('fichas/ficha_base.pdf', atribui_personagem_pdf(personagem))
+
+
 def main():
     personagem = criar_personagem()
     escolhas(personagem)
+    personagem_pdf(personagem)
 
 
 if __name__ == "__main__":

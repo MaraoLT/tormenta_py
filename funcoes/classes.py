@@ -24,7 +24,7 @@ poderes_arcanista = {
 }
 
 def verifica_poderes(personagem):
-    
+    ...
 
 
 # Arcanista
