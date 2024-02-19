@@ -73,3 +73,19 @@ def escolhe_categoria(categoria, nomes_categoria, n_escolhas = 1, escolhidos_ant
             print(f'{item_escolhido.title()} não é um item válido!')
 
     return escolhidos
+
+
+def lista_texto(lista, divisor):
+    texto = ''
+    for item in lista:
+        texto += item + divisor
+
+    return texto
+
+
+def dict_texto(dict, divisor):
+    texto = ''
+    for item in dict.keys():
+        texto += f'{item} ({dict[item]}){divisor}'
+
+    return texto

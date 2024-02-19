@@ -180,7 +180,7 @@ def kliren(personagem):
     # Híbrido
     print('Parabéns, você ganhou uma perícia adicional por conta da raça Kliren')
     pericia = escolhe_categoria(Palavra('perícia', 'perícias'), nomes_pericias, 1, personagem.pericias_treinadas())[0]
-    personagem.pericias[pericia].modificadores['Híbrido'] = 2
+    personagem.pericias[pericia].treinada = True
     # Engenhosidade
     personagem.habilidades_poderes.append(Habilidade('Engenhosidade', 'Quando faz um teste de perícia, você pode gastar 2 PM para somar sua Inteligência no teste. Você não pode usar esta habilidade em testes de ataque. Caso receba esta habilidade novamente, seu custo é reduzido em -1 PM.'))
     # Ossos Frágeis

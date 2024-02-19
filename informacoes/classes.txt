@@ -352,7 +352,7 @@ Descricao: Um membro da alta sociedade cujas principais armas são as palavras e
 Atributo: Carisma
 PV: 16
 PM: 4
-Pericias: Diplomacia (Car) OU Intimidação (Car), Vontade (Sab), escolha 4 entre: Adestramento (Car), Atuação (Car), Cavalgar (Des), Conhecimento (Int), Diplomacia (Car), Enganação (Car), Fortitude (Con), Guerra (Int), Iniciativa (Des), Intimidação (Car), Intuição (Sab), Investiga- ção (Int), Jogatina (Car), Luta (For), Nobreza (Int), Ofício (Int), Percepção (Sab), Pontaria (Des)
+Pericias: Diplomacia (Car) OU Intimidação (Car), Vontade (Sab), escolha 4 entre: Adestramento (Car), Atuação (Car), Cavalgar (Des), Conhecimento (Int), Diplomacia (Car), Enganação (Car), Fortitude (Con), Guerra (Int), Iniciativa (Des), Intimidação (Car), Intuição (Sab), Investigação (Int), Jogatina (Car), Luta (For), Nobreza (Int), Ofício (Int), Percepção (Sab), Pontaria (Des)
 Proficiencias: Armas marciais, armaduras pesadas e escudos.
 Habilidades de Classe:
 1- Autoconfiança, espólio, orgulho

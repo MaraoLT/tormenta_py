@@ -1,9 +1,7 @@
 import pdfrw
-
+from fillpdf import fillpdfs
 from .basicas import *
 from .objetos_classes import *
-
-
 
 
 dict_pdf = {'Nome do Personagem': '',
@@ -352,16 +350,47 @@ dict_pdf = {'Nome do Personagem': '',
             'Reset': '',
             }
 
+marcadores_pericias = [ 'Mar Trei acro',
+ 'Mar Trei ades',
+ 'Mar Trei atle',
+ 'Mar Trei atua',
+ 'Mar Trei caval',
+ 'Mar Trei conhe',
+ 'Mar Trei cura',
+ 'Mar Trei dipl',
+ 'Mar Trei enga',
+ 'Mar Trei forti',
+ 'Mar Trei furti',
+ 'Mar Trei guerra',
+ 'Mar Trei ini',
+ 'Mar Trei inti',
+ 'Mar Trei intu',
+ 'Mar Trei inve',
+ 'Mar Trei joga',
+ 'Mar Trei ladi',
+ 'Mar Trei luta',
+ 'Mar Trei misti',
+ 'Mar Trei nobre',
+ 'Mar Trei ofi1',
+ 'Mar Trei ofi2',
+ 'Mar Trei perce',
+ 'Mar Trei pilo',
+ 'Mar Trei ponta',
+ 'Mar Trei refle',
+ 'Mar Trei reli',
+ 'Mar Trei sobre',
+ 'Mar Trei vonta',
+ ]
+
 
 
 def atribui_personagem_pdf(personagem):
-
 
     dict_pdf = {'Nome do Personagem': personagem.nome,
             'Nome do Jogador': personagem.jogador,
             'Raca do Personagem': personagem.raca.nome,
             'Origem do Personagem': personagem.origem.nome,
-            'Classe\\(s\\) do personagem': personagem.classe.nome, # Não aparece
+            'Classe\\(s\\) do personagem': personagem.classe.nome,
             'Divindade': personagem.divindade.nome,
             'ModFor': str(personagem.atributos['Força'].modificador),
             'ModDes': str(personagem.atributos['Destreza'].modificador),
@@ -404,7 +433,7 @@ def atribui_personagem_pdf(personagem):
             'Margem de cr#C3#ADtico e multiplicador 5': '',
             'Tipo de dano do ataque 5': '',
             'Alcance do ataque 5': '',
-            'Proficiencias e outras caracteristicas': '',
+            'Proficiencias e outras caracteristicas': f'Proficiências: {lista_texto(personagem.proficiencias, ", ")[:-2]}\nFraquezas: {dict_texto(personagem.fraquezas, ", ")[:-2]}\nImunidades: {lista_texto(personagem.imunidades, ", ")[:-2]}',
             'Experiencia total do personagem': '',
             'Deslocamento do personagem': str(personagem.deslocamento),
             # Inventario
@@ -459,246 +488,217 @@ def atribui_personagem_pdf(personagem):
             'Item 17': '',
             'Quantidade Item 17': '',
             'Slots Item 17': '',
-            'Tibares': '',
-            'Limite de carga': '',
+            'Tibares': str('4d6' if personagem.nivel == 1 else ''),
+            'Limite de carga': str(personagem.limite_carga),
             # Descrições
-            'Descricao': '',
-            'Habilidades de raca e origem': '',
-            'Habilidades de Classe e poderes': '',
-            'Teste de resistencias': '',
-            'Magias': '',
+            'Descricao': personagem.classe.descricao,
+            'Habilidades de raca e origem': habilidades_texto(personagem.caracteristicas, '\n\n'),
+            'Habilidades de Classe e poderes': habilidades_texto(personagem.habilidades_poderes, '\n\n'),
+            # Teste de resistencias': '',
+            'Magias': 'Ainda não implementado.',
             'Anotacoes': '',
             'Lv': str(personagem.nivel),
-            'CA': 'a',
-            'Base CA': 'b', # Nada
-            'arm pesa': 'c', # Nada
-            'SeleAtribDefe': 'Sabedoria',
-            'ModAtribDefe': '13', # Modificador em baixo de Des
-            'Arm': '',
-            'Esc': '',
-            'Arm1': '',
-            'Esc2': '',
-            'B': 'B',
-            'Outros B': 'outr',
-            'PArmTotal': 'PAr',
-            'Armadura': 'ar',
-            'Pa': 'pa',
-            'Escudo': 'es',
-            'Pe': 'pe',
-            'SeleTamanho': 'Grande',
-            'ModFurtTam': '',
-            'ModManTam': '',
+            # 'CA': '', # Defesa final e Outros
+            # 'Base CA': '', # Deve ser o 10 por padrão
+            # 'arm pesa': 'Yes', # Checkbox de proficiência em armadura pesada
+            # 'SeleAtribDefe': '',
+            # 'ModAtribDefe': '', # Modificador em baixo de Des
+            # 'Arm': '-1', # Bônus de Armadura
+            # 'Esc': '-2', # Bônus de Escudo
+            # 'Arm1': '-3', # Armadura em baixo
+            # 'Esc2': '-4', # Escudo em baixo
+            # 'B': 'c', #nd
+            # 'Outros B': 'd', #nd
+            # 'PArmTotal': '', # Penalidade Armadura Total
+            'Armadura': '0',
+            'Pa': '0', # Penalidade Armadura (em cima)
+            'Escudo': '0',
+            'Pe': '0', # Penalidade Escudo (em baixo)
+            'SeleTamanho': str(personagem.tamanho),
+            # 'ModFurtTam': str(personagem.furtividade_manobra[0]),
+            # 'ModManTam': str(personagem.furtividade_manobra[1]),
+            # PERICIAS
             # Acrobacia
-            'Mar Trei acro': ['Yes'], # Marcador de Treinado
-            '011': '', # 1/2 do nivel
-            'SeleAtribAcro': 'Sab', # sla
-            '013': '1', # Treino
-            '014': '2', # Outros
-            'ModAtribAcro': '3', # Nada
+            'Mar Trei acro': '', # Marcador de Treinado
+            # '011': '', # 1/2 do nivel
+            # '013': '0', # Treino
+            # '014': '0', # Outros
+            # 'ModAtribAcro': '', # Nada
             # Adestramento
-            'Mar Trei ades': ['Yes'],
-            # '021': '',
-            # 'SeleAtribAdes': '',
-            '023': '1',
-            '024': '2',
+            'Mar Trei ades': '',
+            # '021': '0',
+            # '023': '0',
+            # '024': '2',
             #'ModAtribAdes': '',
             # Atletismo
             'Mar Trei atle': '',
-            '031': '',
-            'SeleAtribAtle': '',
-            '033': '',
-            '034': '',
+            # '031': '',
+            # '033': '',
+            # '034': '',
             'ModAtribAtle': '',
             # Atuação
             'Mar Trei atua': '',
-            '041': '',
-            'SeleAtribAtua': '',
-            '043': '',
-            '044': '',
+            # '041': '',
+            # '043': '',
+            # '044': '',
             'ModAtribAtua': '',
             # Cavalgar
             'Mar Trei caval': '',
-            '051': '',
-            'SeleAtribCava': '',
-            '053': '',
-            '054': '',
+            # '051': '',
+            # '053': '',
+            # '054': '',
             'ModAtribCava': '',
             # Conhecimento
             'Mar Trei conhe': '',
-            '061': '',
-            'SeleAtribConh': '',
-            '063': '',
-            '064': '',
+            # '061': '',
+             #'063': '',
+            # '064': '',
             'ModAtribConh': '',
             # Cura
             'Mar Trei cura': '',
-            '071': '',
-            'SeleAtribCura': '',
-            '073': '',
-            '074': '',
+            # '071': '',
+            # '073': '',
+            # '074': '',
             'ModAtribCura': '',
             # Diplomacia
             'Mar Trei dipl': '',
-            '081': '',
-            'SeleAtribDipl': '',
-            '083': '',
-            '084': '',
+            # '081': '',
+            # '083': '',
+            # '084': '',
             'ModAtribDipl': '',
             # Enganação
             'Mar Trei enga': '',
-            '091': '',
-            'SeleAtribEnga': '',
-            '093': '',
-            '094': '',
+            # '091': '',
+            # '093': '',
+            # '094': '',
             'ModAtribEnga': '',
             # Fortitude
             'Mar Trei forti': '',
-            '101': '',
-            'SeleAtribFort': '',
-            '103': '',
-            '104': '',
+            # '101': '',
+            # '103': '',
+            # '104': '',
             'ModAtribFort': '',
             # Furtividade
             'Mar Trei furti': '',
-            '111': '',
-            'SeleAtribFurt': '',
-            '113': '',
-            '114': '',
+            # '111': '',
+            # '113': '',
+            # '114': '',
             'ModAtribFurt': '',
             # Guerra
             'Mar Trei guerra': '',
-            '121': '',
-            'SeleAtribGuer': '',
-            '123': '',
-            '124': '',
+            # '121': '',
+            # '123': '',
+            # '124': '',
             'ModAtribGuer': '',
             # Iniciativa
             'Mar Trei ini': '',
-            '131': '',
-            'SeleAtribInic': '',
-            '133': '',
-            '134': '',
+            # '131': '',
+            # '133': '',
+            # '134': '',
             'ModAtribInic': '',
             # Intimidação
             'Mar Trei inti': '',
-            '141': '',
-            'SeleAtribInti': '',
-            '143': '',
-            '144': '',
+            #  '141': '',
+            #  '143': '',
+            # '144': '',
             'ModAtribInti': '',
             # Intuição
             'Mar Trei intu': '',
-            '151': '',
-            'SeleAtribIntu': '',
-            '153': '',
-            '154': '',
+            # '151': '',
+            # '153': '',
+            # '154': '',
             'ModAtribIntu': '',
             # Investigação
             'Mar Trei inve': '',
-            '161': '',
-            'SeleAtribInve': '',
-            '163': '',
-            '164': '',
+            # '161': '',
+            # '163': '',
+            # '164': '',
             'ModAtribInve': '',
             # Jogatina
             'Mar Trei joga': '',
-            '171': '',
-            'SeleAtribJoga': '',
-            '173': '',
-            '174': '',
+            # '171': '',
+            # '173': '',
+            # '174': '',
             'ModAtribJoga': '',
             # Ladinagem
             'Mar Trei ladi': '',
-            '181': '',
-            'SeleAtribLadi': '',
-            '183': '',
-            '184': '',
+            # '181': '',
+            # '183': '',
+            # '184': '',
             'ModAtribLadi': '',
             # Luta
             'Mar Trei luta': '',
-            '191': '',
-            'SeleAtribLuta': '',
-            '193': '',
-            '194': '',
+            # '191': '',
+            # '193': '',
+            # '194': '',
             'ModAtribLuta': '',
             # Misticismo
             'Mar Trei misti': '',
-            '201': '',
-            'SeleAtribMist': '',
-            '203': '',
-            '204': '',
+            # '201': '',
+            # '203': '',
+            # '204': '',
             'ModAtribMist': '',
             # Nobreza
             'Mar Trei nobre': '',
-            '221': '',
-            'SeleAtribNobr': '',
-            '223': '',
-            '224': '',
+            # '221': '',
+            # '223': '',
+            # '224': '',
             'ModAtribNobr': '',
             # Oficio 1
             'Mar Trei ofi1': '',
             'Ofício 1': '', # especificação
-            '231': '',
-            'SeleAtribOfi1': '',
-            '233': '',
-            '234': '',
+            # '231': '',
+            # '233': '',
+            # '234': '',
             'ModAtribOfi1': '',
             # Oficio 2
             'Mar Trei ofi2': '',
             'Ofício_2': '', # especificação
-            '241': '',
-            'SeleAtribOfi2': '',
-            '243': '',
-            '244': '',
+            #  '241': '',
+            #  '243': '',
+            # '244': '',
             'ModAtribOfi2': '',
             # Percepção
             'Mar Trei perce': '',
-            '251': '',
-            'SeleAtribPerc': '',
-            '253': '',
-            '254': '',
+            # '251': '',
+            # '253': '',
+            # '254': '',
             'ModAtribPerc': '',
             # Pilotagem
             'Mar Trei pilo': '',
-            '211': '',
-            'SeleAtribPilo': '',
-            '213': '',
-            '214': '',
+            # '211': '',
+            # '213': '',
+            # '214': '',
             'ModAtribPilo': '',
             # Pontaria
             'Mar Trei ponta': '',
-            '261': '',
-            'SeleAtribPont': '',
-            '263': '',
-            '264': '',
+            # '261': '',
+             #'263': '',
+            # '264': '',
             'ModAtribPont': '',
             # Reflexo
             'Mar Trei refle': '',
-            '271': '',
-            'SeleAtribRefl': '',
-            '273': '',
-            '274': '',
+            # '271': '',
+            # '273': '',
+            # '274': '',
             'ModAtribRefl': '',
             # Religião
             'Mar Trei reli': '',
-            '281': '',
-            'SeleAtribReli': '',
-            '283': '',
-            '284': '',
+            # '281': '',
+            # '283': '',
+            # '284': '',
             'ModAtribReli': '',
             # Sobrevivência
             'Mar Trei sobre': '',
-            '291': '',
-            'SeleAtribSobr': '',
-            '293': '',
-            '294': '',
+            # '291': '',
+            # '293': '',
+            # '294': '',
             'ModAtribSobr': '',
             # Vontade
             'Mar Trei vonta': '',
-            '301': '',
-            'SeleAtribVont': '',
-            '303': '',
-            '304': '',
+            # '301': '',
+            # '303': '',
+            # '304': '',
             'ModAtribVont': '',
             # Totais
             # '010': '',
@@ -730,35 +730,49 @@ def atribui_personagem_pdf(personagem):
             # '270': '',
             # '280': '',
             # '290': '',
-            # '300': '',
-            'SeleAtribMagia': 'Sab',
+            #  'Sab',
             'ModAtribMagia': '',
             'Carga Usada': '',
-            'Reset': '',
+            # 'Reset': '',
             }
     
+    for i in range(len(nomes_pericias)):
+        if personagem.pericias[nomes_pericias[i]].treinada:
+            dict_pdf[marcadores_pericias[i]] = 'Yes'
+
     return dict_pdf
 
 
 
 def preencher_campos_selecao(pdf_path, dados):
-    template_pdf = pdfrw.PdfReader(pdf_path)
+    # template_pdf = pdfrw.PdfReader(pdf_path)
     
-    for page in template_pdf.pages:
-        annotations = page['/Annots']
-        if annotations:
-            for annotation in annotations:
-                if annotation['/Subtype'] == '/Widget':
-                    field_name = annotation['/T']
-                    if field_name[1:-1] in dados:
-                        field_value = dados[field_name[1:-1]]
-                        if isinstance(field_value, list):  # Para caixas de marcação (checkbox)
-                            annotation.update(pdfrw.PdfDict(V=pdfrw.PdfName(field_value[0]))) # nao funciona
-                        elif isinstance(field_value, str):  # Para texto básico
-                            annotation.update(pdfrw.PdfDict(V=field_value))
-                        else: # Para campos selecionáveis
-                            annotation.update(pdfrw.PdfDict(V=field_value))
+    # for page in template_pdf.pages:
+    #     annotations = page['/Annots']
+    #     if annotations:
+    #         for annotation in annotations:
+    #             if annotation['/Subtype'] == '/Widget':
+    #                 field_name = annotation['/T']
+    #                 if field_name[1:-1] in dados:
+    #                     field_value = dados[field_name[1:-1]]
+    #                     if isinstance(field_value, list):  # Para caixas de marcação (checkbox)
+    #                         annotation.update(pdfrw.PdfDict(V=pdfrw.PdfName(field_value[0]))) # nao funciona
+    #                     elif isinstance(field_value, str):  # Para texto básico
+    #                         annotation.update(pdfrw.PdfDict(V=field_value))
+    #                     else: # Para campos selecionáveis
+    #                         annotation.update(pdfrw.PdfDict(V=field_value))
 
-    pdfrw.PdfWriter().write("pdf_preenchido.pdf", template_pdf)
+    # pdfrw.PdfWriter().write("pdf_preenchido.pdf", template_pdf)
+
+    resp = input('Com qual nome você quer salvar o PDF do seu personagem?\n')
+    if resp == '\n' or resp == '' or resp == ' ' or resp == None:
+        nome_pdf = 'new.pdf'
+    elif resp == 'ficha_base':
+        print('Esse nome não pode ser escolhido. O nome foi alterado para: "ficha_base_nao_pode"')
+        nome_pdf = 'ficha_base_nao_pode'
+    else:
+        nome_pdf = resp.replace(' ', '_') + '.pdf'
+
+    fillpdfs.write_fillable_pdf(pdf_path, 'fichas/' + nome_pdf, dados)
 
 

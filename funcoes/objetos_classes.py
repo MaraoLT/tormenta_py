@@ -70,16 +70,16 @@ class Pericia:
 
 dicionario_pericias = {'Acrobacia': Pericia('Destreza'), 'Adestramento': Pericia('Carisma'), 
                        'Atletismo': Pericia('Força'), 'Atuação': Pericia('Carisma'),
-                       'Cavalgar': Pericia('Destreza'), 'Conhecimento': Pericia('Inteligência'),
-                       'Conhecimento': Pericia('Inteligência'), 'Cura': Pericia('Sabedoria'),
-                       'Diplomacia': Pericia('Carisma'), 'Enganação': Pericia('Carisma'),
-                       'Fortitude': Pericia('Constituição'), 'Furtividade': Pericia('Destreza'),
-                       'Guerra': Pericia('Inteligência'), 'Iniciativa': Pericia('Destreza'),
-                       'Intimidação': Pericia('Carisma'), 'Intuição': Pericia('Sabedoria'),
-                       'Investigação': Pericia('Inteligência'), 'Jogatina': Pericia('Carisma'),
-                       'Ladinagem': Pericia('Destreza'), 'Luta': Pericia('Força'),
-                       'Misticismo': Pericia('Inteligência'), 'Nobreza': Pericia('Inteligência'),
-                       'Ofício': Pericia('Inteligência'), 'Percepção': Pericia('Sabedoria'),
+                       'Cavalgar': Pericia('Destreza'), 'Conhecimento': Pericia('Inteligência'), 
+                       'Cura': Pericia('Sabedoria'), 'Diplomacia': Pericia('Carisma'), 
+                       'Enganação': Pericia('Carisma'), 'Fortitude': Pericia('Constituição'), 
+                       'Furtividade': Pericia('Destreza'), 'Guerra': Pericia('Inteligência'), 
+                       'Iniciativa': Pericia('Destreza'), 'Intimidação': Pericia('Carisma'), 
+                       'Intuição': Pericia('Sabedoria'), 'Investigação': Pericia('Inteligência'), 
+                       'Jogatina': Pericia('Carisma'), 'Ladinagem': Pericia('Destreza'), 
+                       'Luta': Pericia('Força'), 'Misticismo': Pericia('Inteligência'), 
+                       'Nobreza': Pericia('Inteligência'), 'Ofício': Pericia('Inteligência'),
+                       'Ofício 2': Pericia('Inteligência'), 'Percepção': Pericia('Sabedoria'),
                        'Pilotagem': Pericia('Destreza'), 'Pontaria': Pericia('Destreza'),
                        'Reflexos': Pericia('Destreza'), 'Religião': Pericia('Sabedoria'),
                        'Sobrevivência': Pericia('Sabedoria'), 'Vontade': Pericia('Sabedoria')}
@@ -98,12 +98,17 @@ class Defesa:
     modificadores: DefaultDict[str, int] = field(default_factory=dict)
 
 
-    def calcula(self, destreza):
+    def soma_modificadores(self):
         soma_modificadores = 0
         for modificador in self.modificadores.values():
             soma_modificadores += modificador
 
-        self.valor = 10 + soma_modificadores + destreza 
+        return soma_modificadores
+
+
+    def calcula(self, destreza):
+        
+        self.valor = 10 + self.soma_modificadores() + destreza 
 
 
     def imprime(self, destreza):
@@ -344,9 +349,11 @@ class Personagem:
     imunidades: list = field(default_factory=list)
     defesa: Defesa = field(default_factory=Defesa)
     tamanho: str = 'Médio'
+    furtividade_manobra: list = field(default_factory=list)
     deslocamento: int = 9 # em metros
     penalidade_armadura: DefaultDict[str, int] = field(default_factory=dict)
     equipamento: list = field(default_factory=list)
+    limite_carga: int = 10
 
 
     def imprime(self):
@@ -462,3 +469,37 @@ class Personagem:
         for nome_atributo in nomes_atributos:
             print(f'-{nome_atributo}: {self.atributos[nome_atributo].modificador}')
         print('-'*40)
+
+
+    def modificadores_tamanho(self):
+        if formatacao(self.tamanho) == 'minusculo': n = -5
+        elif formatacao(self.tamanho) == 'pequeno': n = -2
+        elif formatacao(self.tamanho) == 'grande': n = 2
+        elif formatacao(self.tamanho) == 'enorme': n = 5
+        elif formatacao(self.tamanho) == 'colossal': n = 10
+        else: n = 0
+
+        self.furtividade_manobra += [-n, n]
+
+
+    def calcula_limite_carga(self):
+        if self.atributos['Força'].modificador > 0: 
+            self.limite_carga = 10 + self.atributos['Força'].modificador*2
+        else: 
+            self.limite_carga = 10 + self.atributos['Força'].modificador
+
+
+    def atualiza_proficiencias(self):
+        for i in range(len(self.proficiencias)):
+            self.proficiencias[i] = self.proficiencias[i].lower()
+        if 'nenhuma' in self.proficiencias and len(self.proficiencias) > 1:
+            self.proficiencias.remove('nenhuma')
+
+
+
+def habilidades_texto(habilidades, divisor):
+    texto = ''
+    for habilidade in habilidades:
+        texto += f'{habilidade.nome.upper()}. {habilidade.descricao}{divisor}'
+
+    return texto

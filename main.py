@@ -7,7 +7,9 @@ URGENTE:
 -[X] Mover todas as funções para fora de Personagem() para poder criar um arquivo com apenas as classes
 -[X] Criar método __init__ para criar pacote python
 -[] Analisar bug em PM no fim
--[] Retirar código comentado em racas.py
+-[] Bug divindades onde pede para escolher entre poderes concedidos de outra divindade
+-[X] Retirar código comentado em racas.py
+-[] Bug de não conseguir modificar Defesa (outros) no PDF
 
 Criação de Personagem:
 01-[X] Definindo os 6 atributos: Forca, Destreza, Constituicao, Inteligencia, Sabedoria e Carisma
@@ -16,8 +18,9 @@ Criação de Personagem:
 02-[X] Escolhendo raça: 17 raças que alteram atributos e adicionam habilidades
     -[X] Adquirir as infos de racas.txt para serem usadas
     -[X] Criar função que adiciona os modificadores de atributos da raça
-    -[] Criar uma função para cada habilidade (futuramente...)
-    -[] Criar excessão do golem não poder escolher origem e sim um poder geral
+    -[X] Criar uma função para cada habilidade (futuramente...)
+    -[X] Criar excessão do golem não poder escolher origem e sim um poder geral
+    -[] Falta Osteon e golem escolher poder
 03-[X] Escolhendo classe: 14 classes
     -[X] Adquirir as infos de classes.txt para serem usadas
     -[X] Criar função que adiciona os PMs e PVs
@@ -40,8 +43,8 @@ Criação de Personagem:
 07-[] Anotando Equipamento Inicial: definido pela classe e origem
 08-[X] Toques finais: PV, PM, ataques, nome, deslocamento, defesa, tamanho...
     -[X] Cálculo defesa
-09-[] Salvar personagem criado em arquivo nome_personagem.txt
-10-[] Importar personagem em arquivos nome_personagem.txt para um objeto dentro do programa
+09-[] Salvar personagem criado em arquivo nome_personagem.pdf
+10-[] Importar personagem em arquivos nome_personagem.pdf para um objeto dentro do programa
 11-[] Escolhendo magias: apenas 4 classes possuem magias (arcanista, bardo, clerigo e druida) - (necessária ajuda ou maior conhecimento de web scraping)
 12-[] Combates entre personagens
 13-[] Criar loja de compras com saldo do personagem
@@ -292,6 +295,7 @@ def adiciona_habilidades(personagem): # talvez percise usar isso pro OSTEON func
 def alteracoes_raca(personagem):
     altera_atributos(personagem)
     adiciona_habilidades(personagem)
+    personagem.modificadores_tamanho()
 
 
 def escolhe_raca(personagem):
@@ -569,15 +573,17 @@ def escolhe_pericias(personagem):
 
 def escolhas(personagem):
     define_atributos(personagem)
+    personagem.calcula_limite_carga()
     escolhe_raca(personagem)
     personagem.raca.imprime()
     escolhe_classe(personagem)
     personagem.classe.imprime()
+    escolhe_pericias(personagem)
     escolhe_origem(personagem)
     personagem.origem.imprime()
     escolhe_divindade(personagem)
+    personagem.atualiza_proficiencias()
     if personagem.divindade.nome != '': personagem.divindade.imprime()
-    escolhe_pericias(personagem)
     personagem.imprime_pericias()
     personagem.imprime()
 
@@ -595,9 +601,26 @@ def personagem_pdf(personagem):
     preencher_campos_selecao('fichas/ficha_base.pdf', atribui_personagem_pdf(personagem))
 
 
+def input_personagem():
+    
+    while True:
+        resp = formatacao(input('Como quer criar seu personagem? Pronto, Criar OU PDF\n'))
+        if resp in 'pronto' or resp == '\n':
+            return Personagem(nome='Nome Personagem', jogador='Nome Jogador', nivel=1, raca=Raca(nome='Trog', modificadores_atributos='Constituição 2, Força 1, Inteligência -1', habilidades=[Habilidade(nome='Mau Cheiro', descricao='Você pode gastar uma ação padrão e 2 PM para expelir um gás fétido. Todas as criaturas (exceto trogs) em alcance curto devem passar em um teste de Fortitude contra veneno (CD Con) ou ficarão enjoadas durante 1d6 rodadas. Uma criatura que passe no teste de resistência fica imune a esta habilidade por um dia.'), Habilidade(nome='Mordida', descricao='Você possui uma arma natural de mordida (dano 1d6, crítico x2, perfuração). Uma vez por rodada, quando usa a ação agredir para atacar com outra arma, pode gastar 1 PM para fazer um ataque corpo a corpo extra com a mordida.'), Habilidade(nome='Reptiliano', descricao='Você é uma criatura do tipo monstro e recebe visão no escuro, +1 na Defesa e, se estiver sem armadura ou roupas pesadas, +5 em Furtividade.'), Habilidade(nome='Sangue Frio', descricao='Você sofre 1 ponto de dano adicional por dado de dano de frio.')]), classe=Classe(nome='Paladino', descricao='Um campeão do bem e da ordem, o perfeito soldado dos deuses.', atributo=['Força', 'Carisma'], PV=20, PM=3, pericias=['luta (for)', 'vontade (sab)', 'cavalgar (des)', 'percepção (sab)'], proficiencias=['Armas marciais', 'armaduras pesadas', 'escudos'], habilidades=[['Abençoado', 'código do herói', 'golpe divino (+1d8)'], ['Cura pelas mãos (1d8+1 PV)', 'poder de paladino'], ['Aura sagrada', 'poder de paladino'], ['Poder de paladino'], ['Bênção da justiça', 'golpe divino (+2d8)', 'poder de paladino'], ['Cura pelas mãos (2d8+2 PV)', 'poder de paladino'], ['Poder de paladino'], ['Poder de paladino'], ['Golpe divino (+3d8)', 'poder de paladino'], ['Cura pelas mãos (3d8+3 PV)', 'poder de paladino'], ['Poder de paladino'], ['Poder de paladino'], ['Golpe divino (+4d8)', 'poder de paladino'], ['Cura pelas mãos (4d8+4 PV)', 'poder de paladino'], ['Poder de paladino'], ['Poder de paladino'], ['Golpe divino (+5d8)', 'poder de paladino'], ['Cura pelas mãos (5d8+5 PV)', 'poder de paladino'], ['Poder de paladino'], ['Poder de paladino', 'vingador sagrado']]), origem=Origem(nome='Minerador', beneficios=['Fortitude', 'Ataque Poderoso'], itens=['Gemas preciosas no valor de T$ 100, picareta']), divindade=Divindade(nome='Marah', crencas_objetivos='Praticar o amor e a gratidão pela vida e pela bondade. Promover a paz, harmonia e felicidade. Aliviar a dor e o sofrimento, trazer conforto aos aflitos. Praticar a caridade e o altruísmo. Oferecer clemência, perdão e redenção.', simbolo='Um coração vermelho.', energia='Positiva.', arma='Não há. Devotos desta deusa não podem lançar a magia Arma Espiritual e similares.', devotos=['suraggel (aggelus)', 'elfos', 'hynne', 'qareen', 'bardos', 'nobres', 'paladinos'], poderes=['Aura de Paz'], obrigacoes_restricoes='Devotos de Marah não podem causar dano, perda de PV e condições a criaturas, exceto enfeitiçado, fascinado e pasmo (fornecer bônus em dano também é proibido). Em combate, só podem recorrer a ações como proteger ou curar — ou fugir, render-se ou aceitar a morte. Um devoto de Marah jamais vai causar violência, nem mesmo para se salvar.'), atributos={'Força': Atributo(valor_pontos=0, valor_rolamentos=10, modificador=1, descricao='Força (FOR): Seu poder muscular. A Força é aplicada em testes de Atletismo e Luta;\n                                 rolagens de dano corpo a corpo ou com armas de arremesso, e testes de Força\n                                 para levantar peso e atos similares.', pericias='Atletismo, Luta'), 'Destreza': Atributo(valor_pontos=0, valor_rolamentos=10, modificador=-1, descricao='Destreza (DES): Sua agilidade, reflexos, equilíbrio e coordenação motora. A Destreza é                                 aplicada na Defesa e em testes de Acrobacia, Cavalgar, Furtividade, Iniciativa,                                 Ladinagem, Pilotagem, Pontaria e Reflexos.', pericias='Acrobacia, Cavalgar, Furtividade, Iniciativa, Ladinagem, Pilotagem, Pontaria, Reflexos'), 'Constituição': Atributo(valor_pontos=0, valor_rolamentos=10, modificador=3, descricao='Constituição (CON): Sua saúde e vigor. A Constituição é aplicada aos pontos de vida                                 iniciais e por nível e em testes de Fortitude. Se a Constituição muda, seus pontos de vida                                 aumentam ou diminuem retroativamente de acordo.', pericias='Fortitude'), 'Inteligência': Atributo(valor_pontos=0, valor_rolamentos=10, modificador=-1, descricao='Inteligência (INT): Sua capacidade de raciocínio, memória e educação.                                 A Inteligência é aplicada em testes de Conhecimento, Guerra, Investigação,                                 Misticismo, Nobreza e Ofício. Além disso, se sua Inteligência for positiva,                                 você recebe um número de perícias treinadas igual ao valor dela (não precisam ser                                 da sua classe).', pericias='Conhecimento, Guerra, Investigação, Misticismo, Nobreza, Ofício'), 'Sabedoria': Atributo(valor_pontos=0, valor_rolamentos=10, modificador=-2, descricao='Sabedoria (SAB): Sua observação, ponderação e determinação. A Sabedoria é aplicada                                 em testes de Cura, Intuição, Percepção, Religião, Sobrevivência e Vontade.', pericias='Cura, Intuição, Percepção, Religião, Sobrevivência, Vontade'), 'Carisma': Atributo(valor_pontos=0, valor_rolamentos=10, modificador=1, descricao='Carisma (CAR): Sua força de personalidade e capacidade de persuasão, além de uma mistura de simpatia                                 e beleza. O Carisma é aplicado em testes de Adestramento, Atuação, Diplomacia,                                 Enganação, Intimidação e Jogatina.', pericias='Adestramento, Atuação, Diplomacia, Enganação, Intimidação, Jogatina')}, pericias={'Acrobacia': Pericia(atributo='Destreza', treinada=False, modificadores={}, modificador=-1), 'Adestramento': Pericia(atributo='Carisma', treinada=False, modificadores={}, modificador=1), 'Atletismo': Pericia(atributo='Força', treinada=False, modificadores={}, modificador=1), 'Atuação': Pericia(atributo='Carisma', treinada=False, modificadores={}, modificador=1), 'Cavalgar': Pericia(atributo='Destreza', treinada=True, modificadores={}, modificador=1), 'Conhecimento': Pericia(atributo='Inteligência', treinada=False, modificadores={}, modificador=-1), 'Cura': Pericia(atributo='Sabedoria', treinada=False, modificadores={}, modificador=-2), 'Diplomacia': Pericia(atributo='Carisma', treinada=False, modificadores={}, modificador=1), 'Enganação': Pericia(atributo='Carisma', treinada=False, modificadores={}, modificador=1), 'Fortitude': Pericia(atributo='Constituição', treinada=True, modificadores={}, modificador=5), 'Furtividade': Pericia(atributo='Destreza', treinada=False, modificadores={}, modificador=-1), 'Guerra': Pericia(atributo='Inteligência', treinada=False, modificadores={}, modificador=-1), 'Iniciativa': Pericia(atributo='Destreza', treinada=False, modificadores={}, modificador=-1), 'Intimidação': Pericia(atributo='Carisma', treinada=False, modificadores={}, modificador=1), 'Intuição': Pericia(atributo='Sabedoria', treinada=False, modificadores={}, modificador=-2), 'Investigação': Pericia(atributo='Inteligência', treinada=False, modificadores={}, modificador=-1), 'Jogatina': Pericia(atributo='Carisma', treinada=False, modificadores={}, modificador=1), 'Ladinagem': Pericia(atributo='Destreza', treinada=False, modificadores={}, modificador=-1), 'Luta': Pericia(atributo='Força', treinada=True, modificadores={}, modificador=3), 'Misticismo': Pericia(atributo='Inteligência', treinada=False, modificadores={}, modificador=-1), 'Nobreza': Pericia(atributo='Inteligência', treinada=False, modificadores={}, modificador=-1), 'Ofício': Pericia(atributo='Inteligência', treinada=False, modificadores={}, modificador=-1), 'Ofício 2': Pericia(atributo='Inteligência', treinada=False, modificadores={}, modificador=0), 'Percepção': Pericia(atributo='Sabedoria', treinada=True, modificadores={}, modificador=0), 'Pilotagem': Pericia(atributo='Destreza', treinada=False, modificadores={}, modificador=-1), 'Pontaria': Pericia(atributo='Destreza', treinada=False, modificadores={}, modificador=-1), 'Reflexos': Pericia(atributo='Destreza', treinada=False, modificadores={}, modificador=-1), 'Religião': Pericia(atributo='Sabedoria', treinada=False, modificadores={}, modificador=-2), 'Sobrevivência': Pericia(atributo='Sabedoria', treinada=False, modificadores={}, modificador=-2), 'Vontade': Pericia(atributo='Sabedoria', treinada=True, modificadores={}, modificador=0)}, proficiencias=['Armas marciais', 'armaduras pesadas', 'escudos'], caracteristicas=[Habilidade(nome='Reptiliano', descricao='Você é uma criatura do tipo monstro.'), Habilidade(nome='Visão no Escuro', descricao='Você vê no escuro.'), Habilidade(nome='Reptiliano 2', descricao='Se você estiver sem armadura ou roupas pesadas, +5 em Furtividade.'), Habilidade(nome='Sangue Frio', descricao='Você sofre 1 ponto de dano adicional por dado de dano de frio.')], habilidades_poderes=[Habilidade(nome='Mau Cheiro', descricao='Você pode gastar uma ação padrão e 2 PM para expelir um gás fétido. Todas as criaturas (exceto trogs) em alcance curto devem passar em um teste de Fortitude contra veneno (CD Con) ou ficarão enjoadas durante 1d6 rodadas. Uma criatura que passe no teste de resistência fica imune a esta habilidade por um dia.'), Habilidade(nome='Mordida', descricao='Você possui uma arma natural de mordida (dano 1d6, crítico x2, perfuração). Uma vez por rodada, quando usa a ação agredir para atacar com outra arma, pode gastar 1 PM para fazer um ataque corpo a corpo extra com a mordida.')], PV=Pontos(atual=23, max=23, temp=0, extra_nivel={}), PM=Pontos(atual=3, max=3, temp=0, extra_nivel={}), resistencias={}, fraquezas={'Frio': 1}, imunidades=[], defesa=Defesa(valor=10, modificadores={'Reptiliano': 1}), tamanho='Médio', furtividade_manobra=[0, 0], deslocamento=9, penalidade_armadura={}, equipamento=[])
+        elif resp in 'criar':
+            personagem = criar_personagem()
+            escolhas(personagem)
+            return personagem
+        elif resp in 'pdf':
+            print('Infelizmente ainda não foi implementado ;(')
+            exit()
+        else:
+            print(f'{resp} não é uma resposta válida.')
+
+
+
 def main():
-    personagem = criar_personagem()
-    escolhas(personagem)
+    personagem = input_personagem()
     personagem_pdf(personagem)
 
 
