@@ -6,6 +6,7 @@ import unicodedata
 
 # paths
 path = '/home/maraolt/Documents/projects/automatic_rpg_battles' # ubuntu desktop/notebook
+path = '/home/ec2023/ra182338/Documents/tormenta_py' # pc IC
 
 def rolagem(dado):
     resultado = 0
